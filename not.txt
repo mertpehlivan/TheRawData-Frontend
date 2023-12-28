@@ -1,0 +1,11 @@
+Mimarinizdeki klasörlerin içeriği şöyle olabilir:
+
+/assets: Bu klasör, resimler, videolar, json dosyaları gibi medya varlıklarını (assets) içerir. Bu dosyaları projenizde kullanmak için import edebilirsiniz.
+/components: Bu klasör, yeniden kullanılabilir sunum bileşenlerini (presentational components) içerir. Bu bileşenler, uygulamanızın arayüzünü oluşturmak için kullanılır ve genellikle props ile veri alır ve durum yönetmezler. Örneğin, Button, Card, Header gibi bileşenler bu klasöre konulabilir.
+/context: Bu klasör, React Context API ile oluşturulan durum yönetimi bileşenlerini (state management components) içerir. Bu bileşenler, uygulamanızın farklı bölümleri arasında veri paylaşmanıza olanak tanır. Örneğin, AuthContext, ThemeContext gibi bileşenler bu klasöre konulabilir.
+/hooks: Bu klasör, özel hook’lar (custom hooks) içerir. Özel hook’lar, bileşenlerinizden mantığı çıkarmak ve yeniden kullanmak için kullanılır. Örneğin, useFetch, useInput gibi hook’lar bu klasöre konulabilir.
+/pages: Bu klasör, uygulamanızın sayfalarını içerir. Bu sayfalar, uygulamanızın farklı rotalarına (routes) karşılık gelir ve genellikle durumlu bileşenlerdir (stateful components). Örneğin, Home, About, Contact gibi sayfalar bu klasöre konulabilir.
+/services: Bu klasör, uygulamanızın dış kaynaklara bağlanmasını sağlayan servisleri içerir. Örneğin, API istekleri yapmak için axios veya fetch kullanıyorsanız, bu işlemleri bu klasördeki dosyalarda tanımlayabilirsiniz.
+/utils: Bu klasör, uygulamanızda kullanabileceğiniz yardımcı fonksiyonları veya sabitleri içerir. Örneğin, form doğrulama, tarih formatlama, renk kodları gibi işlevleri veya değerleri bu klasördeki dosyalarda tanımlayabilirsiniz.
+App.js: Bu dosya, uygulamanızın ana bileşenidir. Burada uygulamanızın genel düzenini ve rotalarını tanımlayabilirsiniz.
+index.js: Bu dosya, uygulamanızın giriş noktasıdır. Burada React DOM’a App bileşenini render etmek için gerekli kodu yazabilirsiniz.
