@@ -22,6 +22,7 @@ import { NoAuthComponent } from './components/auth/NoAuthComponent';
 import AuthProvider, { useUserContext } from './hooks/AuthProvider';
 import LoadinView from './components/view/LoadingView';
 import AllView from './components/view/PublicationsView/AllView';
+import Basket from './components/library/Basket';
 
 const theme = createTheme({
     palette: {
@@ -63,11 +64,11 @@ const router = createBrowserRouter([
                     {
                         path: "/",
                         element: <HomePage />,
-                      
+
                     },
 
                     {
-                        path: "/publications",
+                        path: "/publications/:publicationId",
                         element: <PublicationPage />,
                     },
                     {
@@ -77,37 +78,43 @@ const router = createBrowserRouter([
                     {
                         path: "/:username",
                         element: <ProfilePage />,
-                        children:[
+                        children: [
                             {
-                                path:":type",
-                                element:<AllView/>
+                                path: ":type",
+                                element: <AllView />
                             },
-                           
+
                         ]
                     },
                     {
                         path: "/library",
-                        element: <LibraryPage />
+                        element: <LibraryPage />,
+                        children: [
+                            {
+                                path: "basket",
+                                element: <Basket />
+                            }
+                        ]
                     }
                 ]
             },
-            
+
         ],
-        
+
     },
     {
         path: '/test',
-        element: <LoadinView/>
+        element: <LoadinView />
     },
     {
-        element:<PublicComponents/>,
-        children:[
+        element: <PublicComponents />,
+        children: [
 
         ]
     },
     {
-        element:<NoAuthComponent/>,
-        children:[
+        element: <NoAuthComponent />,
+        children: [
             {
                 path: "/login",
                 element: <LoginPage />,
@@ -123,7 +130,7 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    
+
     <Provider store={store}>
         <ThemeProvider theme={theme}>
             <AuthProvider>

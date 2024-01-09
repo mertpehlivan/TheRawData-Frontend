@@ -1,5 +1,5 @@
 body {
-  background-color: #F8F3F3;
+  background-color: #e1e1e1;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,4 +12,29 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/* main.css */
+
+.custom-scrollbar {
+  border-radius: 8px;
+  border: 1px solid #1976D2; /* primary.main rengi yerine istediğiniz rengi kullanabilirsiniz */
+  padding: 12px;
+}
+
+.custom-scrollbar-inner {
+  overflow-y: scroll;
+}
+
+/* Dikey çubuk stilleri */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #091582; /* primary.main rengi yerine istediğiniz rengi kullanabilirsiniz */
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: white  ; /* Track'i şeffaf yapar */
 }

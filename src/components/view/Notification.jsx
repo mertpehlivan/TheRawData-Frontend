@@ -1,7 +1,9 @@
 
-import { Avatar, Badge, Button, IconButton, Popover, Stack, Typography } from "@mui/material";
+import { Avatar, Badge, Button, Divider, IconButton, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import InvitationBox from "./InvitationBox";
+import { Link } from "react-router-dom";
 
 const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
 
@@ -13,6 +15,7 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
   
     return (
       <Popover
+        sx={{borderRadius:3}}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -25,10 +28,12 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
           horizontal: "center",
         }}
       >
-        <Stack>
-            <Button>Profile</Button>
-            <Button>My Account</Button>
-            <Button>Log Out</Button>
+        <Stack width={300} borderRadius={3}>
+            <Typography variant="h6" m={2}>Notification</Typography>
+            <Divider/>
+            <InvitationBox/>
+            <InvitationBox/>
+            <Typography bgcolor="primary.main" textAlign="center"><Link style={{color:"white"}}>see more(2)</Link></Typography>
         </Stack>
       </Popover>
     );

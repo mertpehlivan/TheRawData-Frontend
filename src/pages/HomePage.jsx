@@ -1,4 +1,4 @@
-import { Container, Grid, Stack, ThemeProvider } from '@mui/material'
+import { Container, Grid, Hidden, Stack, ThemeProvider } from '@mui/material'
 import React, { useState } from 'react'
 import UserComponent from '../components/home/UserComponent'
 import { useTheme } from '@emotion/react'
@@ -6,6 +6,9 @@ import NewPublicationComponent from '../components/home/NewPublicationComponent'
 import { useUserContext } from '../hooks/AuthProvider'
 import MenuComponenet from '../components/home/MenuComponenet'
 import CenterComponent from '../components/home/CenterComponent'
+import PaymentView from '../components/view/PaymentView'
+import BasketSummaryComponent from '../components/library/BasketSummaryComponent'
+import { RefreshPriceProvider } from '../hooks/RefreshPrice'
 
 export default function HomePage() {
   const theme = useTheme()
@@ -20,16 +23,25 @@ export default function HomePage() {
           mt={10}
         >
           <Grid item md={3.5} sm={12}>
-            <Stack spacing={1}>
-              <UserComponent />
-              <MenuComponenet activeItem={activeItem} setActiveItem={setActiveItem}/>
+            <Hidden mdDown>
+              <Stack spacing={1} position="fixed">
+                <UserComponent />
+                <MenuComponenet activeItem={activeItem} setActiveItem={setActiveItem} />
+
+              </Stack>
+            </Hidden>
+          </Grid>
+          <Grid item md={5} sm={12}>
+            <CenterComponent activeItem={activeItem} />
+          </Grid>
+          <Grid item md={3.5} sm={12}>
+            <Stack spacing={1} position="fixed">
+              <PaymentView />
+              <RefreshPriceProvider>
+                <BasketSummaryComponent/>
+              </RefreshPriceProvider>
             </Stack>
-          </Grid>
-          <Grid item md={5.5} sm={12}>
-            <CenterComponent activeItem={activeItem}/>
-          </Grid>
-          <Grid item md={3} sm={12}>
-            <NewPublicationComponent />
+
           </Grid>
         </Grid>
       </Container>

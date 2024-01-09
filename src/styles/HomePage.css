@@ -1,13 +1,4 @@
-/* HomePage.css */
-
-.fixed-column {
-    position: fixed;
-    height: 100vh; /* Set the fixed height as needed */
-    overflow: hidden; /* Prevent vertical scrolling for this column */
-  }
-  
-  .scrollable-column {
-    max-height: 100vh; /* Set the maximum height as needed */
-    overflow-y: auto;
-  }
-  
+body, html {
+  height: 100%;
+  overflow: auto; /* veya overflow: scroll; */
+}

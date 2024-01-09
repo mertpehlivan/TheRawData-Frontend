@@ -66,7 +66,7 @@ export default function CompanyTestReportFrom() {
       <Stack mx={4} my={2}>
       <TextField
           id="outlined-multiline-static"
-          label="Comment"
+          label="Abstract"
           multiline
           rows={4}
           onChange={(e) => setComment(e.target.value)}

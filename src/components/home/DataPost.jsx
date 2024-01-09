@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Avatar, Box, Button, Chip, Divider, Link, Stack, Typography } from '@mui/material';
+import { Avatar, Backdrop, Box, Button, Chip, Divider, Grid, IconButton, Link, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import { FileIcon, defaultStyles } from 'react-file-icon';
 import FollowButton from '../button/FollowButton';
 import PdfPreViewerImage from './PdfPreViewerImage';
 import FriendComponent from '../view/FriendComponent';
+import SwipeableTextMobileStepper from './SwipeableTextMobileStepper';
+import BackdropImage from '../view/BackdropImage';
+import { Image } from '@mui/icons-material';
 
 function getFirst50Words(text) {
   const words = text.split(/\s+/);
-  const first50Words = words.slice(0, 50);
+  const first50Words = words.slice(0, 30);
   const result = first50Words.join(' ');
   return result;
 }
@@ -20,78 +23,107 @@ export default function DataPost({ data }) {
   const summaryText = getFirst50Words(fullText);
   const [isActive, setIsActive] = useState(false);
   const [text, setText] = useState(summaryText);
-
+  const [isToggle, setIsToggle] = useState(false)
+  const [imageList, setImageList] = useState([])
+  const [selectImageSrc, setSelectImageSrc] = useState("");
   const handleToggle = () => {
     setIsActive(!isActive);
     setText(isActive ? summaryText : fullText);
   };
 
   return (
-    <Box p={2} borderRadius={3} boxShadow={2} bgcolor="white" mb={3}>
+
+    <Box p={2} borderRadius={3} boxShadow={2} bgcolor="white">
       <Stack spacing={2} direction="column" >
-        <Box>
-          <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" justifyItems="center" >
+        <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" justifyItems="center" >
 
-            <Stack
-              direction="row"
-              spacing={1}
-              component="a"
-              href={`${data.uniqueName}`}
-              p={1}
-              borderRadius={1}
-              sx={{
-                textDecoration:"none",
-                color:"black",
-                ":hover":{
-                   bgcolor:"#EAFAFA"
-                }
-              }}
+          <Stack
+            direction="row"
+            spacing={1}
+            component="a"
+            href={`${data.uniqueName}`}
+            p={1}
+            borderRadius={1}
+            sx={{
+              textDecoration: "none",
+              color: "black",
+              ":hover": {
+                bgcolor: "#EAFAFA"
+              }
+            }}
 
-            >
-              <Avatar />
-              <Stack >
-                <Typography variant="subtitle1">{data.fullname}</Typography>
-                <Typography color="gray">{data.creationTime}</Typography>
-              </Stack>
+          >
+            <Avatar />
+            <Stack >
+              <Typography variant="subtitle1">{data.fullname}</Typography>
+              <Typography color="gray">{data.creationTime}</Typography>
             </Stack>
-
-            <Spacer />
-            <Icon icon="mdi:ellipsis-vertical" style={{ fontSize: '20px' }} />
           </Stack>
-        </Box>
 
-        <Link to="/publications">
-          <Typography variant="h6">{data.title}</Typography>
-        </Link>
+          <Spacer />
+          <Icon icon="mdi:ellipsis-vertical" style={{ fontSize: '20px' }} />
+        </Stack>
+
+
+        <Typography component="a" href={`/publications/${data.id}`} variant="h6">{data.title}</Typography>
 
         <Typography>{text} <Link onClick={handleToggle}>see more</Link></Typography>
+        <Stack direction="row" spacing={1}>
+          <Chip sx={{ color: "white", bgcolor: "primary.main" }} label={data.publicationType} />
+        </Stack>
+        <Stack direction="row">
+          <Stack direction="row" justifyContent="space-between">
 
-        <Stack direction="row" justifyContent="space-between" alignItems="start" width="100%">
-          <Stack spacing={1}>
-            <Stack direction="row" spacing={1}>
-              <Chip label={data.publicationType} />
-            </Stack>
+            {data.rawdatafiles.slice(0, 3).map((item, index) => (
+              <Stack key={index} p={2} >
+                <Typography variant='h6'>{item.title}</Typography>
+                <Divider sx={{ mb: 1 }} />
+                {item.rawDatas.slice(0, 2).map((rawdata, rawIndex) => (
+                  <Stack key={rawIndex} spacing={1} mt={1}>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Box width={20}>
+                        <FileIcon extension={rawdata.rawDataExtension} {...defaultStyles.docx} />
+                      </Box>
+                      <Typography variant='body2'>{rawdata.title}</Typography>
 
-            <Stack p={2}>
-              <Typography variant='h6'>{data.rawdatafile.title}</Typography>
-              <Divider sx={{ mb: 1 }} />
-              {data.rawdatafile.rawDatas.map((rawdata, index) => (
-                <Stack key={index} direction="row" spacing={1} alignItems="center">
-                  <Box width={20}>
-                    <FileIcon extension={rawdata.rawDataExtension} {...defaultStyles.docx} />
-                  </Box>
-                  <Typography variant='body2'>{rawdata.title}</Typography>
-                </Stack>
-              ))}
+                      <Tooltip title={<Box
+                        width={200}
+                        height={200}
+                        component="img"
+                        src={`http://localhost:8080/api/v1/auth/previewImage/${rawdata.previewImageUrl}`}
+                        style={{
+                          objectFit: 'scale-down'
+                        }}
 
-              {parseInt(data.rawdatafile.filesLenght - 1 === 0) ? ("") : (
-                <Button variant='text'>more files ({data.rawdatafile.filesLenght - 1})</Button>
-              )}
-            </Stack>
-          </Stack>
+                      >
+                      </Box>} arrow>
+                        <IconButton
+                          onClick={() => {
+                            setIsToggle(prev => !prev);
+                            setSelectImageSrc(`${index}${rawIndex}`);
+                            setImageList(prevList => [
+                              ...prevList,
+                              {
+                                index: `${index}${rawIndex}`,
+                                src: `http://localhost:8080/api/v1/auth/previewImage/${rawdata.previewImageUrl}`
+                              }
+                            ]);
+                          }}
+                        >
+                          <Image />
+                        </IconButton>
+                      </Tooltip>
 
-          <Stack justifyContent="center">
-            <PdfPreViewerImage />
+                    </Stack>
+                    <BackdropImage setIsToggle={setIsToggle} open={isToggle} src={() => {
+                      const selectedImage = imageList.find(data => data.index === selectImageSrc);
+                      return selectedImage ? selectedImage.src : null;
+                    }} />
+                  </Stack>
+                ))}
+                {item.rawDatas.length > 2 && <Button>More Raw Data ({item.rawDatas.length - 2})</Button>}
+              </Stack>
+            ))}
           </Stack>
         </Stack>
 

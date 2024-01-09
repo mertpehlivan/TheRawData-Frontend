@@ -112,7 +112,7 @@ export default function ArticleForm() {
             </Stack>
             <TextField
                 id="outlined-multiline-static"
-                label="Comment"
+                label="Abstract"
                 multiline
                 rows={4}
                 onChange={(e)=>setComment(e.target.value)}

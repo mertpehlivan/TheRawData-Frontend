@@ -94,7 +94,7 @@ export default function ThesisForm() {
       </Stack>
       <TextField
         id="outlined-multiline-static"
-        label="Comment"
+        label="Abstract"
         multiline
         rows={4}
         value={comment}
