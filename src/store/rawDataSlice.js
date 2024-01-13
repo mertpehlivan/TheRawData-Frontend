@@ -4,7 +4,7 @@ export const rawDataSlice = createSlice({
     name:'rawData',
     initialState:[
         {
-            header:"Type the name of the raw data file",
+            header:"Type the name of the raw data",
             rawData:[
                 {
                     name:"",
@@ -83,9 +83,12 @@ export const rawDataSlice = createSlice({
                 console.error("Geçersiz key değeri:", key);
               }
               
+        },
+        clearRawData:(state)=>{
+            state = []
         }
     }
 })
 
-export const {addRawData,addDataBox,updateHeader,addExperiment,deleteDataBox,deleteExperiment} = rawDataSlice.actions
+export const {clearRawData,addRawData,addDataBox,updateHeader,addExperiment,deleteDataBox,deleteExperiment} = rawDataSlice.actions
 export default rawDataSlice.reducer

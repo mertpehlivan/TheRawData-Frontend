@@ -5,22 +5,27 @@ import { FileIcon, defaultStyles } from 'react-file-icon';
 import FollowButton from '../button/FollowButton';
 import PdfPreViewerImage from './PdfPreViewerImage';
 import FriendComponent from '../view/FriendComponent';
-import SwipeableTextMobileStepper from './SwipeableTextMobileStepper';
 import BackdropImage from '../view/BackdropImage';
 import { Image } from '@mui/icons-material';
 
 function getFirst50Words(text) {
-  const words = text.split(/\s+/);
-  const first50Words = words.slice(0, 30);
-  const result = first50Words.join(' ');
-  return result;
+  const words = (text || '').split(' ');
+  if (words.length > 30) {
+    const first50Words = words.slice(0, 30);
+    const result = first50Words.join(' ');
+    return result;
+  }
+  
+  return words.join(' ');
+  
 }
 
 const Spacer = () => <div style={{ flexGrow: 1 }} />;
 
 export default function DataPost({ data }) {
   const fullText = data.comment;
-  const summaryText = getFirst50Words(fullText);
+  console.log("image: "+ data.profileImage)
+  const summaryText = getFirst50Words(fullText)
   const [isActive, setIsActive] = useState(false);
   const [text, setText] = useState(summaryText);
   const [isToggle, setIsToggle] = useState(false)
@@ -53,7 +58,7 @@ export default function DataPost({ data }) {
             }}
 
           >
-            <Avatar />
+            <Avatar src={`http://localhost:8080/api/v1/auth/profileImage/${data.profileImage}`}/>
             <Stack >
               <Typography variant="subtitle1">{data.fullname}</Typography>
               <Typography color="gray">{data.creationTime}</Typography>
@@ -74,11 +79,11 @@ export default function DataPost({ data }) {
         <Stack direction="row">
           <Stack direction="row" justifyContent="space-between">
 
-            {data.rawdatafiles.slice(0, 3).map((item, index) => (
+            {data.rawdatafiles !=null && data.rawdatafiles.slice(0, 3).map((item, index) => (
               <Stack key={index} p={2} >
                 <Typography variant='h6'>{item.title}</Typography>
                 <Divider sx={{ mb: 1 }} />
-                {item.rawDatas.slice(0, 2).map((rawdata, rawIndex) => (
+                {item.rawDatas !=null && item.rawDatas.slice(0, 2).map((rawdata, rawIndex) => (
                   <Stack key={rawIndex} spacing={1} mt={1}>
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Box width={20}>
@@ -131,6 +136,7 @@ export default function DataPost({ data }) {
 
         <Stack direction="row" spacing={1} alignItems="center">
           {data.authors ? (
+            
             data.authors.map((author, index) => (
               index <= 2 ?
                 <FriendComponent

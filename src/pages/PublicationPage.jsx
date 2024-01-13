@@ -1,4 +1,4 @@
-import { Backdrop, Box, Chip, CircularProgress, Container, Divider, Stack, Typography } from '@mui/material';
+import { Backdrop, Box, Button, Chip, CircularProgress, Container, Divider, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserContext } from '../hooks/AuthProvider';
@@ -6,7 +6,8 @@ import { getPost } from '../services/post/postService';
 import File from '../components/publication/File';
 import PdfButton from '../components/button/PdfButton';
 import BasketAcordion from '../components/view/BasketAcordion';
-
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 export default function PublicationPage() {
   const { publicationId } = useParams();
   const [publication, setPublication] = useState(null);
@@ -14,7 +15,9 @@ export default function PublicationPage() {
   const [loading, setLoading] = useState(true);
   const [basket, setBasket] = useState([])
   const [requestCounter, setRequestCounter] = useState(0)
+  const [editMode,setEditMode] = useState(false)
   useEffect(() => {
+   
     const getPostHandler = async () => {
       try {
         const res = await getPost(token, publicationId);
@@ -35,7 +38,7 @@ export default function PublicationPage() {
   }
   return (
     <Container sx={{ pt: "25px" }} maxWidth="md">
-
+      <Button onClick={()=>setEditMode(prev=>!prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon/>  : <VisibilityOffIcon/>}>Edit Data</Button>
       <BasketAcordion requestCounter={requestCounter} counterRequest={counterRequest} />
       <Stack bgcolor="background.default" p={2} spacing={1} borderRadius={3}>
         {loading ? (
@@ -73,7 +76,7 @@ export default function PublicationPage() {
               </Stack>
               <Divider sx={{ m: 3 }} />
               {publication.rawdatafiles.map((file, index) => (
-                <File key={index} file={file} counter={counterRequest} />
+                <File key={index} file={file} counter={counterRequest} editMode={editMode}/>
               ))}
             </Stack>
           </>

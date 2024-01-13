@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import FollowButton from '../button/FollowButton';
 
 export default function ProfileUserView() {
+    const API_BASE_URL = process.env.REACT_APP_BASE_URL
     const [user, setUser] = useState({
         id: null,
         firstname: "",
@@ -32,7 +33,8 @@ export default function ProfileUserView() {
                     country: res.data.country,
                     followers: res.data.followers,
                     following: res.data.following,
-                    id: res.data.id
+                    id: res.data.id,
+                    image: res.data.profileImageUrl
                 });
             })
             .catch(() => { })
@@ -47,7 +49,7 @@ export default function ProfileUserView() {
                 {loading ? (
                     <Skeleton variant="circular" width={50} height={50} />
                 ) : (
-                    <Avatar sx={{ width: '50px', height: '50px' }} />
+                    <Avatar  src={`${API_BASE_URL}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '50px', height: '50px' }} />
                 )}
 
                 <Stack>

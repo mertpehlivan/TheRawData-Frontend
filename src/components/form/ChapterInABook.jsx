@@ -8,8 +8,10 @@ import {
   Button,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { addData } from '../../store/dataSlice';
-import { increase } from '../../store/pageNumberSlice';
+import { addData, clearData } from '../../store/dataSlice';
+import { format, increase } from '../../store/pageNumberSlice';
+import { clearType } from '../../store/newDataTypeSlice';
+import { clearRawData } from '../../store/rawDataSlice';
 
 export default function ChapterInABook() {
   const [title, setTitle] = useState('');
@@ -24,6 +26,12 @@ export default function ChapterInABook() {
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
   const dispatch = useDispatch()
+  const handlerCancel = () => {
+    dispatch(format())
+    dispatch(clearData())
+    dispatch(clearType())
+    dispatch(clearRawData())
+  }
   const data = {
     title,
     chapterNumber,
@@ -144,7 +152,14 @@ export default function ChapterInABook() {
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-
+          <Button
+            color='error'
+            variant='outlined'
+            onClick={handlerCancel}
+            href='/'
+          >
+            Cancel
+          </Button>
           <Button
             variant='contained'
             disabled={!isFormValid()} // Butonu devre dışı bırak

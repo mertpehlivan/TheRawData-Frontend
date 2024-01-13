@@ -3,12 +3,12 @@ import TextField from '@mui/material/TextField';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
 import { useUserContext } from '../../hooks/AuthProvider';
-import { Autocomplete, Avatar, Stack, Typography } from '@mui/material';
+import { Autocomplete, Avatar, Button, Stack, Typography } from '@mui/material';
 
 const SearchComponent = ({ setAuthorIds, authorIds }) => {
   const [fullName, setFullName] = useState('');
   const { token } = useUserContext();
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([{fullName}]);
 
   const handleSearch = debounce(async () => {
     try {
@@ -50,6 +50,7 @@ const SearchComponent = ({ setAuthorIds, authorIds }) => {
         <Typography>{`${option.firstname} ${option.lastname}`}</Typography>
       </Stack>
     </li>
+    
   );
   const isOptionEqualToValue = (option, value) => {
     if (!option || !value) {

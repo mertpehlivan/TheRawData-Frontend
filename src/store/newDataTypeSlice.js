@@ -8,9 +8,12 @@ export const newDataTypeSlice = createSlice({
     reducers:{
         updateDataType:(state,action)=>{
             state.value = action.payload
+        },
+        clearType:(state)=>{
+            state.value = null
         }
     }
 })
 
-export const {updateDataType} = newDataTypeSlice.actions
+export const {updateDataType,clearType} = newDataTypeSlice.actions
 export default newDataTypeSlice.reducer

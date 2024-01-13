@@ -12,7 +12,7 @@ export default function SearchSimple({width}) {
             }}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
+                <InputAdornment>
                   <Search />
                 </InputAdornment>
               ),

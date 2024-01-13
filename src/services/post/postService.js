@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
-export const getFirstPost = async (token,page,size) => {
+export const getFirstPost = async (token, page, size) => {
 
   try {
     const res = await axios.get(
@@ -119,40 +119,12 @@ export const getByType = async (token, type, uniqueName) => {
         console.error(error);
       }
       break;
-    default:
-      try {
-        const res = await axios.get(
-          `${baseUrl}/api/v1/companyTestReport/${uniqueName}/getAllCompanyTestReport`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        return res.data;
-      } catch (error) {
-        return error;
-        console.error(error);
-      }
+      default:
       break;
   }
-  try {
-    const res = await axios.get(
-      `${baseUrl}/api/v1/publicationPost/${uniqueName}/getAll`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
 
-
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
 };
-export const getPost = async (token,publicationId) => {
+export const getPost = async (token, publicationId) => {
 
   try {
     const res = await axios.get(

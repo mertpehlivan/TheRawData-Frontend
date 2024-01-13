@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
+  Button,
   IconButton,
   Snackbar,
   SnackbarContent,
@@ -19,7 +20,7 @@ export default function DataBox({ rawData, fileId, counter }) {
   const dispatch = useDispatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const data = useSelector(state => state.basketPublication.value);
+  
   const [select, setSelect] = useState(false);
   useEffect(() => {
     checkIfRawDataExists(rawData.id).then(res=>{
@@ -83,6 +84,7 @@ export default function DataBox({ rawData, fileId, counter }) {
       boxShadow="rgba(0, 0, 0, 0.32) 1px 0px 3px, rgba(0, 0, 0, 0.32) 0px 1px 2px"
       sx={{ backgroundColor: 'background.paper', margin: '10px' }}
     >
+      
       <Stack direction="row" spacing={1} mt={1}>
         <Box width={20}>
           <FileIcon extension={rawData.rawDataExtension} {...defaultStyles.docx} />

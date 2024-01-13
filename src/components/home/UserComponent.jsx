@@ -3,28 +3,35 @@ import { Avatar, Skeleton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getUserBox } from '../../services/userService';
 import { useUserContext } from '../../hooks/AuthProvider';
+import { useDispatch } from 'react-redux';
+import { update } from '../../store/userSlice';
 
 export default function UserComponent() {
   const [user, setUser] = useState({
+    id:null,
     firstname: "",
     lastname: "",
     email: "",
     country: "",
+    image:""
   });
 
   const [loading, setLoading] = useState(true);
 
   const { token } = useUserContext();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getUserBox(token)
       .then((res) => {
         console.log(res.data);
+        dispatch(update({data:res.data}))
         setUser({
           firstname: res.data.firstname,
           lastname: res.data.lastname,
           email: res.data.email,
           country: res.data.country,
+          image: res.data.profileImageName
         });
       })
       .catch(() => { })
@@ -38,7 +45,7 @@ export default function UserComponent() {
       {loading ? (
         <Skeleton variant="circular" width={50} height={50} />
       ) : (
-        <Avatar sx={{ width: '50px', height: '50px' }} />
+        <Avatar src={`http://localhost:8080/api/v1/auth/profileImage/${user.image}`} sx={{ width: '50px', height: '50px' }} />
       )}
 
       <Stack>

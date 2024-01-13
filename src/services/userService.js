@@ -11,7 +11,7 @@ export const getUser = async (token,username) =>{
         })
         return response
     } catch (error) {
-        console.log("User not found")
+        console.error("User not found")
     }
 }
 export const getUserBox = async (token) =>{
@@ -23,7 +23,7 @@ export const getUserBox = async (token) =>{
         })
         return response
     } catch (error) {
-        console.log("User not found")
+        console.error("User not found")
     }
 }
 

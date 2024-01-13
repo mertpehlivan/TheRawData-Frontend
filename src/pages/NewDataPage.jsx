@@ -7,36 +7,33 @@ import { redirect, useNavigate } from 'react-router-dom'
 import AlertDialog from '../components/view/AlertDialog'
 
 export default function NewDataPage() {
-    const pageNumber = useSelector((state)=>state.pageNumber.value)
-  return (
-    
-    <Container
-        maxWidth="md"
-        sx={{mt:15}}
-    >
-        
-        <Stack 
-            mt={10}
-            
+    const pageNumber = useSelector((state) => state.pageNumber.value)
+    return (
+
+        <Container
+            maxWidth="md"
+
         >
-            <NewDataStepper/>
-        </Stack>
-        <Stack 
-            mt={2}
-            bgcolor='background.default'
-            borderRadius={5}
-        >
-            <DataTypeForm/>
-            <Stack
-                direction='row'
-                justifyContent="flex-end"
-                my={4}
-                px={4}
-                spacing={2}
-            >
-              
+
+            <Stack>
+                <NewDataStepper />
             </Stack>
-        </Stack>
-    </Container>
-  )
+            <Stack
+                mt={2}
+                bgcolor='background.default'
+                borderRadius={5}
+            >
+                <DataTypeForm />
+                <Stack
+                    direction='row'
+                    justifyContent="flex-end"
+                    my={4}
+                    px={4}
+                    spacing={2}
+                >
+
+                </Stack>
+            </Stack>
+        </Container>
+    )
 }

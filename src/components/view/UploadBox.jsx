@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, InputAdornment, Stack, TextField, Typography } from '@mui/material';
+import { Button, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 import UploadInput from '../input/UploadInput';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,9 @@ import Backdrop from '@mui/material/Backdrop';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import axios from 'axios';
 import { createRawDataFile } from '../../services/newRawData/RawDataFileService';
+import { QuestionAnswer, QuestionMark } from '@mui/icons-material';
+import HelperComponent from './HelperComponent';
+import HelperComponentV2 from './HelverComponentv2';
 
 export default function UploadBox({ boxKey, headerIndex }) {
   const dispatch = useDispatch();
@@ -20,56 +23,56 @@ export default function UploadBox({ boxKey, headerIndex }) {
   const [rawDataUrl, setRawDataUrl] = useState('');
   const [rawDataEx, setRawDataEx] = useState('');
   const [previewEx, setPreviewEx] = useState('');
-  const [isSave,setIsSave] = useState(false)
+  const [isSave, setIsSave] = useState(false)
 
   const isSaveDisabled = !name || !comment || !priceSuggestion || !rawDataUrl || !previewUrl;
-    const rawdata = useSelector((state)=> state.rawData)
-    const handleSave = async () => {
-      dispatch(addRawData({
-        name,
-        previewUrl,
-        comment,
-        priceSuggestion,
-        rawDataUrl,
-        index:headerIndex,
-        key:boxKey,
-        rawDataEx,
-        previewEx
-        
-      }));
-      setIsSave(true)
-    };
+  const rawdata = useSelector((state) => state.rawData)
+  const handleSave = async () => {
+    dispatch(addRawData({
+      name,
+      previewUrl,
+      comment,
+      priceSuggestion,
+      rawDataUrl,
+      index: headerIndex,
+      key: boxKey,
+      rawDataEx,
+      previewEx
+
+    }));
+    setIsSave(true)
+  };
   return (
-   
+
     <Stack>
-        
-        <Stack direction="row" justifyContent={'end'}>
-            
-            <Button
+
+      <Stack direction="row" justifyContent={'end'}>
+
+        <Button
+          variant="contained"
+          color="error"
+          size="small"
+          onClick={() => dispatch(deleteDataBox({ headerIndex: headerIndex, index: boxKey }))}
+        >
+          <Icon icon="material-symbols:delete" color="white" width={'20px '} height={'20px'} />
+        </Button>
+        {!isSave && (
+          <Button
             variant="contained"
-            color="error"
+            color="success"
             size="small"
-            onClick={() => dispatch(deleteDataBox({ headerIndex: headerIndex, index: boxKey }))}
-            >
-            <Icon icon="material-symbols:delete" color="white" width={'20px '} height={'20px'} />
-            </Button>
-            {!isSave && (
-                <Button
-                variant="contained"
-                color="success"
-                size="small"
-                onClick={() => handleSave()}
-                disabled={isSaveDisabled}
-                >
-                <Icon icon="material-symbols:save" color="white" width={'20px '} height={'20px'} />
-                </Button>
-            )}
-            
-        </Stack>
-        {
-            isSave ? 
-            (   
-              <Stack
+            onClick={() => handleSave()}
+            disabled={isSaveDisabled}
+          >
+            <Icon icon="material-symbols:save" color="white" width={'20px '} height={'20px'} />
+          </Button>
+        )}
+
+      </Stack>
+      {
+        isSave ?
+          (
+            <Stack
               height={500}
               width={200}
               border="2px solid"
@@ -101,13 +104,13 @@ export default function UploadBox({ boxKey, headerIndex }) {
                 <Typography variant="body1">{comment}</Typography>
               </Stack>
             </Stack>
-            
-                
-            )
-            
-            :
 
-            <Stack
+
+          )
+
+          :
+
+          <Stack
             alignItems="center"
             spacing={2}
             justifyContent="center"
@@ -115,44 +118,56 @@ export default function UploadBox({ boxKey, headerIndex }) {
             p="1rem"
             maxWidth="200px"
             boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
-        >
+          >
             <TextField
-            size="small"
-            label="Raw Data Name"
-            helperText="It is very important that the sample code names in the article are written as given so that other researchers can easily use the raw data."
-            value={name}
-            onChange={(e) => {
+              size="small"
+              label="Specimen Name"
+              helperText="Type the raw data/ specimen's name as given in the article. e.g;K1"
+              value={name}
+              onChange={(e) => {
                 setName(e.target.value);
-            }}
+              }}
             />
-            <UploadInput icon={'mdi:image-outline'} text="Select Preview Image" setPreviewUrl={setPreviewUrl} setPreviewEx={setPreviewEx}/>
+            <Stack direction="row">
+              <RawDataInput setRawDataUrl={setRawDataUrl} setRawDataEx={setRawDataEx} />
+              <HelperComponent/>
+            </Stack>
+
+
+
+
+
+            <Stack direction="row">
+              <UploadInput icon={'mdi:image-outline'} text="Select Preview Image" setPreviewUrl={setPreviewUrl} setPreviewEx={setPreviewEx} />
+              <HelperComponentV2/>
+            </Stack>
             <TextField
-            color="success"
-            label="Comment"
-            size="small"
-            rows="2"
-            value={comment}
-            onChange={(e) => {
+              color="success"
+              label="Comment"
+              size="small"
+              rows="2"
+              value={comment}
+              onChange={(e) => {
                 setComment(e.target.value);
-            }}
+              }}
             />
             <TextField
-            label="Price Suggestion"
-            size="small"
-            InputProps={{
+              label="Price Suggestion"
+              size="small"
+              InputProps={{
                 endAdornment: <InputAdornment position="start">$</InputAdornment>,
-            }}
-            value={priceSuggestion}
-            onChange={(e) => {
+              }}
+              value={priceSuggestion}
+              onChange={(e) => {
                 setPriceSuggestion(e.target.value);
-            }}
+              }}
             />
-            <RawDataInput setRawDataUrl={setRawDataUrl} setRawDataEx={setRawDataEx}/>
-        </Stack>
-        }
-        
-        
-        </Stack>
-   
+          </Stack>
+
+      }
+
+
+    </Stack>
+
   );
 }

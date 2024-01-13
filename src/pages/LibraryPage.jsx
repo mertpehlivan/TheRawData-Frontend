@@ -14,15 +14,13 @@ export default function LibraryPage() {
       <Grid container mt={12} spacing={1}>
         <Grid item xs={3.5}>
           <Stack spacing={1}>
-            <FilterButton />
+            <FilterButton title="My Publications"/>
+            <FilterButton title="Purchased Data"/>
             <BasketSummaryComponent />
           </Stack>
         </Grid>
         <Grid item xs={8.5} spacing={1}>
           <Stack spacing={1}>
-            {/* 
-            <LibraryBox />
-            <LibraryBox /> */}
            <Outlet/>
           </Stack>
 

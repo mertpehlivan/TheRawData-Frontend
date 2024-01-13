@@ -9,9 +9,12 @@ export const dataSlice = createSlice({
     reducers:{
         addData:(state,action)=>{
             state.value = action.payload
+        },
+        clearData:(state)=>{
+            state.value = []
         }
     }
 })
 
-export const {addData} = dataSlice.actions
+export const {addData,clearData} = dataSlice.actions
 export default dataSlice.reducer

@@ -4,8 +4,10 @@ import SearchInput from '../input/SearchInput';
 import { Icon } from '@iconify/react';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { addData } from '../../store/dataSlice';
-import { increase } from '../../store/pageNumberSlice';
+import { addData, clearData } from '../../store/dataSlice';
+import { format, increase } from '../../store/pageNumberSlice';
+import { clearType } from '../../store/newDataTypeSlice';
+import { clearRawData } from '../../store/rawDataSlice';
 
 export default function ThesisForm() {
   const [title, setTitle] = useState('');
@@ -17,6 +19,12 @@ export default function ThesisForm() {
   const [isValid, setIsValid] = useState(true); // Kontrol eklemek için bir state ekledik
   const dispatch = useDispatch();
 
+  const handlerCancel = () => {
+    dispatch(format())
+    dispatch(clearData())
+    dispatch(clearType())
+    dispatch(clearRawData())
+  }
   const data = {
     title,
     degree,
@@ -99,7 +107,7 @@ export default function ThesisForm() {
         rows={4}
         value={comment}
         onChange={handleCommentChange}
-        
+
       />
       <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
         {comment.length}/2000
@@ -107,6 +115,14 @@ export default function ThesisForm() {
       <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
 
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
+        <Button
+          color='error'
+          variant='outlined'
+          onClick={handlerCancel}
+          href='/'
+        >
+          Cancel
+        </Button>
         <Button
           variant='contained'
           disabled={!isFormValid()}

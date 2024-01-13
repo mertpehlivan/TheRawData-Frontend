@@ -26,3 +26,24 @@ export const createRawDataFile = async (name, publicationPostId,token,onUploadPr
     console.error(error);
   }
 };
+export const updateRawDataFile = async (title,id,token) => {
+  const formData = new FormData();
+  formData.append("id", id);
+  formData.append("title", title);
+  try {
+    const res = await axios.post(
+      `${baseUrl}/api/v1/rawdatafile/updateTitle`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+   
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

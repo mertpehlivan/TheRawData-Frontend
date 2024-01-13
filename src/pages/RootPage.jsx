@@ -1,18 +1,27 @@
 import { Box, Container, CssBaseline } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import SpeedDialButton from '../components/button/SpeedDialButton'
 import SpeedDailButton from '../components/button/SpeedDialButton'
+import { useDispatch } from 'react-redux'
+import { format } from '../store/pageNumberSlice'
 
 export default function RootPage() {
+  const location = useLocation();
+  const currentEndpoint = location.pathname;
+
   return (
     <Box mt={10}>
-
-      <Navbar />
+      {currentEndpoint != "/publications/create" &&
+        <Navbar />
+      }
       <Outlet />
-      <SpeedDailButton />
+      {currentEndpoint != "/publications/create" &&
+        <SpeedDailButton />
+      }
+
     </Box>
   )
 }

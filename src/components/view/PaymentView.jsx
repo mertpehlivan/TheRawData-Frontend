@@ -6,7 +6,7 @@ import EndPaymentInfo from './EndPaymentInfo';
 function PaymentView() {
     return (
         <Stack bgcolor="white" borderRadius={2} p={1}>
-            <Typography variant='h6' color={"primary.main"} textAlign="center">ORDER PAYMENT PANEL</Typography>
+            <Typography variant='h6' color={"primary.main"} textAlign="center">SUMMARY OF DATA OWNER SAVING PANEL</Typography>
             <Stack direction="row" alignItems="center" justifyContent="center">
                 <BusinessCenterIcon sx={{ width: 35, height: 35, color: "primary.main" }} />
                 <Typography variant='h5' justifyContent="center">50$</Typography>
@@ -14,14 +14,12 @@ function PaymentView() {
                 <Divider/>
             </Stack>
             
-            <Typography variant='h6'>Recent Purchase Transactions</Typography>
+            <Typography variant='h6'>Last sold data</Typography>
             <Stack p={1}>
                 <Stack spacing={1}>
-                    <EndPaymentInfo fullname="Hasan Pehlivan" amount="-10$"/>
-                    <EndPaymentInfo fullname="Uğur Kolcak" amount="+10$"/>
-                    <EndPaymentInfo fullname="Hasan Pehlivan" amount="-10$"/>
-                    <Button>And More</Button>
-                    <Link variant='body1' textAlign="center">Withdraw Money</Link>
+                    <EndPaymentInfo fullname="C1" amount="+10$"/>
+                   
+                    <Button>See Detail</Button>
                 </Stack>
             </Stack>
         </Stack>

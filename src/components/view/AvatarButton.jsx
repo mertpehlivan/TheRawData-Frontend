@@ -2,16 +2,17 @@ import { Icon } from "@iconify/react";
 import { Avatar, Button, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../../hooks/AuthProvider";
 
 const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
-    
-  
-    
-  
+    const {user,setAuthenticated} = useUserContext()
     const handleClose = () => {
       setAnchorEl(null);
     };
-  
+    const logOut = ()=>{
+      localStorage.clear("access-token")
+      setAuthenticated(false)
+    }
     const open = Boolean(anchorEl);
   
     return (
@@ -29,16 +30,17 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
         }}
       >
         <Stack>
-            <Button LinkComponent={'a'} href="/profile">Profile</Button>
+            <Button LinkComponent={'a'} href={`/${user.uniqueName}`}>Profile</Button>
             
-            <Button>My Account</Button>
-            <Button>Log Out</Button>
+            <Button href="/myAccount">My Account</Button>
+            <Button onClick={logOut}>Log Out</Button>
         </Stack>
       </Popover>
     );
   };
   
   const AvatarButton = () => {
+    const {user} = useUserContext()
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -47,7 +49,7 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
       <Stack direction="row" alignItems="center" spacing={1} mx={2}>
         
         <Button onClick={handleClick}>
-          <Avatar sx={{width:"25px",height:"25px"}}/>
+          <Avatar src={`http://localhost:8080/api/v1/auth/profileImage/${user.profileImageName}`} sx={{width:"25px",height:"25px"}}/>
         </Button>
         <UserPopover handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl}/>
       </Stack>

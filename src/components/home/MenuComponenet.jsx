@@ -13,7 +13,7 @@ export default function MenuComponenet({activeItem, setActiveItem}) {
   return (
     <List sx={{ bgcolor: 'background.default', borderRadius: 2, p: 1 }}>
       <ListItem disablePadding>
-        <ListItemButton href='Explore' selected={activeItem === 'Explore'}>
+        <ListItemButton href='/' selected={activeItem === 'Explore'}>
           <ListItemIcon>
             <PublicIcon />
           </ListItemIcon>
@@ -21,11 +21,11 @@ export default function MenuComponenet({activeItem, setActiveItem}) {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton href='explore' onClick={() => handleItemClick('Followed Channels')} selected={activeItem === 'Followed Channels'}>
+        <ListItemButton href='followedResearchers' onClick={() => handleItemClick('Followed Channels')} selected={activeItem === 'Followed Channels'}>
           <ListItemIcon>
             <AssignmentIndIcon />
           </ListItemIcon>
-          <ListItemText primary="Followed Channels" />
+          <ListItemText primary="Followed Researchers" />
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>

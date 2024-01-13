@@ -5,6 +5,7 @@ import { getByType } from '../../../services/post/postService';
 import { Stack, Typography, CircularProgress } from '@mui/material';
 import DataPost from '../../home/DataPost';
 import ProfileDataPost from '../../profile/ProfileDataPost';
+import { getAllByUniqueName } from '../../../services/newData/allPostService';
 
 export default function AllView() {
   const [datas, setDatas] = useState([]);
@@ -16,8 +17,13 @@ export default function AllView() {
     const requestPublication = async (type) => {
       setLoading(true); // İstek başladığında loading durumunu true yap
       try {
-        const res = await getByType(token, type, username);
-        setDatas(res);
+        if(type){
+          const res = await getByType(token, type, username);
+          setDatas(res);
+        }else{
+          const res = await getAllByUniqueName(username,token)
+          setDatas(res);
+        }
       } catch (e) {
         console.error(e);
       } finally {
@@ -26,7 +32,7 @@ export default function AllView() {
     };
 
     requestPublication(type);
-  }, [type, username, token]);
+  }, [token]);
 
   console.log(datas);
 
@@ -39,7 +45,7 @@ export default function AllView() {
   }
 
   return (
-    <Stack>
+    <Stack spacing={1}>
       {datas.map((data, index) => (
         <DataPost key={index} data={data} />
       ))}

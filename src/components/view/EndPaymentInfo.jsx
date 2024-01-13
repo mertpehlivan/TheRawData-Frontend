@@ -11,6 +11,7 @@ export default function EndPaymentInfo({ fullname, amount }) {
         >
             <Typography>{fullname}</Typography>
             <Typography color={amount[0] === "-" ? "red" : "blue"}>{amount}</Typography>
+            <Typography>02.11.2023</Typography>
         </Stack>
     )
 }

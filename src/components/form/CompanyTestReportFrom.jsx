@@ -7,9 +7,11 @@ import {
   Button,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { addData } from '../../store/dataSlice';
-import { increase } from '../../store/pageNumberSlice';
+import { addData, clearData } from '../../store/dataSlice';
+import { format, increase } from '../../store/pageNumberSlice';
 import SearchInput from '../input/SearchInput';
+import { clearType } from '../../store/newDataTypeSlice';
+import { clearRawData } from '../../store/rawDataSlice';
 
 export default function CompanyTestReportFrom() {
   const [title, setTitle] = useState('');
@@ -18,6 +20,12 @@ export default function CompanyTestReportFrom() {
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
   const dispatch = useDispatch();
+  const handlerCancel = () => {
+    dispatch(format())
+    dispatch(clearData())
+    dispatch(clearType())
+    dispatch(clearRawData())
+  }
   const data = {
     title,
     date,
@@ -60,11 +68,11 @@ export default function CompanyTestReportFrom() {
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
         />
-        
+
       </Stack>
-      
+
       <Stack mx={4} my={2}>
-      <TextField
+        <TextField
           id="outlined-multiline-static"
           label="Abstract"
           multiline
@@ -73,6 +81,14 @@ export default function CompanyTestReportFrom() {
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
+          <Button
+            color='error'
+            variant='outlined'
+            onClick={handlerCancel}
+            href='/'
+          >
+            Cancel
+          </Button>
           <Button
             variant='contained'
             disabled={!isFormValid()}

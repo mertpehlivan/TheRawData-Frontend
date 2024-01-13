@@ -13,5 +13,9 @@ export const ProtectedComponent = () => {
     }
   }, [authenticated, navigate]); 
 
+  if(!authenticated == true){
+    return ;
+  }
+  
   return <Outlet />;
 };

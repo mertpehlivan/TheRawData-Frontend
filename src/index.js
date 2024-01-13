@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import NewDataPage from './pages/NewDataPage';
+import MyAccountPage from './pages/MyAccountPage';
 import store from './store/store';
 import { Provider } from 'react-redux';
 import PublicationPage from './pages/PublicationPage';
@@ -23,6 +24,9 @@ import AuthProvider, { useUserContext } from './hooks/AuthProvider';
 import LoadinView from './components/view/LoadingView';
 import AllView from './components/view/PublicationsView/AllView';
 import Basket from './components/library/Basket';
+import ExploreComponent from './components/home/ExploreComponent';
+import FollowedResearchers from './components/home/FollowedResearchers';
+import NotificationsComponent from './components/home/NotificationsComponent';
 
 const theme = createTheme({
     palette: {
@@ -64,7 +68,25 @@ const router = createBrowserRouter([
                     {
                         path: "/",
                         element: <HomePage />,
+                        children:[
+                            {
+                                path:"/",
+                                element:<ExploreComponent/>
+                            },
+                            {
+                                path:"/followedResearchers",
+                                element:<FollowedResearchers/>
+                            },
+                            {
+                                path:"/notifications",
+                                element:<NotificationsComponent/>
+                            }
+                        ]
 
+                    },
+                    {
+                        path:"/myAccount",
+                        element:<MyAccountPage/>
                     },
 
                     {
@@ -79,6 +101,10 @@ const router = createBrowserRouter([
                         path: "/:username",
                         element: <ProfilePage />,
                         children: [
+                            {
+                                path: "",
+                                element: <AllView />
+                            },
                             {
                                 path: ":type",
                                 element: <AllView />

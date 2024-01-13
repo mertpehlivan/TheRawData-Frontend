@@ -1,14 +1,14 @@
 import { Divider, List, ListItemButton, Stack, Typography } from '@mui/material'
 import React from 'react'
 
-export default function FilterButton({username}) {
+export default function FilterButton({username,title}) {
   return (
     <Stack 
         bgcolor="background.default"
     borderRadius={3}
     p={1}
     >
-        <Typography  variant='h5'>Publications</Typography>
+        <Typography  variant='h5'>{title}</Typography>
         <Divider/>
         <List>
         

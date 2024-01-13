@@ -3,7 +3,7 @@ import newDataTypeReducer from "./newDataTypeSlice"
 import rawDataReducer from "./rawDataSlice";
 import dataReducer from "./dataSlice";
 import pageNumberReducer from "./pageNumberSlice";
-import basketPublicationReducer from "./basketPublicationSlice";
+import usernReducer from "./userSlice";
 
 export default configureStore({
     reducer:{
@@ -11,7 +11,7 @@ export default configureStore({
         rawData: rawDataReducer,
         data: dataReducer,
         pageNumber: pageNumberReducer,
-        basketPublication: basketPublicationReducer
+        user: usernReducer
 
     }
 })

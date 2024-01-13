@@ -12,9 +12,12 @@ export const pageNumberSlice = createSlice({
         },
         decrease:(state)=>{
             state.value =  state.value - 1
+        },
+        format:(state)=>{
+            state.value = 0
         }
     }
 })
 
-export const {increase, decrease} = pageNumberSlice.actions
+export const {increase, decrease,format} = pageNumberSlice.actions
 export default pageNumberSlice.reducer

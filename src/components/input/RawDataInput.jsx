@@ -71,7 +71,7 @@ const RawDataInput = ({ setRawDataUrl ,setRawDataEx}) => {
       <div {...getRootProps({ className: 'dropzone' })} style={dropzoneContainerStyle}>
         <input {...getInputProps()} />
         <CloudUploadIcon style={uploadIconStyle} />
-        <Typography sx={uploadText}>Drag 'n' drop some non-image files here, or click to select files</Typography>
+        <Typography sx={uploadText}>Upload raw data file</Typography>
       </div>
       <aside style={filesContainerStyle}>
         {files.length > 0 && (

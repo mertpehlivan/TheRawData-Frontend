@@ -74,9 +74,10 @@ export default function AccordionCustom({index}) {
         <AccordionDetails>
         <TextField 
           label="" size='small' 
-          sx={{zIndex:"0",my:2}}
+          sx={{zIndex:"0",mt:-2}}
           onChange={(e)=>{dispatch(updateHeader({index:index,header:e.target.value}))}}
-          placeholder="Type the name of the raw data file"
+          placeholder="Type the name of the raw data"
+          helperText="e.g.; Load-Displacement; Questionary Survey; FEM; Coding"
         />
         <Divider sx={{mb:2}}/>
         <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="center">
