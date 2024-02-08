@@ -3,10 +3,13 @@ import { Avatar, AvatarGroup, Box, Button, Chip, Divider, Stack, Typography } fr
 import React from 'react'
 import { Link } from 'react-router-dom'
 import FriendComponent from '../view/FriendComponent'
+import ContinuesDeveloped from './ContinuesDeveloped'
 
 
 export default function LibraryBox() {
   return (
+    <>
+    <ContinuesDeveloped/>
     <Stack spacing={1} bgcolor="background.default" p={2} borderRadius={3} flexWrap="wrap">
         
         
@@ -71,5 +74,6 @@ export default function LibraryBox() {
             
         </Stack>
     </Stack>
+    </>
   )
 }

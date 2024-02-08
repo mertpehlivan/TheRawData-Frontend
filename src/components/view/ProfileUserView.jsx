@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import FollowButton from '../button/FollowButton';
 
 export default function ProfileUserView() {
-    const API_BASE_URL = process.env.REACT_APP_BASE_URL
+    const baseUrl = process.env.REACT_APP_BASE_URL
     const [user, setUser] = useState({
         id: null,
         firstname: "",
@@ -41,7 +41,7 @@ export default function ProfileUserView() {
             .finally(() => {
                 setLoading(false);
             });
-    }, [token]);
+    }, [token,username]);
 
     return (
         <Stack direction="row" spacing={2} bgcolor="background.default" borderRadius={3} p={2} justifyContent="space-between">
@@ -49,7 +49,7 @@ export default function ProfileUserView() {
                 {loading ? (
                     <Skeleton variant="circular" width={50} height={50} />
                 ) : (
-                    <Avatar  src={`${API_BASE_URL}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '50px', height: '50px' }} />
+                    <Avatar  src={`${baseUrl}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '50px', height: '50px' }} />
                 )}
 
                 <Stack>

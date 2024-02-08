@@ -63,7 +63,7 @@ export default function ExploreComponent() {
 
   if (isLoading) {
     return (
-      <Stack>
+      <Stack spacing={1}>
         {[...Array(5)].map((_, index) => (
           <SkaletonDataPost key={index} />
         ))}
@@ -76,7 +76,7 @@ export default function ExploreComponent() {
       <Stack alignItems="center" justifyContent="center" height="100%">
         <Typography variant="h5" color="error">
           <Icon as={InfoOutlined} fontSize="large" marginRight={1} />
-          Hiç Gönderi Yok
+          No Shipments
         </Typography>
       </Stack>
     );
@@ -87,7 +87,7 @@ export default function ExploreComponent() {
       <Stack alignItems="center" justifyContent="center" height="100%">
         <Typography variant="h5" color="error">
           <Icon as={ErrorOutline} fontSize="large" marginRight={1} />
-          Bir hata oluştu: {error}
+          An error has occurred: {error}
         </Typography>
       </Stack>
     );
@@ -100,11 +100,11 @@ export default function ExploreComponent() {
       ))}
       {!hasMorePosts ? (
         <Typography variant="h6" color="textSecondary" textAlign="center">
-          Daha fazla gönderi bulunmuyor.
+          There are no more posts available.
         </Typography>
       ):
       (<Button onClick={handleLoadMoreRef.current} variant="outlined"  color="primary">
-        Daha Fazla Yükle
+        see more
       </Button>)
       }
     </Stack>

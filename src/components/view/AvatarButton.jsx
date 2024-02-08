@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
 import { Avatar, Button, Popover, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../hooks/AuthProvider";
 
 const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
+    
+    const navigate = useNavigate()
     const {user,setAuthenticated} = useUserContext()
     const handleClose = () => {
       setAnchorEl(null);
@@ -12,6 +14,7 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
     const logOut = ()=>{
       localStorage.clear("access-token")
       setAuthenticated(false)
+      navigate("/login");
     }
     const open = Boolean(anchorEl);
   
@@ -30,9 +33,8 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
         }}
       >
         <Stack>
-            <Button LinkComponent={'a'} href={`/${user.uniqueName}`}>Profile</Button>
-            
-            <Button href="/myAccount">My Account</Button>
+            <Link to={`/users/${user.uniqueName}`}><Button >Profile</Button></Link>
+            <Link to={`/myAccount`}><Button href="/myAccount">My Account</Button></Link>
             <Button onClick={logOut}>Log Out</Button>
         </Stack>
       </Popover>
@@ -40,6 +42,7 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
   };
   
   const AvatarButton = () => {
+    const baseUrl = process.env.REACT_APP_BASE_URL
     const {user} = useUserContext()
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (event) => {
@@ -49,7 +52,7 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
       <Stack direction="row" alignItems="center" spacing={1} mx={2}>
         
         <Button onClick={handleClick}>
-          <Avatar src={`http://localhost:8080/api/v1/auth/profileImage/${user.profileImageName}`} sx={{width:"25px",height:"25px"}}/>
+          <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${user.profileImageName}`} sx={{width:"25px",height:"25px"}}/>
         </Button>
         <UserPopover handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl}/>
       </Stack>

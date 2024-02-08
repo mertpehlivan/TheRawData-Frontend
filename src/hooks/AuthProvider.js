@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { getUserBox } from '../services/userService';
-import { CircularProgress, Container, Typography } from '@mui/material';
+import { Box, CircularProgress, Container, Stack, Typography } from '@mui/material';
 import { Book } from '@mui/icons-material';
-
+import { AuthRoutes } from '../components/auth/AuthRoutes';
+import Navbar from '../components/Navbar'
+import { Navigate, useNavigate } from 'react-router-dom';
 const UserContext = createContext();
 export const useUserContext = () => useContext(UserContext);
 
@@ -14,6 +16,7 @@ const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const baseUrl = process.env.REACT_APP_BASE_URL;
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -28,19 +31,13 @@ const AuthProvider = ({ children }) => {
           setIsLoading(false);
           return;
         }
-
-        const response = await axios.get(`${baseUrl}/api/v1/check-auth`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-
+        setIsLoading(true)
         const responseUser = await getUserBox(authToken);
         setUser(responseUser.data)
-        setUserId(response.data)
-        console.log(response.data)
+
         setAuthenticated(true);
+        setIsLoading(false)
+        console.log("yeniden başlatıldı")
         setToken(authToken);
       } catch (error) {
         setAuthenticated(false);
@@ -51,32 +48,31 @@ const AuthProvider = ({ children }) => {
     };
 
     checkAuth();
-  }, [baseUrl]);
+  }, [authenticated]);
 
   if (isLoading) {
     return (
-      <Container
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-        }}
-      >
-        <Book sx={{color:'primary.main', width:100,height:100}} />
-        <CircularProgress  size={80} thickness={5} style={{ marginBottom: 16 }} />
-        <Typography variant="h6">Loading...</Typography>
-      </Container>
+      <Stack justifyContent="center" alignItems="center" height="100vh">
+        <Stack justifyContent="center" alignItems="center">
+          <CircularProgress />
+          <Box mt={2}>
+            <Book sx={{ width: 50, height: 50, color: "primary.main" }} />
+          </Box>
+        </Stack>
+      </Stack>
+    )
 
-    );
   }
 
   return (
     <UserContext.Provider
       value={{ isLoading, user, userId, setUserId, token, setToken, authenticated, setAuthenticated }}
     >
-      {children}
+      <>
+        {authenticated && <Navbar />}
+        {user.emailVerfiactionStatus === false && authenticated && <Navigate to="/email-verification" />}
+        <AuthRoutes />
+      </>
     </UserContext.Provider>
   );
 };

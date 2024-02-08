@@ -85,7 +85,21 @@ export const rawDataSlice = createSlice({
               
         },
         clearRawData:(state)=>{
-            state = []
+            state = {
+                header:"Type the name of the raw data",
+                rawData:[
+                    {
+                        name:"",
+                        previewUrl:"",
+                        comment:"",
+                        priceSuggestion:"",
+                        rawDataUrl:"",
+                        saveInfo: false,
+                        rawDataEx:"",
+                        previewEx:""
+                    }
+                ]
+            }
         }
     }
 })

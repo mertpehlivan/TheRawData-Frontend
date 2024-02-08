@@ -2,13 +2,15 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import { Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
+import { Check } from '@mui/icons-material';
 
 const RawDataInput = ({ setRawDataUrl ,setRawDataEx}) => {
   const [files, setFiles] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
+   
     console.log("File type:", file.type);
   
     if (!file.type.startsWith('image/')) {
@@ -33,7 +35,6 @@ const RawDataInput = ({ setRawDataUrl ,setRawDataEx}) => {
     <li key={file.path} style={fileItemStyle}>
       <Box sx={fileInfoStyle}>
         <Box>
-          <Typography sx={fileNameStyle}>{file.path}</Typography>
           <Typography sx={fileSizeStyle}>{convertBytesToMB(file.size)} MB</Typography>
         </Box>
         <Box sx={fileIconContainerStyle}>
@@ -71,15 +72,16 @@ const RawDataInput = ({ setRawDataUrl ,setRawDataEx}) => {
       <div {...getRootProps({ className: 'dropzone' })} style={dropzoneContainerStyle}>
         <input {...getInputProps()} />
         <CloudUploadIcon style={uploadIconStyle} />
-        <Typography sx={uploadText}>Upload raw data file</Typography>
+        <Typography >Upload raw data file</Typography>
+        {files.length > 0 && (
+          <Stack direction="row" alignItems="center" justifyContent="center" bgcolor="primary.main" color="white" p={0.3} borderRadius={2}>
+            <Check/>
+            <Typography  >Selected Data</Typography>
+          </Stack>
+        )}
       </div>
       <aside style={filesContainerStyle}>
-        {files.length > 0 && (
-          <div>
-            <Typography sx={filesHeaderStyle}>Selected Files</Typography>
-            <ul style={filesListStyle}>{fileList}</ul>
-          </div>
-        )}
+        
       </aside>
     </section>
   );

@@ -16,7 +16,7 @@ const sanitizeFileName = (filename) => {
   return filename.replace(/[^\w.-]/g, '_');
 };
 
-export default function BackdropComponent({ handleClose }) {
+export default function BackdropComponent({ handleClose,setImage }) {
   const [helperText, setHelperText] = useState('');
   const { token } = useUserContext();
   const [avatarPreview, setAvatarPreview] = useState(null);
@@ -27,7 +27,7 @@ export default function BackdropComponent({ handleClose }) {
         const sanitizedFileName = sanitizeFileName(accepted[0].name);
         setAvatarPreview(URL.createObjectURL(accepted[0]));
         accepted[0] = new File([accepted[0]], sanitizedFileName, { type: accepted[0].type });
-
+        setImage(URL.createObjectURL(accepted[0]))
         try {
           const response = await uploadProfileImage(token, accepted[0]);
           setHelperText(response);
@@ -54,7 +54,7 @@ export default function BackdropComponent({ handleClose }) {
   return (
     <Stack bgcolor="white" p={4} width={500}>
       <Stack direction="row" justifyContent="flex-end" p={2}>
-        <Button variant="contained" color="error" onClick={handleClose}>
+        <Button variant="contained" color="error" onClick={()=>{handleClose();setAvatarPreview(null);setHelperText("")}}>
           X
         </Button>
       </Stack>

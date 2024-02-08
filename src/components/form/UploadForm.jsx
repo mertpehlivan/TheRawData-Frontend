@@ -18,7 +18,7 @@ import { format } from '../../store/pageNumberSlice';
 import { clearData } from '../../store/dataSlice';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function UploadForm() {
     const [publicationId, setPublicationId] = useState(null);
@@ -33,7 +33,24 @@ export default function UploadForm() {
     const dispatch = useDispatch();
     const { token } = useUserContext();
     const location = useLocation();
-    const currentEndpoint = location.pathname;
+    const uploadRawData = useState([
+        {
+            header:"Type the name of the raw data",
+            rawData:[
+                {
+                    name:"",
+                    previewUrl:"",
+                    comment:"",
+                    priceSuggestion:"",
+                    rawDataUrl:"",
+                    saveInfo: false,
+                    rawDataEx:"",
+                    previewEx:""
+                }
+            ]
+        }
+    ]
+    )
     useEffect(() => {
         if (isFinish) {
             dispatch(clearData())
@@ -87,8 +104,8 @@ export default function UploadForm() {
                     const response = await createArticle(data, token, (progressEvent) => {
                         loadingCalculator(progressEvent);
                     });
-                    console.log("article:", response.data);
-                    setPublicationId(response.data);
+                    console.log("article:", response.data.id);
+                    setPublicationId(response.data.id);
                 } catch (error) {
                     console.log(error);
                 } finally {
@@ -100,8 +117,8 @@ export default function UploadForm() {
                     const response = await createChapterInABook(data, token, (progressEvent) => {
                         loadingCalculator(progressEvent);
                     });
-                    console.log(response.data);
-                    setPublicationId(response.data);
+                    console.log(response.data.id);
+                    setPublicationId(response.data.id);
                 } catch (error) {
                     console.log(error);
                 } finally {
@@ -113,8 +130,8 @@ export default function UploadForm() {
                     const response = await createConferencePaper(data, token, (progressEvent) => {
                         loadingCalculator(progressEvent);
                     });
-                    console.log(response.data);
-                    setPublicationId(response.data);
+                    console.log(response.data.id);
+                    setPublicationId(response.data.id);
                 } catch (error) {
                     console.log(error);
                 } finally {
@@ -126,8 +143,8 @@ export default function UploadForm() {
                     const response = await createThesis(data, token, (progressEvent) => {
                         loadingCalculator(progressEvent);
                     });
-                    console.log(response.data);
-                    setPublicationId(response.data);
+                    console.log(response.data.id);
+                    setPublicationId(response.data.id);
                 } catch (error) {
                     console.log(error);
                 } finally {
@@ -139,8 +156,8 @@ export default function UploadForm() {
                     const response = await createReaserachProject(data, token, (progressEvent) => {
                         loadingCalculator(progressEvent);
                     });
-                    console.log(response.data);
-                    setPublicationId(response.data);
+                    console.log(response.data.id);
+                    setPublicationId(response.data.id);
                 } catch (error) {
                     console.log(error);
                 } finally {
@@ -176,7 +193,7 @@ export default function UploadForm() {
                     console.log(res);
                     if (res) {
                         data.rawData.forEach(async (group) => {
-
+                            console.log("response:",res)
                             if (group && group.name && group.name.trim() !== "") {
                                 console.log(group.name)
                                 const files = await convertForm(group);
@@ -221,8 +238,8 @@ export default function UploadForm() {
                 <Stack justifyContent="center" alignItems="center" spacing={1} border={"2px solid"} borderRadius={3} borderColor="primary.main" p={2}>
                     <Check sx={{ height: 100, width: 100, color: "primary.main" }} />
                     <Typography color="primary.main" variant='h4'>Installation Completed</Typography>
-                    <Button variant='contained' href='/' onClick={() => dispatch(format())}>
-                        Keep discovering new information</Button>
+                    <Link  to='/'><Button variant='contained' onClick={() => dispatch(format())}>
+                        Keep discovering new information</Button></Link>
                 </Stack>
             </Container>
 

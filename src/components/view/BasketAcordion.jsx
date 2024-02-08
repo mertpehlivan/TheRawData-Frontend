@@ -1,34 +1,45 @@
-// BasketAccordion.js
 import React, { useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, Collapse, Divider, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Collapse, Divider, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ShoppingBasket, ExpandLess } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BasketItem from './BasketItem';
 import { getPublicationBasket } from '../../services/newData/basketService';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRawDataForPublication } from '../../store/basketPublicationSlice';
 
-export default function BasketAccordion({ requestCounter,counterRequest }) { // Fix the prop name here
+export default function BasketAccordion({ requestCounter, counterRequest }) {
   const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [data,setData] = useState([])
+  const [data, setData] = useState([]);
   const { publicationId } = useParams();
   const dispatch = useDispatch();
-  //const data = useSelector(state => state.basketPublication.value);
 
   useEffect(() => {
     setLoading(true);
 
     getPublicationBasket(publicationId)
       .then(res => {
-        console.log(res.data)
-        setData([res.data])
-        //dispatch(addRawDataForPublication(res.data));
+        console.log(res.data);
+        setData([res.data]);
         setLoading(false);
       })
       .catch(e => {
-        setData(null)
+        setData(null);
+        setLoading(false);
+      });
+  }, []);
+  useEffect(() => {
+   
+
+    getPublicationBasket(publicationId)
+      .then(res => {
+        console.log(res.data);
+        setData([res.data]);
+        setLoading(false);
+      })
+      .catch(e => {
+        setData(null);
         setLoading(false);
       });
   }, [requestCounter]);
@@ -36,9 +47,7 @@ export default function BasketAccordion({ requestCounter,counterRequest }) { // 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-  if (data) {
-    
-  }
+
   return (
     <Box position="fixed" left="0" width={300}>
       <IconButton
@@ -80,16 +89,22 @@ export default function BasketAccordion({ requestCounter,counterRequest }) { // 
           }}
         >
           <Stack p={2} spacing={1} justifyContent="center">
-            <Typography variant='h6' color="primary.main">Basket Summary about the post</Typography>
+            <Typography variant='h6' color="primary.main">Basket Summary about the publication</Typography>
             <Divider />
             {loading ? (
-              <CircularProgress />
+              // Skeleton Loading
+              <Stack>
+                <Skeleton height={40} width="80%" />
+                <Skeleton height={20} width="60%" />
+                {/* Add more skeletons as needed */}
+              </Stack>
             ) : (
+              // Actual content
               <BasketItem counterRequest={counterRequest} data={data} />
             )}
           </Stack>
           <Stack>
-            <Button href='/library/basket'>See all basket</Button>
+            <Link to={'/library/basket'}><Button>See all basket</Button></Link>
           </Stack>
         </Box>
       </Collapse>

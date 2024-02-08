@@ -9,10 +9,11 @@ import { useUserContext } from "../../hooks/AuthProvider";
 import { getUserBox } from "../../services/userService";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import {getInvitations} from "../../services/notificationService"
+import { getInvitations } from "../../services/notificationService"
+import { addAuthorPost } from "../../services/post/postService";
 
-const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorEl }) => {
-  
+const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchorEl }) => {
+
   const open = Boolean(anchorEl);
   const [messages, setMessages] = useState([]);
   const [endMessages, setEndMessages] = useState([]);
@@ -21,14 +22,16 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
   const [userTrigger, setUserTrigger] = useState(false)
   const scrollRef = useRef(null);
   const [page, setPage] = useState(0)
-  const [user, setUser] = useState({
-    id: null,
-    firstname: "",
-    lastname: "",
-    email: "",
-    country: "",
-  });
-  const { token } = useUserContext()
+
+
+  const { token, user } = useUserContext()
+
+  const acceptHandler = (publicationPostId) => {
+    console.log(publicationPostId)
+    addAuthorPost(token, publicationPostId).then((res) => {
+      console.log(res.data)
+    }).catch(e => console.error(e))
+  }
 
   const handleScroll = debounce(() => {
     if (scrollRef.current && !isPageIncrementing) {
@@ -51,28 +54,25 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
-
-  
   useEffect(() => {
-    getUserBox(token)
-      .then((res) => {
-        console.log(res.data);
-        setUser({
-          firstname: res.data.firstname,
-          lastname: res.data.lastname,
-          email: res.data.email,
-          country: res.data.country,
-          id: res.data.id,
-        });
+
+    const size = 6; // Sayfa boyutu
+    getInvitations(page, token, size)
+      .then(response => {
+        console.log('invitation:', response.data);
+        setEndMessages(prev => [...prev, ...response.data])
+        setIsPageIncrementing(false);
+        setUserTrigger(true)
       })
-      .catch(() => { })
-      .finally(() => {
-        // Trigger the second useEffect after user data is fetched
-        setUserTrigger(true);
+      .catch(error => {
+        setIsPageIncrementing(false);
+        console.error('Hata:', error);
       });
-  }, [token]);
+  }, [page]);
+
+
+
+
 
   useEffect(() => {
     // Only run this effect after user data is available
@@ -87,7 +87,7 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
           const receivedMessage = JSON.parse(message.body);
           setMessages((prevMessages) => [...prevMessages, receivedMessage]);
           console.log(receivedMessage)
-            setNotification(prev=>prev+1)
+          setNotification(prev => prev + 1)
         });
       });
 
@@ -98,21 +98,8 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
       };
     }
   }, [userTrigger]);
-  useEffect(() => {
-   
-    const size = 6; // Sayfa boyutu
-      getInvitations(page,token,size)
-      .then(response => {
-        console.log('invitation:', response.data);
-        setEndMessages(prev => [...prev, ...response.data])
-        setIsPageIncrementing(false);
-      })
-      .catch(error => {
-        setIsPageIncrementing(false);
-        console.error('Hata:', error);
-      });
-  }, [page]);
- 
+  
+
 
   return (
     <Popover
@@ -147,9 +134,9 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
                 <ListItem key={index} divider>
                   <Stack>
                     <Stack direction="row">
-                      <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12,62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
+                      <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
                       <Stack alignItems="center" >
-                        <Button  variant="contained" color="success">Admit</Button>
+                        <Button onClick={() => acceptHandler(msg.publicationId)} variant="contained" color="success">Admit</Button>
                         <Button color="error">Reject</Button>
                       </Stack>
                     </Stack>
@@ -165,7 +152,7 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
                       <Stack direction="row">
                         <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
                         <Stack alignItems="center" >
-                          <Button variant="contained" color="success">Admit</Button>
+                          <Button onClick={() => acceptHandler(msg.publicationId)} variant="contained" color="success">Admit</Button>
                           <Button color="error">Reject</Button>
                         </Stack>
                       </Stack>
@@ -183,25 +170,26 @@ const UserPopover = ({ click,notification, setNotification, anchorEl, setAnchorE
   );
 };
 const Envelope = () => {
-  const [notification,setNotification] = useState(0);
+  const [notification, setNotification] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setNotification(0);
   };
   return (
     <Stack direction="row" alignItems="center" mx={2}>
-      
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-          onClick={handleClick}
-        >
-          <Badge badgeContent={notification} color="error">
-            <EmailIcon color="primary" />
-          </Badge>
-        </IconButton>
-      
+
+      <IconButton
+        size="large"
+        aria-label="show 17 new notifications"
+        color="inherit"
+        onClick={handleClick}
+      >
+        <Badge badgeContent={notification} color="error">
+          <EmailIcon color="primary" />
+        </Badge>
+      </IconButton>
+
 
       <UserPopover setNotification={setNotification} notification={notification} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
     </Stack>

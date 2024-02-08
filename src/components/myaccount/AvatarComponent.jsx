@@ -3,14 +3,17 @@ import { Stack, Avatar, IconButton, Modal, Backdrop, Paper, Button, CircularProg
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { PhotoCamera } from '@mui/icons-material';
 import BackdropComponent from './BackdropComponent';
+import { useUserContext } from '../../hooks/AuthProvider';
 
 const AvatarComponent = () => {
+    const baseUrl = process.env.REACT_APP_BASE_URL
     const [open, setOpen] = useState(false);
     const [showIcon, setShowIcon] = useState(true);
+    const {user} = useUserContext()
+    const [image,setImage] = useState(`${baseUrl}/api/v1/auth/profileImage/${user.profileImageName}`)
 
     const handleClose = () => {
-        // You may add additional logic here if needed
-        // For now, just close the Backdrop when handleClose is called
+        
         setOpen(false);
     };
 
@@ -26,11 +29,11 @@ const AvatarComponent = () => {
             onMouseLeave={() => setShowIcon(false)}
             sx={{ position: 'relative' }}
         >
-            <Avatar  sx={{ width: 150, height: 150 }} />
+            <Avatar src={image}   sx={{ width: 150, height: 150 }} />
 
             {showIcon && (
                 <IconButton
-                    sx={{ width: 150, height: 150, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}
+                    sx={{ width: 100, height: 100 , position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1,bgcolor:"gray",opacity:0.7 }}
                     onClick={handleOpen}
                 >
                     <PhotoCamera sx={{ width: 100, height: 100 }} />
@@ -42,7 +45,7 @@ const AvatarComponent = () => {
               
             >
                 <Stack>
-                    <BackdropComponent handleClose={handleClose} />
+                    <BackdropComponent setImage={setImage} handleClose={handleClose} />
                 </Stack>
             </Backdrop>
         </Stack>

@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import CancelIcon from '@mui/icons-material/Cancel'; // Çarpı işareti için yeni ekledik
 import { Icon } from '@iconify/react';
 import { FormHelperText, Stack, Typography } from '@mui/material';
+import { Check } from '@mui/icons-material';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -17,7 +18,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPreviewEx }) {
+export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPreviewEx,fileId }) {
   const [selectedFile, setSelectedFile] = React.useState(null);
 
   const handleFileChange = (event) => {
@@ -42,29 +43,12 @@ export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPre
       <Button
         component="label"
         variant="contained"
-        startIcon={<Icon icon={icon} color="white" />}
+        startIcon={selectedFile ? <Check/>: <Icon icon={icon} color="white"/>}
       >
         {text}
         <VisuallyHiddenInput type="file" onChange={handleFileChange} />
       </Button>
-      {selectedFile && (
-        <Stack justifyContent="center" mt={1}>
-          
-          <Button
-            variant="outlined"
-            color="error" // Hata rengi için kullanılabilir
-            onClick={handleClearFile}
-            sx={{
-              maxWidth:"200px"
-            }}
-            
-          >
-            <FormHelperText><Typography fontSize={8}>{selectedFile.name}</Typography></FormHelperText>
-            <CancelIcon />
-          </Button>
-        </Stack>
-      )}
-      {helpText && <p>{helpText}</p>}
+      
     </div>
   );
 }

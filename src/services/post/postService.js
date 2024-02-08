@@ -19,8 +19,30 @@ export const getFirstPost = async (token, page, size) => {
     console.error(error);
   }
 };
+export const getProfilePost = async (token, page, size, uniqueName) => {
 
-export const getByType = async (token, type, uniqueName) => {
+  try {
+    const response = await axios.get(`${baseUrl}/api/v1/publicationPost/${uniqueName}/getAll`, {
+
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
+      params: {
+        page: 0,
+        size: 5
+      }
+    })
+
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getByType = async (token, type, uniqueName,page) => {
+  
   switch (type) {
     case "articles":
       try {
@@ -30,9 +52,14 @@ export const getByType = async (token, type, uniqueName) => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            params: {
+              size: 5,
+              page: page,
+            },
           }
         );
         return res.data;
+        
       } catch (error) {
         return error;
         console.error(error);
@@ -45,6 +72,10 @@ export const getByType = async (token, type, uniqueName) => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+            },
+            params: {
+              size: 5,
+              page: page,
             },
           }
         );
@@ -61,6 +92,10 @@ export const getByType = async (token, type, uniqueName) => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+            },
+            params: {
+              size: 5,
+              page: page,
             },
           }
         );
@@ -79,6 +114,10 @@ export const getByType = async (token, type, uniqueName) => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            params: {
+              size: 5,
+              page: page,
+            },
           }
         );
         return res.data;
@@ -94,6 +133,10 @@ export const getByType = async (token, type, uniqueName) => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+            },
+            params: {
+              size: 5,
+              page: page,
             },
           }
         );
@@ -111,6 +154,10 @@ export const getByType = async (token, type, uniqueName) => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            params: {
+              size: 5,
+              page: page,
+            },
           }
         );
         return res.data;
@@ -119,7 +166,7 @@ export const getByType = async (token, type, uniqueName) => {
         console.error(error);
       }
       break;
-      default:
+    default:
       break;
   }
 
@@ -137,6 +184,55 @@ export const getPost = async (token, publicationId) => {
     );
 
 
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const addAuthorPost = async (token, publicationId) => {
+  console.log(publicationId);
+
+  try {
+    const res = await axios.get(
+      `${baseUrl}/api/v1/publicationPost/addAuthorPost/${publicationId.toString()}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error; // Hata durumunda uygun şekilde işleyebilirsiniz.
+  }
+};
+export const getFollowerPost = async (token, page, size) => {
+  try {
+    const res = await axios.get(
+      `${baseUrl}/api/v1/publicationPost/getFollowerPost?page=${page}&size=${size}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    return res.data;
+  } catch (error) {
+    console.error(error)
+  }
+};
+export const getSearchPost = async (token, page, size, title) => {
+  try {
+    const res = await axios.get(
+      `${baseUrl}/api/v1/publicationPost/searchByPublicationTitle?page=${page}&size=${size}&title=${title}`, // Corrected URL
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     return res;
   } catch (error) {
     console.error(error);

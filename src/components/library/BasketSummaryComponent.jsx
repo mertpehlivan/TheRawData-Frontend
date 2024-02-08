@@ -5,6 +5,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { getBasketPrice } from '../../services/newData/basketService';
 import { useRefreshPrice } from '../../hooks/RefreshPrice';
 import { useUserContext } from '../../hooks/AuthProvider';
+import { Link } from 'react-router-dom';
 
 export default function BasketSummaryComponent() {
     const [price, setPrice] = useState(0);
@@ -38,7 +39,7 @@ export default function BasketSummaryComponent() {
                 alignItems="center"
             >
                 <Typography variant='h5' color="primary.main">Basket</Typography>
-                <Button size='small' variant='outlined' href='/library/basket'>See all basket</Button>
+                <Link to={'/library/basket'}><Button>See all basket</Button></Link>
             </Stack>
             <Divider />
             <Stack direction="row" alignItems="center" justifyContent="center">

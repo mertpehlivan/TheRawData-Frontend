@@ -6,6 +6,7 @@ import { addExperiment, clearRawData } from "../../store/rawDataSlice";
 import { format, increase } from "../../store/pageNumberSlice";
 import { clearData } from "../../store/dataSlice";
 import { clearType } from "../../store/newDataTypeSlice";
+import { Link } from "react-router-dom";
 
 
 export default function RawDataForm() {
@@ -17,7 +18,7 @@ export default function RawDataForm() {
     dispatch(clearData())
     dispatch(clearType())
     dispatch(clearRawData())
-}
+  }
   const handleExperiment = () => {
     dispatch(addExperiment())
   }
@@ -44,14 +45,14 @@ export default function RawDataForm() {
 
       </Stack>
       <Stack direction="row" justifyContent="end" mt={10} p={5} spacing={1}>
-        <Button
+        <Link to='/'><Button
           color='error'
           variant='outlined'
           onClick={handlerCancel}
-          href='/'
+
         >
           Cancel
-        </Button>
+        </Button></Link>
         <Button disabled={isRawDataEmpty} variant="contained" sx={{ w: 50 }} onClick={() => dispatch(increase())}>Upload</Button>
       </Stack>
 

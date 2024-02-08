@@ -7,7 +7,7 @@ import PdfPreViewerImage from './PdfPreViewerImage';
 
 export default function SkaletonDataPost() {
   return (
-    <Stack spacing={1} bgcolor="background.default" p={2} borderRadius={3} flexWrap="wrap">
+    <Stack spacing={2} bgcolor="background.default" p={2} borderRadius={3} flexWrap="wrap"> 
       <Stack mb={2} spacing={1} direction="row" alignItems="center">
         <Skeleton variant="circular" width={40} height={40} animation="wave" />
         <Skeleton width={100} height={20} animation="wave" />
@@ -22,16 +22,19 @@ export default function SkaletonDataPost() {
         </Skeleton>
       </Link>
       <Stack spacing={1} direction="row" justifyContent="flex-start">
-        <Skeleton variant="rectangular" width={50} height={25} animation="wave">
+        <Skeleton variant="rectangular" width={150} height={25} animation="wave">
           <Chip label="New" sx={{ backgroundColor: "primary.main", color: "white" }} />
         </Skeleton>
         <Skeleton variant="rectangular" width={120} height={25} animation="wave">
           <Chip label="Company Test Report" />
         </Skeleton>
-        <Stack alignItems="end">
-          <PdfPreViewerImage />
-        </Stack>
+        
       </Stack>
+      <Stack direction="row" spacing={1}>
+          <Skeleton variant="rectangular" width={60} height={100} animation="wave"/>
+          <Skeleton variant="rectangular" width={60} height={100} animation="wave"/>
+          <Skeleton variant="rectangular" width={60} height={100} animation="wave"/>
+        </Stack>
       <Divider sx={{ my: 2 }} />
       <Stack spacing={1} direction="row" justifyContent="flex-start">
         
@@ -45,6 +48,8 @@ export default function SkaletonDataPost() {
         <Typography>
           <Skeleton width={100} height={20} animation="wave" />
         </Typography>
+
+       
       </Stack>
     </Stack>
   );

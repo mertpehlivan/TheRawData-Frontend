@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, Chip, CircularProgress, Container, Divider, Stack, Typography } from '@mui/material';
+import { Backdrop, Box, Button, Chip, CircularProgress, Container, Divider, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserContext } from '../hooks/AuthProvider';
@@ -8,6 +8,8 @@ import PdfButton from '../components/button/PdfButton';
 import BasketAcordion from '../components/view/BasketAcordion';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Add } from '@mui/icons-material';
+import { createRawDataFile, deleteRawDataFileFetch } from '../services/newRawData/RawDataFileService';
 export default function PublicationPage() {
   const { publicationId } = useParams();
   const [publication, setPublication] = useState(null);
@@ -15,13 +17,35 @@ export default function PublicationPage() {
   const [loading, setLoading] = useState(true);
   const [basket, setBasket] = useState([])
   const [requestCounter, setRequestCounter] = useState(0)
-  const [editMode,setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const [refresh, setRefresh] = useState(0)
+  const { user } = useUserContext()
+
+  const refreshHandler = () => {
+    console.log("click")
+    setRefresh(prev => prev + 1)
+  }
+  const createFile = ()=>{
+    createRawDataFile("Type the name of the raw data", publicationId,token).then(()=>{
+      refreshHandler();
+    })
+  }
+  const deleteRawDataFile = async (id) => {
+    const response = await deleteRawDataFileFetch(id,token);
+    const newRawDataFile = await publication.rawdatafiles.filter(item => item.id !== id);
+    console.log("NEW RAW DATA FİLE ",newRawDataFile)
+    setPublication(prev => ({
+        ...prev,
+        rawdatafiles: newRawDataFile
+    }));
+
+  }
   useEffect(() => {
-   
+
     const getPostHandler = async () => {
+      setLoading(true)
       try {
         const res = await getPost(token, publicationId);
-        console.log(res.data)
         setPublication(res.data);
       } catch (error) {
         console.error(error);
@@ -33,21 +57,50 @@ export default function PublicationPage() {
 
     getPostHandler();
   }, [token, publicationId]);
+  useEffect(() => {
+
+    const getPostHandler = async () => {
+     
+      try {
+        const res = await getPost(token, publicationId);
+        
+        setPublication(res.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
+    getPostHandler();
+  }, [refresh]);
   const counterRequest = () => {
     setRequestCounter(prev => prev + 1);
   }
+  if (loading) {
+    return (
+      <Container sx={{ mt: 15 }}>
+
+
+        <Stack bgcolor="white" p={2} borderRadius={3}>
+          <Skeleton height={40} width="80%" />
+          <Skeleton height={20} width="60%" />
+          <Skeleton height={20} width="40%" />
+          <Skeleton height={20} width="80%" />
+          <Skeleton height={20} width="60%" />
+          {/* Add more skeletons as needed */}
+        </Stack>
+      </Container>)
+  }
   return (
-    <Container sx={{ pt: "25px" }} maxWidth="md">
-      <Button onClick={()=>setEditMode(prev=>!prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon/>  : <VisibilityOffIcon/>}>Edit Data</Button>
+    <Container sx={{ mt: "100px" }} maxWidth="lg">
+      {!loading && <>{user.id === publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Data</Button>}</>}
       <BasketAcordion requestCounter={requestCounter} counterRequest={counterRequest} />
       <Stack bgcolor="background.default" p={2} spacing={1} borderRadius={3}>
-        {loading ? (
-          <Backdrop open={loading}>
-            <CircularProgress color="primary" />
-          </Backdrop>
-        ) : (
+        {!loading && (
           <>
-            <Stack>
+            <Stack >
               <Typography>{publicationId}</Typography>
               <Stack direction="row" justifyContent="space-between">
                 <Stack spacing={1}>
@@ -76,8 +129,13 @@ export default function PublicationPage() {
               </Stack>
               <Divider sx={{ m: 3 }} />
               {publication.rawdatafiles.map((file, index) => (
-                <File key={index} file={file} counter={counterRequest} editMode={editMode}/>
+                <>{console.log(file)}
+                <File deleteRawDataFile={deleteRawDataFile} setPublication={setPublication} publication={publication} key={index} file={file} counter={counterRequest} editMode={editMode} refreshHandler={refreshHandler} /></>
               ))}
+              <Stack justifyContent="center">
+                {editMode && <IconButton onClick={createFile}><Add sx={{color:"primary.main"}}/></IconButton>}
+              </Stack>
+
             </Stack>
           </>
         )}

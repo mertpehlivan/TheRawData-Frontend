@@ -1,19 +1,19 @@
 import axios from "axios"
 const baseUrl = process.env.REACT_APP_BASE_URL
 const authToken = localStorage.getItem("access-token");
-export const getInvitations = async(page,token,size) => {
+export const getInvitations = async (page, token, size) => {
     try {
         const res = await axios.get(
             `${baseUrl}/api/v1/invitations/`,
             {
 
                 headers: {
-                  Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
-          
+
                 params: {
-                  page: page,
-                  size: size
+                    page: page,
+                    size: size
                 }
             }
         )
@@ -22,15 +22,15 @@ export const getInvitations = async(page,token,size) => {
         console.error(error)
     }
 };
-export const updateInvitationsAdmit = async(token,id) => {
+export const updateInvitationsAdmit = async (token, id) => {
     try {
         const res = await axios.put(
             `${baseUrl}/api/v1/invitations/admit`,
-            {id},
+            { id },
             {
 
                 headers: {
-                  Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             }
         )
@@ -39,3 +39,23 @@ export const updateInvitationsAdmit = async(token,id) => {
         console.error(error)
     }
 };
+export const getNotification = async (token, page, size) => {
+
+    try {
+        const res = await axios.get(`${baseUrl}/api/v1/notification/`, {
+
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+
+            params: {
+                page: page,
+                size: size
+            }
+        })
+        return res;
+    } catch (error) {
+        console.error(error)
+    }
+
+}

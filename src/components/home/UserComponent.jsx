@@ -7,60 +7,31 @@ import { useDispatch } from 'react-redux';
 import { update } from '../../store/userSlice';
 
 export default function UserComponent() {
-  const [user, setUser] = useState({
-    id:null,
-    firstname: "",
-    lastname: "",
-    email: "",
-    country: "",
-    image:""
-  });
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] = useState(true);
-
-  const { token } = useUserContext();
+  const { token, user } = useUserContext();
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    getUserBox(token)
-      .then((res) => {
-        console.log(res.data);
-        dispatch(update({data:res.data}))
-        setUser({
-          firstname: res.data.firstname,
-          lastname: res.data.lastname,
-          email: res.data.email,
-          country: res.data.country,
-          image: res.data.profileImageName
-        });
-      })
-      .catch(() => { })
-      .finally(() => {
-        setLoading(false); 
-      });
-  }, [token]);
 
   return (
     <Stack direction="row" spacing={2} bgcolor="background.default" borderRadius={3} p={2}>
       {loading ? (
         <Skeleton variant="circular" width={50} height={50} />
       ) : (
-        <Avatar src={`http://localhost:8080/api/v1/auth/profileImage/${user.image}`} sx={{ width: '50px', height: '50px' }} />
+        <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${user.profileImageName}`} sx={{ width: '50px', height: '50px' }} />
       )}
 
-      <Stack>
-        <Typography variant="h6">
-          {loading ? <Skeleton width={100} /> : `${user.firstname} ${user.lastname}`}
-        </Typography>
-        <Typography color="gray" fontSize="sm">
-          {loading ? <Skeleton width={80} /> : "Professor"}
-        </Typography>
-        <Typography color="gray">
-          {loading ? <Skeleton width={200} /> : "in Civil Engineering Professor (Full)"}
-        </Typography>
-        <Typography color="gray">
-          {loading ? <Skeleton width={250} /> : "at Erzincan Binali Yildirim University"}
-        </Typography>
+      <Stack spacing={1}>
+        <Stack>
+          <Typography variant="h6">
+            {loading ? <Skeleton width={100} /> : `${user.firstname} ${user.lastname}`}
+
+          </Typography>
+          <Typography variant='body1' bgcolor="primary.main" color="white" borderRadius={3} px={1}>
+            {`@${user.uniqueName}`}
+          </Typography>
+        </Stack>
+
         <Stack direction="row">
           <Icon icon="mdi:location" />
           <Typography color="gray">

@@ -22,7 +22,7 @@ export default function HelperComponent() {
                 </IconButton>
             </Tooltip>
             <Backdrop
-                sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{ zIndex:1000 }}
                 open={open}
                 onClick={handleClose}
             >

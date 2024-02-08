@@ -8,6 +8,8 @@ import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
+import { Link } from 'react-router-dom';
+import PdfForm from './PdfForm';
 
 export default function ResearchProjectForm() {
   const [title, setTitle] = useState('');
@@ -74,16 +76,17 @@ export default function ResearchProjectForm() {
           onChange={(e) => setComment(e.target.value)}
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
+        <PdfForm/>
       </Stack>
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-        <Button
+        <Link to='/'><Button
           color='error'
           variant='outlined'
           onClick={handlerCancel}
-          href='/'
+
         >
           Cancel
-        </Button>
+        </Button></Link>
         <Button
           variant='contained'
           disabled={!isFormValid()}

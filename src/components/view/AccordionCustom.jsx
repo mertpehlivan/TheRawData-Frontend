@@ -52,7 +52,7 @@ export default function AccordionCustom({index}) {
           sx={{
             
             border:"2px solid "+ theme.palette.primary.main,
-            zIndex:"1"
+            
           }}
           expanded={expanded === 'panel4'} 
           onChange={handleChange('panel4')
@@ -88,7 +88,7 @@ export default function AccordionCustom({index}) {
                 boxKey={key}
                 headerIndex={index}
                 
-              >{console.log(key)}</UploadBox>
+              ></UploadBox>
             ))}
           <Box>
             <Button

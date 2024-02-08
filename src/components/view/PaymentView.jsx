@@ -3,9 +3,11 @@ import React from 'react'
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import InfoButton from '../button/InfoButton'
 import EndPaymentInfo from './EndPaymentInfo';
+import ContinuesDeveloped from './ContinuesDeveloped';
 function PaymentView() {
     return (
         <Stack bgcolor="white" borderRadius={2} p={1}>
+            <ContinuesDeveloped/>
             <Typography variant='h6' color={"primary.main"} textAlign="center">SUMMARY OF DATA OWNER SAVING PANEL</Typography>
             <Stack direction="row" alignItems="center" justifyContent="center">
                 <BusinessCenterIcon sx={{ width: 35, height: 35, color: "primary.main" }} />

@@ -3,8 +3,8 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import SearchInput from '../input/SearchInput';
-import { useNavigate } from 'react-router-dom';
-import { Button, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, FormControl, FormControlLabel, FormLabel, Input, Radio, RadioGroup, Typography } from '@mui/material';
 import AlertDialog from '../view/AlertDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from '@iconify/react';
@@ -12,6 +12,9 @@ import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
+import Dropzone from 'react-dropzone';
+import { PictureAsPdf, Visibility, VisibilityOff } from '@mui/icons-material';
+import PdfForm from './PdfForm'
 
 export default function ArticleForm() {
     const [title, setTitle] = useState('');
@@ -125,15 +128,18 @@ export default function ArticleForm() {
                 onChange={(e) => setComment(e.target.value)}
             />
             <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
+            <PdfForm/>
+
             <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-                <Button
-                    color='error'
-                    variant='outlined'
-                    onClick={handlerCancel}
-                    href='/'
-                >
-                    Cancel
-                </Button>
+                <Link to='/'>
+                    <Button
+                        color='error'
+                        variant='outlined'
+                        onClick={handlerCancel}
+
+                    >
+                        Cancel
+                    </Button></Link>
                 <Button
                     variant='contained'
                     disabled={!isFormValid()} // Butonu devre dışı bırak

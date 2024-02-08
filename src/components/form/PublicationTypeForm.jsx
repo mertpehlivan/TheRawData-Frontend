@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearType, updateDataType } from '../../store/newDataTypeSlice'
 import { Icon } from '@iconify/react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AlertDialog from '../view/AlertDialog';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearData } from '../../store/dataSlice';
@@ -96,14 +96,14 @@ export default function () {
                             Company Test Report
                         </Button>
                         <Stack direction="row" justifyContent="end" spacing={1}>
-                            <Button
+                            <Link to='/'><Button
                                 color='error'
                                 variant='outlined'
                                 onClick={handlerCancel}
-                                href='/'
+
                             >
                                 Cancel
-                            </Button>
+                            </Button></Link>
                             <Button
                                 disabled={dataType === null}
                                 variant='contained'

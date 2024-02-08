@@ -24,3 +24,13 @@ export const signUp = async (usernameAndPassword) => {
         throw error;
     }
 }
+export const invite = async (invitationDetails) => {
+    try{
+        return await axios.post(
+            `${baseUrl}/api/v1/auth/invite`,
+            invitationDetails
+        );
+    }catch(error){
+        throw error;
+    }
+}

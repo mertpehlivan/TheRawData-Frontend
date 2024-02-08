@@ -24,32 +24,32 @@ export default function HomePage() {
   }
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="lg">
+      <Container maxWidth="100%">
         <Grid
           container
           spacing={2}
           mt={10}
         >
-          <Grid item md={3.5} sm={12}>
+          <Grid item md={3} sm={12}>
             <Hidden mdDown>
-              <Stack spacing={1} position="fixed">
+              <Stack spacing={1} position={'fixed'} width="23%">
                 <UserComponent setGlobalUser={setGlobalUser}/>
                 <MenuComponenet activeItem={activeItem} setActiveItem={setActiveItem} />
-
               </Stack>
             </Hidden>
           </Grid>
-          <Grid item md={5} sm={12}>
+          <Grid item md={6} sm={12} width="54%">
             <Outlet/>
           </Grid>
-          <Grid item md={3.5} sm={12}>
-            <Stack spacing={1} position="fixed">
+          <Grid item md={3} sm={12}>
+          <Hidden mdDown>
+            <Stack spacing={1} position={'fixed'} width="23%">
               <PaymentView />
               <RefreshPriceProvider>
                 <BasketSummaryComponent/>
               </RefreshPriceProvider>
             </Stack>
-
+            </Hidden>
           </Grid>
         </Grid>
       </Container>
