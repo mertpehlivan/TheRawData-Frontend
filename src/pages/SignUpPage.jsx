@@ -108,6 +108,8 @@ export default function SignUpPage() {
               <TextField
                 sx={{ mt: 3 }}
                 size='small'
+                type='text'
+                autoComplete={false}
                 variant='outlined'
                 label='Username'
                 name='uniqueName'

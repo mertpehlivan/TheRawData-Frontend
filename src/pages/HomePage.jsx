@@ -38,7 +38,7 @@ export default function HomePage() {
               </Stack>
             </Hidden>
           </Grid>
-          <Grid item md={6} sm={12} width="54%">
+          <Grid item md={6} sm={12}>
             <Outlet/>
           </Grid>
           <Grid item md={3} sm={12}>

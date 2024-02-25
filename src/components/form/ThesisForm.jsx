@@ -19,6 +19,13 @@ export default function ThesisForm() {
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([])
   const [isValid, setIsValid] = useState(true); // Kontrol eklemek için bir state ekledik
+
+  const [pdf, setPdf] = useState({
+    pdfStatus: true,
+    addOnly: true,
+  })
+  const [fileUrl, setFileUrl] = useState(null)
+  const [fileEx, setFileEx] = useState("")
   const dispatch = useDispatch();
 
   const handlerCancel = () => {
@@ -33,7 +40,10 @@ export default function ThesisForm() {
     university,
     pages,
     authors,
-    comment
+    comment,
+    pdf,
+    fileEx,
+    fileUrl
   };
   const handleCommentChange = (e) => {
     const newComment = e.target.value;
@@ -45,7 +55,12 @@ export default function ThesisForm() {
   };
 
   const isFormValid = () => {
-    return title.trim() !== '' && degree.trim() !== '' && university.trim() !== '' && pages.trim() !== '' && comment.trim() !== '';
+    return title.trim() !== '' &&
+      degree.trim() !== '' &&
+      university.trim() !== '' &&
+      pages.trim() !== '' &&
+      comment.trim() !== '' &&
+      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
 
   const handleNext = () => {
@@ -115,7 +130,7 @@ export default function ThesisForm() {
         {comment.length}/2000
       </div>
       <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
-      <PdfForm/>
+      <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
 
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
         <Link to='/'><Button

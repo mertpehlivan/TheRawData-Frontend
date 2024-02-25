@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
@@ -25,6 +25,18 @@ export default function ArticleForm() {
     const [doi, setDoi] = useState('');
     const [authors, setAuthorIds] = useState([]);
     const [comment, setComment] = useState('');
+
+    const [pdf, setPdf] = useState({
+        pdfStatus: true,
+        addOnly: true,
+    })
+    const [fileUrl, setFileUrl] = useState(null)
+    const [fileEx, setFileEx] = useState("")
+
+    useEffect(() => {
+        console.log("dosya ke ", fileEx)
+    }, [fileEx]);
+
     const dispatch = useDispatch()
     const handlerCancel = () => {
         dispatch(format())
@@ -40,7 +52,10 @@ export default function ArticleForm() {
         pages,
         doi,
         authors,
-        comment
+        comment,
+        pdf,
+        fileEx,
+        fileUrl
     }
     const isFormValid = () => {
         return title.trim() !== '' &&
@@ -49,7 +64,8 @@ export default function ArticleForm() {
             issue.trim() !== '' &&
             pages.trim() !== '' &&
             doi.trim() !== '' &&
-            comment.trim() !== ''
+            comment.trim() !== '' &&
+            (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
 
     };
     const handleDelete = (authorId) => {
@@ -128,7 +144,7 @@ export default function ArticleForm() {
                 onChange={(e) => setComment(e.target.value)}
             />
             <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
-            <PdfForm/>
+            <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
 
             <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
                 <Link to='/'>

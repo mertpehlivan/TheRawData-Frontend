@@ -39,8 +39,10 @@ export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPre
   };
 
   return (
-    <div>
+    <Stack>
       <Button
+        fullWidth
+        sx={{height:"100%"}}
         component="label"
         variant="contained"
         startIcon={selectedFile ? <Check/>: <Icon icon={icon} color="white"/>}
@@ -49,6 +51,6 @@ export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPre
         <VisuallyHiddenInput type="file" onChange={handleFileChange} />
       </Button>
       
-    </div>
+    </Stack>
   );
 }

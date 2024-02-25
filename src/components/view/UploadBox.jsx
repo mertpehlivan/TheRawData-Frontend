@@ -132,11 +132,6 @@ export default function UploadBox({ boxKey, headerIndex }) {
               <RawDataInput setRawDataUrl={setRawDataUrl} setRawDataEx={setRawDataEx} />
               <HelperComponent/>
             </Stack>
-
-
-
-
-
             <Stack direction="row">
               <UploadInput icon={'mdi:image-outline'} text="Select Preview Image" setPreviewUrl={setPreviewUrl} setPreviewEx={setPreviewEx} />
               <HelperComponentV2/>
@@ -152,6 +147,7 @@ export default function UploadBox({ boxKey, headerIndex }) {
               }}
             />
             <TextField
+              type='number'
               label="Price Suggestion"
               size="small"
               InputProps={{

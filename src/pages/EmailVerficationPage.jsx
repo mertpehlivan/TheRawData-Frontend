@@ -56,7 +56,7 @@ function EmailVerificationPage() {
 
     return (
         <Container sx={{ mt: 15 }} maxWidth="sm">
-            <Stack bgcolor="white" p={3}  spacing={2} borderRadius={3}>
+            <Stack bgcolor="white" p={3} spacing={2} borderRadius={3}>
                 {
                     !success ?
                         <>
@@ -116,9 +116,9 @@ function EmailVerificationPage() {
                                 <Typography>Welcome to <Link>The Raw Data Library</Link> community <b>{user.firstname} {user.lastname}</b></Typography>
                                 <Typography variant='h6' color="primary.main">Confirm your authorship - is this you?</Typography>
                                 <Typography>We have identified 8 items for <b>{user.firstname} </b><b>{user.lastname}</b></Typography>
-                              <Box borderRadius={2} border="1px solid" height={300} p={1}>
-                                        <EnvelopeBox/>
-                              </Box>
+                                <Box borderRadius={2} border="1px solid" height={300} p={1}>
+                                    <EnvelopeBox />
+                                </Box>
 
                             </Stack>
                             <Button href='/' variant='contained'>Explore research</Button>

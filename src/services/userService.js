@@ -51,3 +51,77 @@ export const searchUserByUniqueName = async (token, uniqueName) => {
     }
 }
 
+export const changeEmail = async(token,email) =>{
+    try {
+        const res = await axios.post(
+            `${baseUrl}/api/v1/user/changeEmail`,
+            {email},
+            {
+
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+          
+               
+            }
+        )
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}
+export const changeEmailStatus = async(token,email) =>{
+    try {
+        const res = await axios.post(
+            `${baseUrl}/api/v1/user/changeEmailStatus`,
+            {email},
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}
+export const changeUsername = async(token,username) =>{
+    try {
+        const res = await axios.post(
+            `${baseUrl}/api/v1/user/changeUsername`,
+            {username},
+            {
+
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}
+export const changePassword = async(token,data) =>{
+    console.log(data)
+    
+    try {
+        const res = await axios.post(
+            `${baseUrl}/api/v1/user/changePassword`,
+            {
+                currentPassword:data.currentPassword,
+                newPassword:data.firstPassword,
+                confirmPassword:data.lastPassword
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}

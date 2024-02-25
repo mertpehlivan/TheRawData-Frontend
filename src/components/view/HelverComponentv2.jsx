@@ -32,7 +32,7 @@ export default function HelperComponentV2() {
 
                         <Typography variant='h5' color="primary.main"></Typography>
                         <Typography variant='h6'>
-                            <Check /> <b>Preview images for excel data, the graphs of the X and Y axis</b> raw data are drawn by our technical team and the preview of the data is presented in jpg format under the section.
+                            <Check /> Preview images for raw data are needed to be uploaded by authors and the preview of the data is presented in jpg format under the section. Authors can use provided excel format prepared by RDL.
                         </Typography>
                         <Typography variant='h6'>
                             <Check /> <b>Preview images of finite element and other simulations </b>"Select preview image" are needed to be uploaded by the authors. It would be useful to upload an image that gives an idea of what other researchers will have if the corresponding data or model are purchased. <Link>Click to see an example from previous uploaded raw data.</Link>

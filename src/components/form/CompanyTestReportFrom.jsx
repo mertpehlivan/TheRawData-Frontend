@@ -21,6 +21,13 @@ export default function CompanyTestReportFrom() {
   const [companyName, setCompanyName] = useState('');
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
+
+  const [pdf, setPdf] = useState({
+    pdfStatus: true,
+    addOnly: true,
+  })
+  const [fileUrl, setFileUrl] = useState(null)
+  const [fileEx, setFileEx] = useState("")
   const dispatch = useDispatch();
   const handlerCancel = () => {
     dispatch(format())
@@ -33,11 +40,15 @@ export default function CompanyTestReportFrom() {
     date,
     companyName,
     authors,
-    comment
+    comment,
+    pdf,
+    fileEx,
+    fileUrl
   };
 
   const isFormValid = () => {
-    return title.trim() !== '' && date.trim() !== '' && companyName.trim() !== '' && comment.trim() !== '';
+    return title.trim() !== '' && date.trim() !== '' && companyName.trim() !== '' && comment.trim() !== '' &&
+    (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
 
   return (
@@ -82,7 +93,7 @@ export default function CompanyTestReportFrom() {
           onChange={(e) => setComment(e.target.value)}
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
-        <PdfForm/>
+        <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
           <Link to='/'><Button
             color='error'

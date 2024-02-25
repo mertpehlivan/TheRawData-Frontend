@@ -18,6 +18,13 @@ export default function ConferencePaper() {
   const [doi, setDoi] = useState('');
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
+
+  const [pdf, setPdf] = useState({
+    pdfStatus: true,
+    addOnly: true,
+  })
+  const [fileUrl, setFileUrl] = useState(null)
+  const [fileEx, setFileEx] = useState("")
   const dispatch = useDispatch();
 
   const handlerCancel = () => {
@@ -34,7 +41,10 @@ export default function ConferencePaper() {
     pages,
     doi,
     authors,
-    comment
+    comment,
+    pdf,
+    fileEx,
+    fileUrl
   };
 
   const isFormValid = () => {
@@ -45,7 +55,8 @@ export default function ConferencePaper() {
       location.trim() !== '' &&
       pages.trim() !== '' &&
       doi.trim() !== '' &&
-      comment.trim() !== ''
+      comment.trim() !== '' &&
+      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
     );
   };
 
@@ -112,7 +123,7 @@ export default function ConferencePaper() {
           onChange={(e) => setComment(e.target.value)}
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
-        <PdfForm/>
+        <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
           <Link to='/'><Button
             color='error'

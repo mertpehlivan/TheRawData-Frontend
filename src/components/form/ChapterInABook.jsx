@@ -26,7 +26,15 @@ export default function ChapterInABook() {
   const [isbn, setIsbn] = useState('');
   const [editor, setEditor] = useState('');
   const [comment, setComment] = useState('');
+
   const [authors, setAuthorIds] = useState([]);
+  const [pdf, setPdf] = useState({
+    pdfStatus: true,
+    addOnly: true,
+  })
+  const [fileUrl, setFileUrl] = useState(null)
+  const [fileEx, setFileEx] = useState("")
+
   const dispatch = useDispatch()
   const handlerCancel = () => {
     dispatch(format())
@@ -45,7 +53,10 @@ export default function ChapterInABook() {
     isbn,
     editor,
     authors,
-    comment
+    comment,
+    pdf,
+    fileEx,
+    fileUrl
   }
   const isFormValid = () => {
     return title.trim() !== '' &&
@@ -57,7 +68,8 @@ export default function ChapterInABook() {
       publisher.trim() !== '' &&
       isbn.trim() !== '' &&
       editor.trim() !== '' &&
-      comment.trim() !== ''
+      comment.trim() !== '' &&
+      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
 
   };
   const handleDelete = (authorId) => {
@@ -153,7 +165,7 @@ export default function ChapterInABook() {
           onChange={(e) => setComment(e.target.value)}
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
-        <PdfForm/>
+        <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
           <Link to='/'><Button
             color='error'

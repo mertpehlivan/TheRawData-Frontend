@@ -4,11 +4,15 @@ import { useUserContext } from '../hooks/AuthProvider'
 import { ChangeCircle, PhotoCamera } from '@mui/icons-material';
 import AvatarComponent from '../components/myaccount/AvatarComponent';
 import EmailDialog from '../components/myAccounts/EmailDialog'
+import UsernameDialog from '../components/myAccounts/UsernameDialog'
+import PasswordDialog from '../components/myAccounts/PasswordDialog';
 
 export default function MyAccount() {
     const { user } = useUserContext()
     const [showIcon, setShowIcon] = useState(false);
     const [emailChange, setEmailChange] = useState(false)
+    const [usernameChange, setUsernameChange] = useState(false)
+    const [passwordChange,setPasswordChange] = useState(false)
 
 
 
@@ -18,12 +22,25 @@ export default function MyAccount() {
     const handleCloseEmailChange = () => {
         setEmailChange(false);
     };
-
+    const handleClickUsernameChange = () => {
+        setUsernameChange(true);
+    };
+    const handleCloseUsernameChange = () => {
+        setUsernameChange(false);
+    };
+    const handleClickPasswordChange = () => {
+        setPasswordChange(true);
+    };
+    const handleClosePasswordChange = () => {
+        setPasswordChange(false);
+    };
 
 
     console.log(user)
     return (
-        <>
+        <>  
+            <PasswordDialog handleClickPassowordChange={handleClickPasswordChange} handleClosePassowordChange={handleClosePasswordChange} passowordChange={passwordChange}/>
+            <UsernameDialog handleClickUsernameChange={handleClickUsernameChange} handleCloseUsernameChange={handleCloseUsernameChange} usernameChange={usernameChange}/>
             <EmailDialog handleClickEmailChange={handleClickEmailChange} handleCloseEmailChange={handleCloseEmailChange} emailChange={emailChange}/>
             <Container maxWidth="md" sx={{ mt: 15 }}>
 
@@ -54,7 +71,7 @@ export default function MyAccount() {
                             </Typography>
                             <Stack direction="row" alignItems="center" justifyContent="space-between">
                                 <Typography>{user.uniqueName}</Typography>
-                                <Button startIcon={<ChangeCircle />} variant='contained'>Change Username</Button>
+                                <Button startIcon={<ChangeCircle />} onClick={handleClickUsernameChange} variant='contained'>Change Username</Button>
                             </Stack>
 
                             <Divider></Divider>
@@ -63,7 +80,7 @@ export default function MyAccount() {
                             </Typography>
                             <Stack direction="row" alignItems="center" justifyContent="space-between">
                                 <Typography>****************</Typography>
-                                <Button startIcon={<ChangeCircle />} variant='contained'>Change Password</Button>
+                                <Button startIcon={<ChangeCircle />} variant='contained' onClick={handleClickPasswordChange}>Change Password</Button>
                             </Stack>
 
                             <Divider></Divider>

@@ -16,6 +16,12 @@ export default function ResearchProjectForm() {
   const [date, setDate] = useState('');
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
+  const [pdf, setPdf] = useState({
+    pdfStatus: true,
+    addOnly: true,
+  })
+  const [fileUrl, setFileUrl] = useState(null)
+  const [fileEx, setFileEx] = useState("")
 
   const dispatch = useDispatch();
   const handlerCancel = () => {
@@ -29,10 +35,14 @@ export default function ResearchProjectForm() {
     date,
     comment,
     authors,
+    pdf,
+    fileEx,
+    fileUrl
   };
 
   const isFormValid = () => {
-    return title.trim() !== '' && date.trim() !== '';
+    return title.trim() !== '' && date.trim() !== '' &&
+    (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
 
   const handleNext = () => {
@@ -76,7 +86,7 @@ export default function ResearchProjectForm() {
           onChange={(e) => setComment(e.target.value)}
         />
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
-        <PdfForm/>
+        <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
       </Stack>
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
         <Link to='/'><Button

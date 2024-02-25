@@ -57,11 +57,7 @@ function EmailDialog({ handleClickEmailChange, handleCloseEmailChange, emailChan
         <DialogContent dividers>
           <EmailStepper />
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleCloseEmailChange}>
-            Save changes
-          </Button>
-        </DialogActions>
+        
       </BootstrapDialog>
 
     </React.Fragment >

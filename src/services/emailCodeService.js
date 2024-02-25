@@ -20,3 +20,22 @@ export const sendCode = async(token,email,code) => {
         console.error(error)
     }
 };
+export const sendEmailCode = async(token,email) => {
+    try {
+        const res = await axios.post(
+            `${baseUrl}/api/v1/mail/sendEmailCode`,
+            {email},
+            {
+
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+          
+               
+            }
+        )
+        return res;
+    } catch (error) {
+        console.error(error)
+    }
+};

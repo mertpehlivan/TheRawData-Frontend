@@ -27,7 +27,7 @@ export default function RawDataForm() {
     <Stack>
       {rawData.map((data, index) => <AccordionCustom key={index} index={index} />)}
       <Stack mt={2} justifyContent="center" alignItems="center">
-        <Typography variant="body2" color="gray">Upload another raw data variable for the same sample or study.</Typography>
+        <Typography variant="h6" mb={1} color="gray">Upload another raw data variable for the same sample or study.</Typography>
         <Box sx={{ width: "50px" }}>
 
           <Button

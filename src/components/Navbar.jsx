@@ -49,7 +49,7 @@ const Navbar = () => {
               <Link to="/">
                 <img src={Logo} width='200px' height='50px' />
               </Link>
-              <Link to="publications/create"><Button startIcon={<Add/>} variant='contained' size='small'>Create Raw Data</Button></Link>
+              <Link to="publications/create"><Button startIcon={<Add/>} variant='contained' size='small'>Add new research</Button></Link>
             </Stack>
 
 

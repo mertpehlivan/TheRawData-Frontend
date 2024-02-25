@@ -49,7 +49,7 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
   };
 
   return (
-    <Box position="fixed" left="0" width={300}>
+    <Box position="fixed" left="0" width={300} zIndex={1000}>
       <IconButton
         sx={{
           bgcolor: 'primary.main',
@@ -65,8 +65,9 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
         {isOpen ? <ExpandLess /> : <ExpandMoreIcon />}
       </IconButton>
 
-      <Collapse in={isOpen} timeout="auto" unmountOnExit>
+      <Collapse  in={isOpen} timeout="auto" unmountOnExit>
         <Box
+          
           position="absolute"
           left="0"
           bgcolor="white"
