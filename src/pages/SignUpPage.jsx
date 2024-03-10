@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import { Box, Button, Checkbox, Container, Divider, FormControlLabel, Grid, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Container, Divider, FormControlLabel, Grid, IconButton, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
 import Logo from '../assets/logo.svg'
 import Img from '../assets/register-image.jpg'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,8 +8,9 @@ import SelectInput from '@mui/material/Select/SelectInput'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { signUp } from '../services/userAuthentication'
-import { Dangerous } from '@mui/icons-material'
+import { ArrowBack, BackHand, Dangerous, ForkLeftOutlined, SwipeLeftAlt } from '@mui/icons-material'
 import { useUserContext } from '../hooks/AuthProvider'
+import Footer from '../components/Footer'
 
 const validationSchema = yup.object({
   firstname: yup
@@ -76,7 +77,8 @@ export default function SignUpPage() {
       >
         <Grid item xs={6} >
           <Stack direction='column' px={5}>
-            <Stack alignItems='center' mb={5}>
+            <Stack alignItems='center' mb={5} direction="row" spacing={1}>
+              <Link to="/"><Button variant="contained" startIcon={<ArrowBack/>}>Back</Button></Link>
               <img src={Logo} width='175px' />
             </Stack>
             <Divider />
@@ -169,7 +171,7 @@ export default function SignUpPage() {
               </Stack>}
 
               <Button type='submit' size='large' sx={{ mt: 1 }} color="primary" variant='contained'>Sign up</Button>
-              <Typography sx={{ mt: 1 }}>If you have an account, <Link>log in</Link></Typography>
+              <Typography sx={{ mt: 1 }}>If you have an account, <Link to="/login">log in</Link></Typography>
             </Stack>
 
           </Stack>
@@ -180,6 +182,7 @@ export default function SignUpPage() {
           </Stack>
         </Grid>
       </Grid>
+      <Footer/>
     </Container>
 
   )

@@ -7,6 +7,7 @@ import SpeedDialButton from '../components/button/SpeedDialButton'
 import SpeedDailButton from '../components/button/SpeedDialButton'
 import { useDispatch } from 'react-redux'
 import { format } from '../store/pageNumberSlice'
+import Footer from '../components/Footer'
 
 export default function RootPage() {
   const location = useLocation();
@@ -21,7 +22,7 @@ export default function RootPage() {
       {currentEndpoint != "/publications/create" &&
         <SpeedDailButton />
       }
-
+   
     </Box>
   )
 }

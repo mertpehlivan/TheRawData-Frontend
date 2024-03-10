@@ -5,7 +5,7 @@ import BasketItemFile from '../view/BasketItemFile';
 import { Link } from 'react-router-dom';
 
 
-export default function BasketItem({ data, counterRequest }) {
+export default function BasketItem({ data, counterRequest,setPublicationPrice }) {
   if (!data || !data.rawDataFile) {
     return "Yok";
   }
@@ -18,7 +18,7 @@ export default function BasketItem({ data, counterRequest }) {
       <Divider sx={{ mt: 1, mb: 1 }} />
 
       {data.rawDataFile.map((file) => (
-        <BasketItemFile counterRequest={counterRequest} key={file.id} file={file} />
+        <BasketItemFile setPublicationPrice={setPublicationPrice} counterRequest={counterRequest} key={file.id} file={file} />
       ))}
     </Paper>
   );

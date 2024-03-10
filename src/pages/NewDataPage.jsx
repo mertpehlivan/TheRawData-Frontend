@@ -32,7 +32,7 @@ export default function NewDataPage() {
                 borderRadius={5}
             >   
                 <Stack justifyContent="start" alignItems="start" > 
-                    <Button disabled={pageNumber === 0} onClick={()=>dispacth(decrease())} variant='contained' startIcon={<ArrowBack/>}>Back</Button>
+                    {pageNumber === 3 && <Button disabled={pageNumber === 0 } onClick={()=>dispacth(decrease())} variant='contained' startIcon={<ArrowBack/>}>Back</Button>}
                 </Stack>
                 
                 <DataTypeForm />

@@ -13,10 +13,11 @@ import { getInvitations } from "../../services/notificationService"
 import { addAuthorPost } from "../../services/post/postService";
 
 const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchorEl }) => {
-
+  const baseUrl = process.env.REACT_APP_BASE_URL
   const open = Boolean(anchorEl);
   const [messages, setMessages] = useState([]);
   const [endMessages, setEndMessages] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [stompClient, setStompClient] = useState(null);
   const [isPageIncrementing, setIsPageIncrementing] = useState(false);
   const [userTrigger, setUserTrigger] = useState(false)
@@ -26,9 +27,10 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
 
   const { token, user } = useUserContext()
 
-  const acceptHandler = (publicationPostId) => {
+  const acceptHandler = (publicationPostId,invitationId) => {
     console.log(publicationPostId)
-    addAuthorPost(token, publicationPostId).then((res) => {
+    addAuthorPost(token, publicationPostId,invitationId).then((res) => {
+      setRefresh(prev=>!prev)
       console.log(res.data)
     }).catch(e => console.error(e))
   }
@@ -55,6 +57,11 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
     setAnchorEl(null);
   };
   useEffect(() => {
+    setPage(0)
+    setEndMessages([])
+    setMessages([])
+  }, [refresh]);
+  useEffect(() => {
 
     const size = 6; // Sayfa boyutu
     getInvitations(page, token, size)
@@ -78,8 +85,8 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
     // Only run this effect after user data is available
     if (userTrigger) {
       console.log(user);
-      console.log('Connecting to server:', 'http://localhost:8080/ws');
-      const socket = new SockJS('http://localhost:8080/ws');
+      console.log('Connecting to server:', `${baseUrl}/ws`);
+      const socket = new SockJS(`${baseUrl}/ws`);
       const client = Stomp.over(socket);
 
       client.connect({}, () => {
@@ -152,7 +159,7 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
                       <Stack direction="row">
                         <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
                         <Stack alignItems="center" >
-                          <Button onClick={() => acceptHandler(msg.publicationId)} variant="contained" color="success">Admit</Button>
+                          <Button onClick={() => acceptHandler(msg.publicationId,msg.id)} variant="contained" color="success">Admit</Button>
                           <Button color="error">Reject</Button>
                         </Stack>
                       </Stack>

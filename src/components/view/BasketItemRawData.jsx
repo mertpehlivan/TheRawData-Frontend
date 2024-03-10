@@ -1,5 +1,5 @@
 import { Delete } from '@mui/icons-material'
-import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { Box, Chip, IconButton, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { FileIcon, defaultStyles } from 'react-file-icon'
 import { useDispatch } from 'react-redux'
@@ -21,6 +21,7 @@ export default function BasketItemRawData({rawData,counterRequest}) {
                 <FileIcon extension={rawData.rawDataExtension} {...defaultStyles.docx} />
             </Box>
             <Typography>{rawData.title}</Typography>
+            <Chip label={`${rawData.price}$`}/>
             <IconButton onClick={()=>deleteButton(rawData.id)} color="error">
                 <Delete />
             </IconButton>

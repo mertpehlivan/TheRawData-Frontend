@@ -4,12 +4,14 @@ import { getBasket } from '../../services/newData/basketService';
 import BasketItem from './BasketItem';
 import { Public, SentimentDissatisfied } from '@mui/icons-material';
 import { useRefreshPrice } from '../../hooks/RefreshPrice';
+import BasketSummaryComponent from './BasketSummaryComponent';
 
 export default function Basket() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [requestCounters, setRequestCounters] = useState(0);
+  const [publicationPrice, setPublicationPrice] = useState(0)
   const { refreshPriceHandler } = useRefreshPrice();
   useEffect(() => {
     const fetchData = async () => {
@@ -61,9 +63,14 @@ export default function Basket() {
 
   return (
     <Stack>
-      {data.map(publication => (
-        <BasketItem key={publication.publicationPostId} data={publication} counterRequest={increaseRequest} />
+
+      {data.map((publication, index) => (
+        <Stack key={index}>
+          <BasketItem setPublicationPrice={setPublicationPrice} key={publication.publicationPostId} data={publication} counterRequest={increaseRequest} />
+        </Stack>
+
       ))}
+      
     </Stack>
   );
 }

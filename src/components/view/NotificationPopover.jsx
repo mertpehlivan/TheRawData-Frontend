@@ -22,7 +22,7 @@ const NotificationPopover = ({ click, notification, setNotification, anchorEl, s
   const [userTrigger, setUserTrigger] = useState(false)
   const scrollRef = useRef(null);
   const [page, setPage] = useState(0)
-
+  const baseUrl = process.env.REACT_APP_BASE_URL
   const handleScroll = debounce(() => {
     if (scrollRef.current && !isPageIncrementing) {
       const scrollTop = scrollRef.current.scrollTop;
@@ -93,7 +93,7 @@ const NotificationPopover = ({ click, notification, setNotification, anchorEl, s
     
       if(userTrigger){ console.log(user);
        console.log('Connecting to server:', 'http://localhost:8080/ws');
-       const socket = new SockJS('http://localhost:8080/ws');
+       const socket = new SockJS(`${baseUrl}/ws`);
        const client = Stomp.over(socket);
 
        client.connect({}, () => {

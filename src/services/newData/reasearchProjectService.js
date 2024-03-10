@@ -30,6 +30,7 @@ export const createReaserachProject = async ({
     formData.append('comment', comment);
     formData.append('authors', authors);
     formData.append('addOnly', pdf.addOnly);
+    formData.append('pdfStatus', pdf.pdfStatus);
     formData.append('fileEx', fileEx);
     formData.append('pdfFile', pdfFile, fileName);
 

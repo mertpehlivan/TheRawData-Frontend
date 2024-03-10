@@ -6,6 +6,7 @@ import { Book } from '@mui/icons-material';
 import { AuthRoutes } from '../components/auth/AuthRoutes';
 import Navbar from '../components/Navbar'
 import { Navigate, useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 const UserContext = createContext();
 export const useUserContext = () => useContext(UserContext);
 
@@ -72,6 +73,7 @@ const AuthProvider = ({ children }) => {
         {authenticated && <Navbar />}
         {user.emailVerfiactionStatus === false && authenticated && <Navigate to="/email-verification" />}
         <AuthRoutes />
+        
       </>
     </UserContext.Provider>
   );

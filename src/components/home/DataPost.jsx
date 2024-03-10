@@ -6,8 +6,12 @@ import FollowButton from '../button/FollowButton';
 import PdfPreViewerImage from './PdfPreViewerImage';
 import FriendComponent from '../view/FriendComponent';
 import BackdropImage from '../view/BackdropImage';
-import { Image } from '@mui/icons-material';
+import { Download, Image, PictureAsPdf, PictureAsPdfOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import ChipIconComponent from '../view/ChipIconComponent';
+import { useUserContext } from '../../hooks/AuthProvider';
+
 
 function getFirst50Words(text) {
   const words = (text || '').split(' ');
@@ -33,22 +37,48 @@ export default function DataPost({ data }) {
   const [isToggle, setIsToggle] = useState(false)
   const [imageList, setImageList] = useState([])
   const [selectImageSrc, setSelectImageSrc] = useState("");
+  const {token} = useUserContext()
+  console.log(data)
+  const handleDownload = (publicationId, name) => {
+    axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, {
+      responseType: 'blob',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
+    })
+      .then(response => {
+        console.log(response); // Yanıtı konsola yazdır
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', name);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      })
+      .catch(error => {
+        console.error('Dosya indirilemedi:', error);
+      });
+  };
   const handleToggle = () => {
     setIsActive(!isActive);
     setText(isActive ? summaryText : fullText);
   };
   function buyukHarfleYazdir(cumle) {
     // Cümlenin kelimelerini boşluklara göre ayır
-    if(cumle){var kelimeler = cumle.split(' ');
+    if (cumle) {
+      var kelimeler = cumle.split(' ');
 
-    // Her bir kelimenin baş harfini büyük yap
-    for (var i = 0; i < kelimeler.length; i++) {
-      kelimeler[i] = kelimeler[i].charAt(0).toUpperCase() + kelimeler[i].slice(1).toLowerCase();
+      // Her bir kelimenin baş harfini büyük yap
+      for (var i = 0; i < kelimeler.length; i++) {
+        kelimeler[i] = kelimeler[i].charAt(0).toUpperCase() + kelimeler[i].slice(1).toLowerCase();
+      }
+
+      // Yeni cümleyi oluştur ve döndür
+      var yeniCumle = kelimeler.join(' ');
+      return yeniCumle;
     }
-
-    // Yeni cümleyi oluştur ve döndür
-    var yeniCumle = kelimeler.join(' ');
-    return yeniCumle;}
     return "null"
   }
   return (
@@ -91,6 +121,7 @@ export default function DataPost({ data }) {
         </Stack>}
         {data.shareUserId && <Typography variant='h6' mb={2}>In this research, the author</Typography>}
         <Stack spacing={2} direction="column" borderRadius={2} p={1} boxShadow={data.shareUserId && " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"}>
+
           <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" justifyItems="center" >
 
             <Stack
@@ -119,19 +150,42 @@ export default function DataPost({ data }) {
           </Stack>
 
 
-          <Link to={`/publications/${data.id}`}> <Typography variant='h6'>{data.title} </Typography></Link>
-          <Stack>
-            <Typography >{text} <Link onClick={handleToggle}>see more</Link></Typography>
+
+
+          <Stack direction="row" spacing={1} justifyContent="space-between">
+            <Stack>
+              <Link to={`/publications/${data.id}`}> <Typography mb={2} variant='h5'>{data.title} </Typography></Link>
+              <Typography >{text} <Link onClick={handleToggle}>see more</Link></Typography>
+            </Stack>
+            {data.addOnly && <Stack alignItems="end">
+
+              <Stack width={60} height={100} alignItems="center" >
+
+
+
+                <Icon icon="ri:file-pdf-2-line" style={{ color: "#091582" }} width="100%" />
+
+                <IconButton onClick={() => handleDownload(data.id, data.pdfFileName)} style={{ color: "#091582" }}>
+                  <Download />
+                </IconButton>
+
+              </Stack>
+
+
+            </Stack>}
+
           </Stack>
 
+
           <Stack direction="row" spacing={1}>
-            <Chip sx={{ color: "white", bgcolor: "primary.main" }} label={data.publicationType} />
+            <Chip icon={<ChipIconComponent publicationType={data.publicationType} />} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={data.publicationType} />
           </Stack>
           <Stack direction="row">
             <Stack direction="row" justifyContent="space-between">
 
               {data.rawdatafiles != null && data.rawdatafiles.slice(0, 4).map((item, index) => (
                 <Stack key={index} p={2} >
+
                   <Typography variant='h6'>{item.title}</Typography>
                   <Divider sx={{ mb: 1 }} />
                   {item.rawDatas != null && item.rawDatas.slice(0, 2).map((rawdata, rawIndex) => (
@@ -146,7 +200,7 @@ export default function DataPost({ data }) {
                           width={200}
                           height={200}
                           component="img"
-                          src={`http://localhost:8080/api/v1/auth/previewImage/${rawdata.previewImageUrl}`}
+                          src={`${baseUrl}/api/v1/auth/previewImage/${rawdata.previewImageUrl}`}
                           style={{
                             objectFit: 'scale-down'
                           }}
@@ -161,7 +215,7 @@ export default function DataPost({ data }) {
                                 ...prevList,
                                 {
                                   index: `${index}${rawIndex}`,
-                                  src: `http://localhost:8080/api/v1/auth/previewImage/${rawdata.previewImageUrl}`
+                                  src: `${baseUrl}/api/v1/auth/previewImage/${rawdata.previewImageUrl}`
                                 }
                               ]);
                             }}
@@ -182,6 +236,7 @@ export default function DataPost({ data }) {
               ))}
             </Stack>
           </Stack>
+
 
           <Divider my={2} />
 
@@ -225,3 +280,4 @@ export default function DataPost({ data }) {
     </>
   );
 }
+

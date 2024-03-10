@@ -26,6 +26,7 @@ export const createArticle = async ({ title, journalName, volume, issue, pages, 
         formData.append('comment', comment);
         formData.append('fileEx', fileEx);
         formData.append('addOnly', pdf.addOnly);
+        formData.append('pdfStatus', pdf.pdfStatus);
         formData.append('pdfFile', pdfFile,fileName);
 
         // Sunucuya POST isteği gönder

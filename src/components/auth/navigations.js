@@ -13,16 +13,24 @@ import AllView from "../view/PublicationsView/AllView";
 import MyAccountPage from "../../pages/MyAccountPage";
 import LibraryBox from "../view/LibraryBox";
 import SearchComponent from "../home/SearchComponent";
+import MainPage from "../../pages/MainPage";
+import PaymentPage from "../../pages/PaymentPage";
 
 
 
 export const nav = [
+    {
+        path: "/",
+        element: <MainPage />,
+        isMenu: true,
+        isPrivate: false
+    },
 
     {
         path: "/",
         element: <HomePage />,
-        isMenu:true,
-        isPrivate:true,
+        isMenu: true,
+        isPrivate: true,
         children: [
             {
                 path: "/",
@@ -42,37 +50,39 @@ export const nav = [
             {
                 path: "search",
                 element: <SearchComponent />,
-            }
+            },
+
+
         ]
 
     },
     {
         path: "/myAccount",
         element: <MyAccountPage />,
-        isMenu:true,
-        isPrivate:true,
-        children:[]
+        isMenu: true,
+        isPrivate: true,
+        children: []
     },
 
     {
         path: "/publications/:publicationId",
         element: <PublicationPage />,
-        isMenu:true,
-        isPrivate:true,
-        children:[]
+        isMenu: true,
+        isPrivate: true,
+        children: []
     },
     {
         path: "/publications/create",
         element: <NewDataPage />,
-        isMenu:true,
-        isPrivate:true,
-        children:[]
+        isMenu: true,
+        isPrivate: true,
+        children: []
     },
     {
         path: "/users/:username",
         element: <ProfilePage />,
-        isMenu:true,
-        isPrivate:true,
+        isMenu: true,
+        isPrivate: true,
         children: [
             {
                 path: "",
@@ -88,12 +98,12 @@ export const nav = [
     {
         path: "/library",
         element: <LibraryPage />,
-        isMenu:true,
-        isPrivate:true,
+        isMenu: true,
+        isPrivate: true,
         children: [
             {
-                path:"",
-                element:<LibraryBox/>
+                path: "",
+                element: <LibraryBox />
             },
             {
                 path: "basket",
@@ -104,17 +114,25 @@ export const nav = [
     {
         path: "/login",
         element: <LoginPage />,
-        isMenu:false,
-        isPrivate:false
+        isMenu: false,
+        isPrivate: false
     },
     {
         path: "/signup",
         element: <SignUpPage />,
-        isMenu:false,
-        isPrivate:false
+        isMenu: false,
+        isPrivate: false
     },
-                  
+    {
+
+        path: "/payment",
+        element: <PaymentPage />,
+        isMenu: true,
+        isPrivate: true
+
+    }
+
 
 ]
 
-  
+

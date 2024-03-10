@@ -100,9 +100,12 @@ export const rawDataSlice = createSlice({
                     }
                 ]
             }
+        },
+        rawDataFileLenght:(state,action)=>{
+           return state.length + action.payload
         }
     }
 })
 
-export const {clearRawData,addRawData,addDataBox,updateHeader,addExperiment,deleteDataBox,deleteExperiment} = rawDataSlice.actions
+export const {clearRawData,addRawData,addDataBox,updateHeader,addExperiment,deleteDataBox,deleteExperiment,rawDataFileLenght} = rawDataSlice.actions
 export default rawDataSlice.reducer

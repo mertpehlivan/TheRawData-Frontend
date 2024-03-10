@@ -7,6 +7,7 @@ import BasketItem from './BasketItem';
 import { getPublicationBasket } from '../../services/newData/basketService';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRawDataForPublication } from '../../store/basketPublicationSlice';
+import BasketSummaryComponent from '../library/BasketSummaryComponent';
 
 export default function BasketAccordion({ requestCounter, counterRequest }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -105,6 +106,7 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
             )}
           </Stack>
           <Stack>
+            
             <Link to={'/library/basket'}><Button>See all basket</Button></Link>
           </Stack>
         </Box>

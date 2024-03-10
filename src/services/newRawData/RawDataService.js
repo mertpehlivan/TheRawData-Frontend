@@ -3,14 +3,14 @@
 import axios from "axios";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 export const createRawData = async (data, files, rawDataId, token, onUploadProgress) => {
-   
+
     console.log("Raw File:", files.rawfile);
     console.log("Preview File:", files.previewFile);
-    
+
     try {
         const formData = new FormData();
-        formData.append("rawData", files.rawfile,`${files.rawFileName}.${data.rawDataEx}`); // Düzeltildi
-        formData.append("image", files.previewFile,`${files.previewFileName}.${data.previewEx}`); // Düzeltildi
+        formData.append("rawData", files.rawfile, `${files.rawFileName}.${data.rawDataEx}`); // Düzeltildi
+        formData.append("image", files.previewFile, `${files.previewFileName}.${data.previewEx}`); // Düzeltildi
         formData.append("name", data.name);
         formData.append("comment", data.comment);
         formData.append("price", data.priceSuggestion);
@@ -34,13 +34,13 @@ export const updateRawData = async (data, files, id, token, onUploadProgress) =>
     console.log("Preview File:", files.previewImage);
     console.log("Raw Data Id: " + id);
     console.log(token);
-    
+
     try {
         const formData = new FormData();
-        if(files.rawData){
+        if (files.rawData) {
             formData.append("rawData", files.rawData);
         }
-        if(files.previewImage){
+        if (files.previewImage) {
             formData.append("image", files.previewImage);
         }
         formData.append("name", data.name);
@@ -63,13 +63,13 @@ export const updateRawData = async (data, files, id, token, onUploadProgress) =>
 };
 
 export const addRawData = async (data, files, rawDataId, token, onUploadProgress) => {
-    
+
     console.log("Raw File:", files.rawData);
     console.log("Preview File:", files.previewImage);
-    
+
     try {
         const formData = new FormData();
-        formData.append("rawData",files.rawData); // Düzeltildi
+        formData.append("rawData", files.rawData); // Düzeltildi
         formData.append("image", files.previewImage); // Düzeltildi
         formData.append("name", data.name);
         formData.append("comment", data.comment);
@@ -100,6 +100,21 @@ export const deleteRawData = async (rawDataId, token) => {
         console.log(`Raw data with ID ${rawDataId} deleted successfully.`);
     } catch (error) {
         console.error("Error in deleteRawData:", error.message);
+        throw error;
+    }
+};
+export const getRawDataSize = async (token) => {
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+
+    try {
+        const res = await axios.get(`${baseUrl}/api/v1/rawData/totalRawDataSize`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        console.error("Error in getRawDataSize:", error.message);
         throw error;
     }
 };

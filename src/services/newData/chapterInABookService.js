@@ -45,6 +45,7 @@ export const createChapterInABook = async ({
     formData.append('comment', comment);
     formData.append('fileEx', fileEx);
     formData.append('addOnly', pdf.addOnly);
+    formData.append('pdfStatus', pdf.pdfStatus);
     formData.append('pdfFile', pdfFile, fileName);
 
     // Sunucuya POST isteği gönder

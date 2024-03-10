@@ -12,7 +12,7 @@ export default function BasketSummaryComponent() {
     const { refreshPrice } = useRefreshPrice();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const {token} = useUserContext()
+    const { token } = useUserContext()
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -63,8 +63,8 @@ export default function BasketSummaryComponent() {
                 p={1}
             >
                 <ButtonGroup variant="outlined" aria-label="outlined button group">
-                    <Button disabled={price===0} startIcon={<HighlightOffIcon />} color='error' >empty</Button>
-                    <Button disabled={price===0} startIcon={<ShoppingCartIcon />} color='success' >Buy</Button>
+                   <Button disabled={price === 0} startIcon={<HighlightOffIcon />} color='error' >empty</Button>
+                   <Link to={price != 0 && "/payment"}><Button disabled={price === 0} startIcon={<ShoppingCartIcon />} color='success' >Buy</Button></Link>
                 </ButtonGroup>
             </Stack>
         </Stack>

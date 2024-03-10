@@ -6,6 +6,7 @@ export default function AuthPage() {
   return (
     <Container>
       <Outlet />
+     
     </Container>
 
   )

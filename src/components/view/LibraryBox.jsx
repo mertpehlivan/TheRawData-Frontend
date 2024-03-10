@@ -1,79 +1,66 @@
-import { Icon } from '@iconify/react'
-import { Avatar, AvatarGroup, Box, Button, Chip, Divider, Stack, Typography } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import FriendComponent from '../view/FriendComponent'
-import ContinuesDeveloped from './ContinuesDeveloped'
-
+import { useEffect, useState } from 'react';
+import { Button, CircularProgress, Divider, Stack, Typography } from '@mui/material';
+import { useUserContext } from '../../hooks/AuthProvider';
+import { getMyPublicationsToLibrary } from '../../services/libraryService';
+import ContinuesDeveloped from './ContinuesDeveloped';
+import LibraryItem from './LibraryItem'
+import LibraryFile from './LibraryFile';
 
 export default function LibraryBox() {
-  return (
-    <>
-    <ContinuesDeveloped/>
-    <Stack spacing={1} bgcolor="background.default" p={2} borderRadius={3} flexWrap="wrap">
-        
-        
-        <Link to="/publications">
-            <Typography variant='h6'>
-                Investigation of the Structural Behavior of Reinforced Concrete Columns Produced With Natural Perlite 
-                under Cyclic Loading Test
-            </Typography>
-        </Link>
-       
-        <Stack spacing={1} direction="row" justifyContent="flex-start">
-            <Chip label="Company Test Report"/>
-            <Typography variant='body2' color="gray">May 2023 - 4th International Symposium of Engineering Applications on</Typography>
-        </Stack>
-        <Divider sx={{my:2}}/>
-        <Stack spacing={1} direction="row" justifyContent="flex-start">
-            <FriendComponent name="Ali Çetin"/>
-            <FriendComponent name="Berke Kolcak"/>
-            <FriendComponent name="Cahit Burdurlu"/>
-            <Link><Typography>see more</Typography></Link>
-        </Stack>
-        <Stack direction="column" spacing={3} pt={2}> 
-            <Stack spacing={1}>
-                <Typography variant='h6'>Load-displacement files</Typography>
-                <Divider/>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar sx={{bgcolor:"primary.main",width:"25px",height:"25px"}}><Icon width={20} height={20} icon="vscode-icons:file-type-excel" /></Avatar>
-                    <Typography>A1</Typography>
-                    <Button size='small' color='success' variant='outlined'>Download</Button>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar sx={{bgcolor:"primary.main",width:"25px",height:"25px"}}><Icon width={20} height={20} icon="vscode-icons:file-type-excel" /></Avatar>
-                    <Typography>A2</Typography>
-                    <Button size='small' color='success' variant='outlined'>Download</Button>
-                </Stack>
-            </Stack>
-            <Stack spacing={1}>
-                <Typography variant='h6'>Load-displacement files</Typography>
-                <Divider/>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar sx={{bgcolor:"primary.main",width:"25px",height:"25px"}}><Icon width={20} height={20} icon="vscode-icons:file-type-excel" /></Avatar>
-                    <Typography>A1</Typography>
-                    <Button size='small' color='success' variant='outlined'>Download</Button>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar sx={{bgcolor:"primary.main",width:"25px",height:"25px"}}><Icon width={20} height={20} icon="vscode-icons:file-type-excel" /></Avatar>
-                    <Typography>A2</Typography>
-                    <Button size='small' color='success' variant='outlined'>Download</Button>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar sx={{bgcolor:"primary.main",width:"25px",height:"25px"}}><Icon width={20} height={20} icon="vscode-icons:file-type-excel" /></Avatar>
-                    <Typography>A3</Typography>
-                    <Button size='small' color='success' variant='outlined'>Download</Button>
-                </Stack>
-            </Stack>
-            
+    const { token } = useUserContext();
+    const [page, setPage] = useState(0);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [theEnd,setTheEnd] = useState(false);
 
-                
-         
-        
+    useEffect(() => {
+        getMyPublicationsToLibraryFetch();
+    }, [page]);
+
+    const getMyPublicationsToLibraryFetch = async () => {
+        const size = 5;
+        setLoading(true);
+        try {
+            const response = await getMyPublicationsToLibrary(token, page, size);
+            const resData = response.data;
+            console.log(response);
+            if(resData.length <= 0) {
+                setTheEnd(true)
+            } else {
+                setData(prev => [...prev, ...resData]);
+            }
             
-            
-        </Stack>
-    </Stack>
-    </>
-  )
+            setTotalPages(totalPages);
+            setCurrentPage(page);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadMore = () => {
+        setPage(prev => prev + 1);
+    };
+
+
+
+    return (
+        <>
+            <Stack spacing={1} >
+                {/* Buraya data gösterimi eklenebilir */}
+                {data.map((item, index) => (
+
+                        <LibraryItem key={index} item ={item}/>
+                ))}
+            </Stack>
+            <Stack alignItems="center">
+
+                {!theEnd && <Button startIcon={loading && <CircularProgress size={15} />} onClick={loadMore}>Load More</Button>} 
+
+            </Stack>
+        </>
+    );
 }

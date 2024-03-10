@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { login } from '../services/userAuthentication';
 import { useUserContext } from '../hooks/AuthProvider';
+import Footer from '../components/Footer';
+import { ArrowBack } from '@mui/icons-material';
 
 const validationSchema = yup.object({
   email: yup
@@ -20,7 +22,7 @@ const validationSchema = yup.object({
 });
 
 export default function LoginPage() {
-  const { setAuthenticated,setToken } = useUserContext();
+  const { setAuthenticated, setToken } = useUserContext();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errorHandlerText, setErrorHandlerText] = useState('');
@@ -60,7 +62,8 @@ export default function LoginPage() {
         <Grid item xs={6}>
           <form onSubmit={formik.handleSubmit}>
             <Stack direction="column" px={5}>
-              <Stack alignItems="center" mb={5}>
+              <Stack alignItems="center" mb={5} direction="row">
+                <Link to="/"><Button variant="contained" startIcon={<ArrowBack />}>Back</Button></Link>
                 <img src={Logo} alt="Logo" width="175px" />
               </Stack>
               <Divider />
@@ -124,6 +127,7 @@ export default function LoginPage() {
           </Stack>
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 }

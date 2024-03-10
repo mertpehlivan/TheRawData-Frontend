@@ -50,7 +50,6 @@ root.render(
             <BrowserRouter>
                 <AuthProvider />
             </BrowserRouter>
-
         </ThemeProvider>
     </Provider>
 

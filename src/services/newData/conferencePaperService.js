@@ -38,6 +38,7 @@ export const createConferencePaper = async ({
     formData.append('authors', authors);
     formData.append('comment', comment);
     formData.append('addOnly', pdf.addOnly);
+    formData.append('pdfStatus', pdf.pdfStatus);
     formData.append('fileEx', fileEx);
     formData.append('pdfFile', pdfFile, fileName);
 

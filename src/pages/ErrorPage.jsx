@@ -25,7 +25,7 @@ export default function ErrorPage() {
     <Typography variant="h6" style={{ color: 'black' }}>
       The page you’re looking for doesn’t exist.
     </Typography>
-    {authenticated ? <Link to="/"><Button variant="contained">Back Home</Button></Link> : <Link to="/login"><Button variant="contained">Back LOGİN</Button></Link>}
+    {authenticated ? <Link to="/"><Button variant="contained">Back Home</Button></Link> : <Link to="/"><Button variant="contained">Back Home</Button></Link>}
     
   </Box>
   );

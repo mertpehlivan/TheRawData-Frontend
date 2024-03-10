@@ -8,9 +8,11 @@ import PdfButton from '../components/button/PdfButton';
 import BasketAcordion from '../components/view/BasketAcordion';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Add, Person } from '@mui/icons-material';
+import { Add, Download, Person } from '@mui/icons-material';
 
 import { createRawDataFile, deleteRawDataFileFetch } from '../services/newRawData/RawDataFileService';
+import { Icon } from '@iconify/react';
+import axios from 'axios';
 export default function PublicationPage() {
   const { publicationId } = useParams();
   const [publication, setPublication] = useState(null);
@@ -21,7 +23,27 @@ export default function PublicationPage() {
   const [editMode, setEditMode] = useState(false)
   const [refresh, setRefresh] = useState(0)
   const { user } = useUserContext()
-
+  const handleDownload = (publicationId, name) => {
+    axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, { 
+      responseType: 'blob' ,
+      headers: {
+        Authorization: `Bearer ${token}`,
+    },
+    })
+      .then(response => {
+        console.log(response); // Yanıtı konsola yazdır
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', name);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      })
+      .catch(error => {
+        console.error('Dosya indirilemedi:', error);
+      });
+  };
   const refreshHandler = () => {
     console.log("click")
     setRefresh(prev => prev + 1)
@@ -98,7 +120,7 @@ export default function PublicationPage() {
   const baseUrl = process.env.REACT_APP_BASE_URL
   return (
     <Container sx={{ mt: "100px" }} maxWidth="lg">
-      {!loading && <>{user.id === publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Data</Button>}</>}
+      {!loading && <>{user.id == publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Data</Button>}</>}
       <BasketAcordion requestCounter={requestCounter} counterRequest={counterRequest} />
       <Stack bgcolor="background.default" p={2} spacing={1} borderRadius={3}>
         {!loading && (
@@ -109,7 +131,7 @@ export default function PublicationPage() {
               </Box>
 
 
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" justifyContent="space-between" spacing={1}>
                 <Stack spacing={1}>
                   <Typography variant="h4">{publication.title}</Typography>
                   <Typography>{publication.comment}</Typography>
@@ -120,8 +142,12 @@ export default function PublicationPage() {
                   </Stack>
                 </Stack>
 
-                <Stack justifyContent="center">
-                  <PdfButton />
+                <Stack width={60} height={100} alignItems="center" m={2} borderRadius={3} border="1px solid" p={2}>
+                  <Icon icon="ri:file-pdf-2-line" style={{ color: "#091582" }} width="100%" />
+                  <Button variant='contained' onClick={() => handleDownload(publication.id, publication.pdfFileName)} style={{ color: "#091582" }}>
+                    <Download sx={{ color: "white" }} />
+                  </Button>
+
                 </Stack>
               </Stack>
             </Stack>

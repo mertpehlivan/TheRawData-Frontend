@@ -35,6 +35,7 @@ export const AuthRoutes = () => {
        {user.emailVerfiactionStatus === false && authenticated && <Route path="/email-verification" element={<EmailVerficationPage />} />}
       
       <Route path="*" element={<ErrorPage />} />
+      
     </Routes>
   );
 };

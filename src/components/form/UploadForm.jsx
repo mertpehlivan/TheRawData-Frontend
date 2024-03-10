@@ -17,7 +17,7 @@ import { Check } from '@mui/icons-material';
 import { format } from '../../store/pageNumberSlice';
 import { clearData } from '../../store/dataSlice';
 import { clearType } from '../../store/newDataTypeSlice';
-import { clearRawData } from '../../store/rawDataSlice';
+import { clearRawData, rawDataFileLenght } from '../../store/rawDataSlice';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function UploadForm() {
@@ -33,19 +33,21 @@ export default function UploadForm() {
     const dispatch = useDispatch();
     const { token } = useUserContext();
     const location = useLocation();
+    const status = useSelector(state => state.rawDataStatus.value)
+    const [rawDataCounter, setRawDataCounter] = useState(rawData.lenght)
     const uploadRawData = useState([
         {
-            header:"Type the name of the raw data",
-            rawData:[
+            header: "Type the name of the raw data",
+            rawData: [
                 {
-                    name:"",
-                    previewUrl:"",
-                    comment:"",
-                    priceSuggestion:"",
-                    rawDataUrl:"",
+                    name: "",
+                    previewUrl: "",
+                    comment: "",
+                    priceSuggestion: "",
+                    rawDataUrl: "",
                     saveInfo: false,
-                    rawDataEx:"",
-                    previewEx:""
+                    rawDataEx: "",
+                    previewEx: ""
                 }
             ]
         }
@@ -170,7 +172,7 @@ export default function UploadForm() {
                         loadingCalculator(progressEvent);
                     });
                     console.log(response.data);
-                    setPublicationId(response.data);
+                    setPublicationId(response.data.id);
                 } catch (error) {
                     console.log(error);
                 } finally {
@@ -185,36 +187,36 @@ export default function UploadForm() {
 
     const LoadRawData = async () => {
         if (publicationId) {
-            rawData.map((data) => {
+            const promises = rawData.map(async (data) => {
                 setLoadingInfoText(`${data.header} file is being created...`)
-                createRawDataFile(data.header, publicationId, token, (progressEvent) => {
-                    loadingCalculator(progressEvent);
-                }).then(res => {
+                try {
+                    const res = await createRawDataFile(data.header, publicationId, token, (progressEvent) => {
+                        loadingCalculator(progressEvent);
+                    });
                     console.log(res);
                     if (res) {
-                        data.rawData.forEach(async (group) => {
-                            console.log("response:",res)
+                        await Promise.all(data.rawData.map(async (group) => {
+                            console.log("response:", res)
                             if (group && group.name && group.name.trim() !== "") {
                                 console.log(group.name)
                                 const files = await convertForm(group);
-                                setLoadingInfoText(`Raw data named ${data.header}-${group.name}  is being loaded...`)
+                                setLoadingInfoText(`Raw data named ${data.header}-${group.name} is being loaded...`)
                                 await createRawData(group, files, res, token, (progressEvent) => {
                                     loadingCalculator(progressEvent);
                                 });
                             } else {
                                 console.log('Error: "name" is empty or undefined in rawdata');
                             }
-                        });
+                        }));
                     } else {
                         console.log('Error: Response or response data is undefined');
                     }
-
-                }).catch((e) => {
+                } catch (e) {
                     console.log(e);
-                })
-            })
-
-            setIsFinish(true)
+                }
+            });
+            await Promise.all(promises);
+            setIsFinish(true);
         } else {
             console.log("publication id yok.")
         }
@@ -227,18 +229,19 @@ export default function UploadForm() {
     }, [dt, data, rawData, token]); // Added dependencies to useEffect
 
     useEffect(() => {
-        if (publicationId !== null) {
+        if (publicationId !== null && status) {
             LoadRawData(); // Call LoadRawData when publicationId is set
+        }else if(!status){
+            setIsFinish(true)
         }
     }, [publicationId]);
     if (isFinish) {
-
         return (
             <Container maxWidth="md" sx={{ p: 2 }}>
                 <Stack justifyContent="center" alignItems="center" spacing={1} border={"2px solid"} borderRadius={3} borderColor="primary.main" p={2}>
                     <Check sx={{ height: 100, width: 100, color: "primary.main" }} />
                     <Typography color="primary.main" variant='h4'>Installation Completed</Typography>
-                    <Link  to='/'><Button variant='contained' onClick={() => dispatch(format())}>
+                    <Link to='/'><Button variant='contained' onClick={() => dispatch(format())}>
                         Keep discovering new information</Button></Link>
                 </Stack>
             </Container>
@@ -249,7 +252,6 @@ export default function UploadForm() {
     return (
         <Stack justifyContent="center" alignItems="center" p={5}>
             <PercentageProgressBar percent={progress} text={loadingInfoText} />
-
         </Stack>
     )
 }

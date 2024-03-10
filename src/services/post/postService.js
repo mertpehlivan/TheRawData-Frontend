@@ -189,12 +189,12 @@ export const getPost = async (token, publicationId) => {
     console.error(error);
   }
 };
-export const addAuthorPost = async (token, publicationId) => {
+export const addAuthorPost = async (token, publicationId,invitationId) => {
   console.log(publicationId);
 
   try {
     const res = await axios.get(
-      `${baseUrl}/api/v1/publicationPost/addAuthorPost/${publicationId.toString()}`,
+      `${baseUrl}/api/v1/publicationPost/addAuthorPost/${publicationId.toString()}/${invitationId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -227,6 +227,21 @@ export const getSearchPost = async (token, page, size, title) => {
   try {
     const res = await axios.get(
       `${baseUrl}/api/v1/publicationPost/searchByPublicationTitle?page=${page}&size=${size}&title=${title}`, // Corrected URL
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const downloadPdf = async (token, publicationId) => {
+  try {
+    const res = await axios.get(
+      `${baseUrl}/api/v1/files/pdf/${publicationId}`, // Corrected URL
       {
         headers: {
           Authorization: `Bearer ${token}`
