@@ -11,7 +11,7 @@ const AvatarComponent = () => {
     const [showIcon, setShowIcon] = useState(true);
     const {user} = useUserContext()
     const [image,setImage] = useState(`${baseUrl}/api/v1/auth/profileImage/${user.profileImageName}`)
-
+    
     const handleClose = () => {
         
         setOpen(false);

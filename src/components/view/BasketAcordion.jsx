@@ -91,7 +91,7 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
           }}
         >
           <Stack p={2} spacing={1} justifyContent="center">
-            <Typography variant='h6' color="primary.main">Basket Summary about the publication</Typography>
+            <Typography variant='h6' color="primary.main">Basket summary about the publication</Typography>
             <Divider />
             {loading ? (
               // Skeleton Loading

@@ -21,7 +21,7 @@ import UpdateRawData from '../view/UpdateRawData';
 import UpdateRawDataBackdrop from './UpdateRawDataBackdrop';
 import { useUserContext } from '../../hooks/AuthProvider';
 import { deleteRawData } from '../../services/newRawData/RawDataService';
-
+import ImageModal from './ImageModal '
 export default function DataBox({ rawData, fileId, counter, editMode, refreshHandler,onDeleteRawData }) {
   const dispatch = useDispatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -31,6 +31,15 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
   const [deleteLoading,setDeleteLoading] = useState(false);
   const {token} = useUserContext();
   const [loading,setLoading] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleImageClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -133,8 +142,15 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
           height={200}
           component="img"
           src={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`}
-          sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'cover', borderRadius: '8px' }}
+          sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'fill', borderRadius: '8px' }}
+          onClick={handleImageClick}
         />
+        {modalOpen && (
+        <ImageModal
+          imageUrl={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`} // Resmin URL'sini modal bileşenine geçir
+          onClose={handleCloseModal} // Modal kapatma işlevini geçir
+        />
+      )}
         <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>{rawData.comment}</Typography>
         <Box>
           <Stack spacing={1} direction="row" alignItems="center" width={40} border="1px solid" borderRadius={3} p={1} >

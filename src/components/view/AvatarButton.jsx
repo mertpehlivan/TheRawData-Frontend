@@ -14,7 +14,8 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
     const logOut = ()=>{
       localStorage.clear("access-token")
       setAuthenticated(false)
-      navigate("/login");
+      handleClose()
+      navigate("/");
     }
     const open = Boolean(anchorEl);
   
@@ -33,9 +34,9 @@ const UserPopover = ({handleClick,anchorEl,setAnchorEl}) => {
         }}
       >
         <Stack>
-            <Link to={`/users/${user.uniqueName}`}><Button >Profile</Button></Link>
-            <Link to={`/myAccount`}><Button href="/myAccount">My Account</Button></Link>
-            <Button onClick={logOut}>Log Out</Button>
+            <Link to={`/users/${user.uniqueName}`}><Button onClick={()=>handleClose()} >Profile</Button></Link>
+            <Link to={`/myAccount`}><Button onClick={()=>handleClose()}  href="/myAccount">My Account</Button></Link>
+            <Button onClick={logOut} >Log Out</Button>
         </Stack>
       </Popover>
     );

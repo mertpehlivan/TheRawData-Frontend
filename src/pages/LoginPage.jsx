@@ -40,7 +40,7 @@ export default function LoginPage() {
         localStorage.setItem('access-token', res.data.token);
         setAuthenticated(true);
         setToken(res.data.token)
-        navigate('/');
+        navigate('/explore');
       } catch (err) {
         setIsLoading(false);
         console.error('Login Error:', err);  // Log the error

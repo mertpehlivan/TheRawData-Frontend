@@ -1,14 +1,14 @@
 import { Avatar, Backdrop, Box, Button, Chip, CircularProgress, Container, Divider, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../hooks/AuthProvider';
-import { getPost } from '../services/post/postService';
+import { deletePost, getPost } from '../services/post/postService';
 import File from '../components/publication/File';
 import PdfButton from '../components/button/PdfButton';
 import BasketAcordion from '../components/view/BasketAcordion';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Add, Download, Person } from '@mui/icons-material';
+import { Add, Delete, Download, Person } from '@mui/icons-material';
 
 import { createRawDataFile, deleteRawDataFileFetch } from '../services/newRawData/RawDataFileService';
 import { Icon } from '@iconify/react';
@@ -23,12 +23,28 @@ export default function PublicationPage() {
   const [editMode, setEditMode] = useState(false)
   const [refresh, setRefresh] = useState(0)
   const { user } = useUserContext()
+  const [deleteLoading,setDeleteLoading] = useState(false)
+  const navigate = useNavigate()
+  const postDelete = async () =>{
+    try {
+      setDeleteLoading(true)
+      const response = await deletePost(token,publicationId)
+      navigate("/",{replace:true})
+    } catch (error) {
+      
+    }finally{
+      setDeleteLoading(false)
+    }
+    
+  }
+
+
   const handleDownload = (publicationId, name) => {
-    axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, { 
-      responseType: 'blob' ,
+    axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, {
+      responseType: 'blob',
       headers: {
         Authorization: `Bearer ${token}`,
-    },
+      },
     })
       .then(response => {
         console.log(response); // Yanıtı konsola yazdır
@@ -126,14 +142,16 @@ export default function PublicationPage() {
         {!loading && (
           <>
             <Stack >
-              <Box>
-                <Chip sx={{ bgcolor: "primary.main", color: "white" }} label={<Typography>{publicationId}</Typography>} />
-              </Box>
 
 
+           
               <Stack direction="row" justifyContent="space-between" spacing={1}>
                 <Stack spacing={1}>
-                  <Typography variant="h4">{publication.title}</Typography>
+                  <Stack direction="row" justifyContent="space-between" spacing={1}>
+                    <Typography variant="h4">{publication.title}</Typography>
+                    {editMode && <Button  onClick={postDelete} variant='outlined' color='error' startIcon={deleteLoading ? <CircularProgress sx={{color:"red", width:14,height:14}}/> :<Delete/>}>Delete Publication</Button>}
+                  </Stack>
+
                   <Typography>{publication.comment}</Typography>
                   <Stack>
                     <Stack spacing={1} direction="row" justifyContent="flex-start" alignItems="center">
@@ -151,7 +169,7 @@ export default function PublicationPage() {
                 </Stack>
               </Stack>
             </Stack>
-            <Typography variant="h5">Shared by researcher</Typography>
+            <Typography variant="h5">Shared by</Typography>
             <Box>
               <Chip
                 avatar={<Avatar sx={{ zIndex: 0 }} src={`${baseUrl}/api/v1/auth/profileImage/${publication.profileImage}`} />}
@@ -161,7 +179,7 @@ export default function PublicationPage() {
 
                 } />
             </Box>
-            <Typography variant="h5">Researchers</Typography>
+            <Typography variant="h5">Authors</Typography>
             <Stack>
               {publication.authors.length > 0 ? (
                 <Stack direction="row" flexWrap="wrap">
@@ -181,7 +199,7 @@ export default function PublicationPage() {
               ) : (
                 <Stack border="1px solid red" borderRadius={3} p={1} direction="row" alignItems="center" spacing={1}>
                   <Person sx={{ color: "red" }} />
-                  <Typography color="red">There is no common researchers</Typography>
+                  <Typography color="red">There is no co-author</Typography>
                 </Stack>
               )}
             </Stack>

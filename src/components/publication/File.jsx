@@ -9,16 +9,16 @@ import UploadBox from '../view/UploadBox';
 import UpdateRawData from '../view/UpdateRawData';
 
 
-export default function File({ file, counter, editMode, refreshHandler, setPublication, publication,deleteRawDataFile }) {
+export default function File({ file, counter, editMode, refreshHandler, setPublication, publication, deleteRawDataFile }) {
 
   const [editFileMode, setEditFileMode] = useState(false)
   const [fileName, setFileName] = useState(file.title)
   const [editRawData, setEditRawData] = useState(false)
   const { token } = useUserContext()
   const [temData, setTemData] = useState([])
-  const [fileOne,setFileOne] = useState(file)
+  const [fileOne, setFileOne] = useState(file)
   const chunkedRawDatas = chunkArray(fileOne.rawDatas, 3);
- 
+
 
   useEffect(() => {
     setFileOne(file)
@@ -31,22 +31,20 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
   const handleClose = () => {
     setEditRawData(false)
   }
-  const handleRefresh = () => {
-    refreshHandler()
-  }
+
   const deleteRawData = (id) => {
     const newRawDatas = fileOne.rawDatas.filter(item => item.id !== id);
 
     setFileOne(prev => ({
-        ...prev,
-        rawDatas: newRawDatas
+      ...prev,
+      rawDatas: newRawDatas
     }));
 
-    
+
   }
-  const deleteFile = async() => {
+  const deleteFile = async () => {
     await deleteRawDataFile(file.id)
-    
+
   }
 
   const fileNameUpdate = async (id, title) => {
@@ -67,9 +65,9 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
             <Typography variant="h6" mb={2} fontWeight="bold" color="primary.main" >
               {fileOne.title}
             </Typography>
-            {!editFileMode && editMode &&<Stack direction="row" spacing={1}> 
+            {!editFileMode && editMode && <Stack direction="row" spacing={1}>
               <Button variant='outlined' onClick={() => setEditFileMode(true)} startIcon={<Edit />}>Edit</Button>
-              <Button onClick={deleteFile} color='error' variant='outlined'><Delete/></Button>
+              <Button onClick={deleteFile} color='error' variant='outlined'><Delete /></Button>
             </Stack>}
           </Stack>
 
@@ -87,7 +85,7 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
       {chunkedRawDatas.map((row, rowIndex) => (
         <Stack key={rowIndex} spacing={2} justifyContent="center" direction="row" flexWrap="wrap">
           {row.map((rawData, colIndex) => (
-            <DataBox counter={counter} key={colIndex} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData}/>
+            <DataBox counter={counter} key={colIndex} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData} />
           ))}
 
         </Stack>

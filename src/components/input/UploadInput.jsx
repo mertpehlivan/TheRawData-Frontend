@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import CancelIcon from '@mui/icons-material/Cancel'; // Çarpı işareti için yeni ekledik
 import { Icon } from '@iconify/react';
 import { FormHelperText, Stack, Typography } from '@mui/material';
-import { Check } from '@mui/icons-material';
+import { Check, Delete } from '@mui/icons-material';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -18,20 +18,22 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPreviewEx,fileId }) {
+export default function UploadInput({ icon, text, helpText, setPreviewUrl, setPreviewEx, fileId }) {
   const [selectedFile, setSelectedFile] = React.useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
-    const fileUrl = URL.createObjectURL(file);
-    setPreviewUrl(fileUrl);
+    if (file) {
+      setSelectedFile(file);
+      const fileUrl = URL.createObjectURL(file);
+      setPreviewUrl(fileUrl);
 
-    // Dosya uzantısını alma
-    const fileExtension = file.name.split('.').pop();
-    setPreviewEx(fileExtension)
-    console.log('Dosya Uzantısı:', fileExtension);
-};
+      // Dosya uzantısını alma
+      const fileExtension = file.name.split('.').pop();
+      setPreviewEx(fileExtension)
+      console.log('Dosya Uzantısı:', fileExtension);
+    }
+  };
 
   const handleClearFile = () => {
     setSelectedFile(null);
@@ -39,18 +41,22 @@ export default function UploadInput({ icon, text, helpText, setPreviewUrl,setPre
   };
 
   return (
-    <Stack>
+    <Stack spacing={1}>
       <Button
         fullWidth
-        sx={{height:"100%"}}
+        sx={{ height: "100%", bgcolor: (selectedFile ? "skyblue" : "primary.main") }}
         component="label"
         variant="contained"
-        startIcon={selectedFile ? <Check/>: <Icon icon={icon} color="white"/>}
+
+        startIcon={selectedFile ? <Check sx={{ width: 50, height: 50 }} /> : <Icon icon={icon} color="white" />}
       >
         {text}
-        <VisuallyHiddenInput type="file" onChange={handleFileChange} />
+        {!selectedFile && <VisuallyHiddenInput type="file" onChange={handleFileChange} />}
       </Button>
-      
+      {selectedFile && <Button startIcon={<Delete/>} variant="outlined" color='error' onClick={() => selectedFile && handleClearFile()}>
+        Delete
+      </Button>}
+
     </Stack>
   );
 }

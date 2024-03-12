@@ -16,7 +16,7 @@ export default function HelperComponent() {
 
     return (
         <div>
-            <Tooltip title="Delete">
+            <Tooltip title="Info">
                 <IconButton onClick={handleOpen}>
                     <QuestionMark />
                 </IconButton>

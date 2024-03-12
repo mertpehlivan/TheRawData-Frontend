@@ -154,7 +154,7 @@ export default function DataPost({ data }) {
 
           <Stack direction="row" spacing={1} justifyContent="space-between">
             <Stack>
-              <Link to={`/publications/${data.id}`}> <Typography mb={2} variant='h5'>{data.title} </Typography></Link>
+              <Link replace={false} to={`/publications/${data.id}`}> <Typography mb={2} variant='h5'>{data.title} </Typography></Link>
               <Typography >{text} <Link onClick={handleToggle}>see more</Link></Typography>
             </Stack>
             {data.addOnly && <Stack alignItems="end">
@@ -184,17 +184,17 @@ export default function DataPost({ data }) {
             <Stack direction="row" justifyContent="space-between">
 
               {data.rawdatafiles != null && data.rawdatafiles.slice(0, 4).map((item, index) => (
-                <Stack key={index} p={2} >
+                <Stack key={index} p={2} spacing={1}>
 
                   <Typography variant='h6'>{item.title}</Typography>
                   <Divider sx={{ mb: 1 }} />
                   {item.rawDatas != null && item.rawDatas.slice(0, 2).map((rawdata, rawIndex) => (
-                    <Stack key={rawIndex} spacing={1} mt={1}>
-                      <Stack direction="row" spacing={1} alignItems="center">
+                    <Stack key={rawIndex} spacing={1} mt={1} >
+                      <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" >
                         <Box width={20}>
                           <FileIcon extension={rawdata.rawDataExtension} {...defaultStyles.docx} />
                         </Box>
-                        <Typography variant='body2'>{rawdata.title}</Typography>
+                        <Typography variant='body1'>{rawdata.title}</Typography>
 
                         <Tooltip title={<Box
                           width={200}
@@ -231,7 +231,7 @@ export default function DataPost({ data }) {
                       }} />
                     </Stack>
                   ))}
-                  {item.rawDatas.length > 2 && <Button>More Raw Data ({item.rawDatas.length - 2})</Button>}
+                  {item.rawDatas.length > 2 && <Typography  variant='body2' mx={2} color="primary.main" borderRadius={3} p={0.5} textAlign="center">More Raw Data ({item.rawDatas.length - 2})</Typography>}
                 </Stack>
               ))}
             </Stack>
@@ -249,6 +249,7 @@ export default function DataPost({ data }) {
                     key={author.id}
                     imageUrl={author.profileImageUrl}
                     fullname={`${author.firstname} ${author.lastname}`}
+                    uniqueName = {author.uniqueName}
                   /> : null
               ))
             ) : (

@@ -18,7 +18,7 @@ export default function ProfilePage() {
     const scrollRef = useRef(null);
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(true);
-  
+
 
     return (
         <div>
@@ -27,8 +27,8 @@ export default function ProfilePage() {
                     <Grid item xs={12}>
                         <Stack>
 
-                        
-                        <ProfileUserView />
+
+                            <ProfileUserView />
                         </Stack>
                     </Grid>
                     <Grid item xs={3} p={1}>
@@ -51,11 +51,11 @@ export default function ProfilePage() {
                         </Stack>
                         <Stack mt={1} spacing={1}>
                             <AllView setPage={setPage} page={page} loading={loading} setLoading={setLoading} />
-                            <Button onClick={()=>setPage(prev=>prev+1)}>See More</Button>
+                            <Button onClick={() => setPage(prev => prev + 1)}>See More</Button>
                         </Stack>
 
                     </Grid>
-                        
+
                 </Grid>
             </Container>
         </div>

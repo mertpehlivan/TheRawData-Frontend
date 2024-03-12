@@ -240,8 +240,8 @@ export default function UploadForm() {
             <Container maxWidth="md" sx={{ p: 2 }}>
                 <Stack justifyContent="center" alignItems="center" spacing={1} border={"2px solid"} borderRadius={3} borderColor="primary.main" p={2}>
                     <Check sx={{ height: 100, width: 100, color: "primary.main" }} />
-                    <Typography color="primary.main" variant='h4'>Installation Completed</Typography>
-                    <Link to='/'><Button variant='contained' onClick={() => dispatch(format())}>
+                    <Typography color="primary.main" variant='h4'>Upload Completed</Typography>
+                    <Link to='/explore'><Button variant='contained' onClick={() => dispatch(format())}>
                         Keep discovering new information</Button></Link>
                 </Stack>
             </Container>

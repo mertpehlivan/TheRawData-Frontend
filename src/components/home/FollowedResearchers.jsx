@@ -114,7 +114,7 @@ export default function FollowedResearchers() {
         see more
       </Button>)
       }
-      <ContinuesDeveloped/>
+     
     </Stack>
   );
 }

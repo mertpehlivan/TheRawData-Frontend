@@ -31,7 +31,7 @@ const Navbar = () => {
             py={2}
             bgcolor='background.default'
           >
-            <Link to="/">
+            <Link to="/explore">
               <img src={Logo} width='200px' height='50px' />
             </Link>
 
@@ -46,7 +46,7 @@ const Navbar = () => {
             bgcolor='background.default'
           >
             <Stack direction="row" alignItems="center">
-              <Link to="/">
+              <Link to="/explore">
                 <img src={Logo} width='200px' height='50px' />
               </Link>
               <Link to="publications/create"><Button startIcon={<Add/>} variant='contained' size='small'>Add new research</Button></Link>

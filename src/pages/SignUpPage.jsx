@@ -171,7 +171,7 @@ export default function SignUpPage() {
               </Stack>}
 
               <Button type='submit' size='large' sx={{ mt: 1 }} color="primary" variant='contained'>Sign up</Button>
-              <Typography sx={{ mt: 1 }}>If you have an account, <Link to="/login">log in</Link></Typography>
+              <Typography sx={{ mt: 1 }}>Don’t have an account yet? <Link to="/login">log in</Link></Typography>
             </Stack>
 
           </Stack>

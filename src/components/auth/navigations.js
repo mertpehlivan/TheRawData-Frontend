@@ -27,13 +27,13 @@ export const nav = [
     },
 
     {
-        path: "/",
+        path: "",
         element: <HomePage />,
         isMenu: true,
         isPrivate: true,
         children: [
             {
-                path: "/",
+                path: "explore",
                 element: <ExploreComponent />,
 
             },

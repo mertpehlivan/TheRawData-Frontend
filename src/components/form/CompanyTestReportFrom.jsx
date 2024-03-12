@@ -48,7 +48,7 @@ export default function CompanyTestReportFrom() {
 
   const isFormValid = () => {
     return title.trim() !== '' && date.trim() !== '' && companyName.trim() !== '' && comment.trim() !== '' &&
-    (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
 
   return (

@@ -58,22 +58,8 @@ function MainPage() {
             </Box>
             <Container maxWidth>
                 <div id="back-to-top-anchor" />
-                <Box position="fixed" width="100%" style={{ opacity: 0.9 }}>
-                    <Stack direction="row" justifyContent="space-between" p={3}>
-                        <Stack direction="row" spacing={2}>
-
-                            <Button>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                                    Home
-                                </Typography>
-                            </Button>
-
-                            <Button>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                                    About us
-                                </Typography>
-                            </Button>
-                        </Stack>
+                <Box position="sticky" width="100%" style={{ opacity: 0.9 }}>
+                    <Stack direction="row" justifyContent="flex-end" p={3}>
                         <ButtonGroup variant='text'>
                             <Link to="/login">
                                 <Button>
@@ -92,7 +78,7 @@ function MainPage() {
                         </ButtonGroup>
                     </Stack>
                 </Box>
-                <Grid container mt={10} height="80vh" mb={10}>
+                <Grid container height="80vh" mb={10}>
                     <Grid item xs={12}>
                         <Stack sx={{
                             justifyContent: isSmallScreen ? 'center' : 'flex-start', // Eğer küçük ekran ise merkezle, değilse başlangıca hizala
@@ -108,7 +94,7 @@ function MainPage() {
                         </Stack>
 
                         <Stack alignItems="flex-end">
-                            <Typography fontFamily="Times New Roman,sans-serif" bgcolor="white" p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 600}>
+                            <Typography fontFamily="Times New Roman,sans-serif"  p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 600}>
                                 Researchers who upload their raw data to the system are paid according to the number of downloads of their data through the raw data library company.
                             </Typography>
                         </Stack>
@@ -117,14 +103,15 @@ function MainPage() {
 
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <Stack direction="row" mt={3} bgcolor="white" p={2} alignItems="center" borderRadius={3} spacing={2}>
+                        <Stack direction="row" mt={3}  p={2} alignItems="center" borderRadius={3} spacing={2}>
                             <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
                                 The New Face of the Academy
                             </Typography>
                             <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                Data owners are <b>financially supported</b> for each of their data downloaded by other researchers.
+                               
+                                Researchers who upload their Raw Data to the system are paid according to the number of downloads of their data through the Raw Data Library company.
                             </Typography>
-                            <Button variant='contained'>JOIN FOR FREE</Button>
+                            <Link to="/signup"><Button sx={{minWidth:100}} variant='contained'>JOIN FOR FREE</Button></Link>
                         </Stack>
 
 
@@ -155,7 +142,7 @@ function MainPage() {
                                     </Typography>
                                     <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
                                         <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                        Researchers who upload their Raw Data to the system are paid according to the number of downloads of their data through the Raw Data Library company.
+                                        Data owners are <b>financially supported</b> for each of their data downloaded by other researchers.
                                     </Typography>
                                 </Stack>
 
@@ -198,7 +185,7 @@ function MainPage() {
                                 <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />	Sharing of other data mentioned but not presented in the article.
                             </Typography>
                             <Typography color="white" bgcolor="primary.main" p={1} border="1px solid" borderRadius={3} fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />	Access to modelling of FEM, ABAQUS, ANSY, SAP 2000, Solid Works and other computer modelling and documents.
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />	Access to modelling of FEM, ABAQUS, ANSYS, SAP 2000, Solid Works and other computer modelling and documents.
                             </Typography>
                             <Typography color="white" bgcolor="primary.main" p={1} border="1px solid" borderRadius={3} fontFamily="Times New Roman,sans-serif" variant='h5'>
                                 <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />	Authors can track the number of times their data has been downloaded from their own profile page.

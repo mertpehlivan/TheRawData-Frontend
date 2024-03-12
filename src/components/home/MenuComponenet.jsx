@@ -13,7 +13,7 @@ export default function MenuComponenet({ activeItem, setActiveItem }) {
   };
   return (
     <List sx={{ bgcolor: 'background.default', borderRadius: 2, p: 1 }}>
-      <Link to='/'>
+      <Link to='/explore' replace="true">
       <ListItem disablePadding>
         <ListItemButton onClick={() => handleItemClick('Explore')} selected={activeItem === 'Explore'}>
           <ListItemIcon>

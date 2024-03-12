@@ -238,6 +238,21 @@ export const getSearchPost = async (token, page, size, title) => {
     console.error(error);
   }
 };
+export const deletePost = async (token, postId) => {
+  try {
+    const res = await axios.delete(
+      `${baseUrl}/api/v1/publicationPost/delete/${postId}`, // Corrected URL
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const downloadPdf = async (token, publicationId) => {
   try {
     const res = await axios.get(

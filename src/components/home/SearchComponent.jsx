@@ -35,7 +35,7 @@ const ResearcherComponent = ({ data }) => {
 const ResearchComponent = ({ data }) => {
     return (
         <Stack bgcolor="white" borderRadius={2} p={2}>
-            <Link><Typography variant='h5'>{data.title}</Typography></Link>
+            <Link to={`/publications/${data.id}`}><Typography variant='h5'>{data.title}</Typography></Link>
         </Stack>
     )
 }

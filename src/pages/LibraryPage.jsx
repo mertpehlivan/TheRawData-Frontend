@@ -20,7 +20,7 @@ export default function LibraryPage() {
                 <Typography my={1} variant='h5' color="primary.main">Library</Typography>
                 <Divider></Divider>
                 <List>
-                  <Link style={{textDecoration:"none"}}>
+                  <Link to="/library" style={{textDecoration:"none"}}>
                     <ListItemButton>
                       <Typography color="primary.main">My Publications</Typography>
                     </ListItemButton>

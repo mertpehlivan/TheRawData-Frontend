@@ -1,10 +1,10 @@
-import { Button, IconButton, Stack, Typography } from '@mui/material';
+import { Button, CircularProgress, IconButton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getBasket } from '../../services/newData/basketService';
 import BasketItem from './BasketItem';
 import { Public, SentimentDissatisfied } from '@mui/icons-material';
 import { useRefreshPrice } from '../../hooks/RefreshPrice';
-import BasketSummaryComponent from './BasketSummaryComponent';
+
 
 export default function Basket() {
   const [data, setData] = useState([]);
@@ -38,7 +38,19 @@ export default function Basket() {
   };
 
   if (loading) {
-    return "loading...";
+    return (
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        spacing={2}
+        p={1}
+        sx={{ minHeight: '200px' }}
+        bgcolor="white"
+        borderRadius={3}
+      >
+       <CircularProgress/>
+      </Stack>
+    );
   }
 
   if (error) {
@@ -54,7 +66,7 @@ export default function Basket() {
       >
         <SentimentDissatisfied sx={{ width: 90, height: 90, color: "primary.main" }} />
         <Typography variant="h6">Your basket is empty.</Typography>
-        <Button href='/' startIcon={<Public />} variant='contained'>
+        <Button href='/explore' startIcon={<Public />} variant='contained'>
           Keep exploring
         </Button>
       </Stack>
@@ -70,7 +82,7 @@ export default function Basket() {
         </Stack>
 
       ))}
-      
+
     </Stack>
   );
 }

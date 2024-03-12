@@ -10,7 +10,7 @@ import Backdrop from '@mui/material/Backdrop';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import axios from 'axios';
 import { createRawDataFile } from '../../services/newRawData/RawDataFileService';
-import { QuestionAnswer, QuestionMark, UploadOutlined } from '@mui/icons-material';
+import { Add, QuestionAnswer, QuestionMark, UploadOutlined } from '@mui/icons-material';
 import HelperComponent from './HelperComponent';
 import HelperComponentV2 from './HelverComponentv2';
 import { addRawData, createRawData, updateRawData } from '../../services/newRawData/RawDataService';
@@ -67,7 +67,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
       handleData(response.data)
     
       handleClose()
-      
+      refreshHandler()
     }).catch(e=>{
       console.error(e);
     })
@@ -93,7 +93,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
             <Typography>Download complete</Typography>
             <Typography>Raw data : {name}</Typography>
             <Typography>{comment}</Typography>
-            <Button onClick={() => { handleClose(); refreshHandler()}}>Close</Button>
+            <Button startIcon={<Add/>} variant='outlined' onClick={() => { handleClose(); refreshHandler()}}>Now Add RawData</Button>
           </Stack>
 
         }

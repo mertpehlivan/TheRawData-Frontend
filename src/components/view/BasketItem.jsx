@@ -12,21 +12,21 @@ import { SentimentVeryDissatisfied, Token } from '@mui/icons-material';
 import { getBasketPrice } from '../../services/newData/basketService';
 import { useUserContext } from '../../hooks/AuthProvider';
 
-export default function BasketItem({ data,counterRequest }) {
-  const [totalPrice,setTotalPrice] = useState(0)
-  const {token} = useUserContext()
-  useEffect( () => {
-      const fetchPrice =async ()=>{
-        const response = await getBasketPrice(token)
-        setTotalPrice(response.data)
-      }
-      fetchPrice()
+export default function BasketItem({ data, counterRequest }) {
+  const [totalPrice, setTotalPrice] = useState(0)
+  const { token } = useUserContext()
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const response = await getBasketPrice(token)
+      setTotalPrice(response.data)
+    }
+    fetchPrice()
   }, [counterRequest]);
 
 
   if (!data || !data[0] || !data[0].rawDataFile) {
     return <Stack borderRadius={3} border="1px solid" borderColor="primary.main" alignItems="center" p={2}>
-      <SentimentVeryDissatisfied sx={{width:50,height:50,color:"primary.main"}}/>
+      <SentimentVeryDissatisfied sx={{ width: 50, height: 50, color: "primary.main" }} />
       <Typography variant='h6' color="primary.main">Basket Empty</Typography>
     </Stack>;
   }
@@ -37,12 +37,17 @@ export default function BasketItem({ data,counterRequest }) {
         {data[0].title}
       </Typography>
       <Divider sx={{ mt: 1, mb: 1 }} />
-      
+
       {data[0].rawDataFile.map((file) => (
-        <BasketItemFile  counterRequest={counterRequest} key={file.id} file={file} />
+        <BasketItemFile counterRequest={counterRequest} key={file.id} file={file} />
       ))}
       <Stack border="1px solid" borderRadius={3} borderColor="primary.main" p={1} m={1}>
-        <Chip sx={{bgcolor:"primary.main",color:"white"}} label={<Typography>TotalPrice:{totalPrice}$</Typography>}/>
+        <Chip sx={{ bgcolor: "primary.main", color: "white" }} label={
+          <Stack direction="row" p={1} alignItems="end" spacing={1}>
+            <Typography variant='h5'>{totalPrice}$</Typography>
+            <Typography>Total Price</Typography>
+          </Stack>
+        } />
       </Stack>
     </Paper>
   );

@@ -45,7 +45,7 @@ export default function AllView({ setPage,page,setLoading,loading }) {
 
   console.log(datas);
 
-  if (!datas || datas.length === 0) {
+  if (!datas || datas.length === 0 && !loading) {
     return <Typography>No Publication</Typography>;
   }
 
@@ -55,7 +55,7 @@ export default function AllView({ setPage,page,setLoading,loading }) {
       {datas.map((data, index) => (
         <DataPost key={index} data={data} />
       ))}
-      {message && <Typography>No more publications</Typography>}
+      {!loading && message && <Typography>No more publications</Typography>}
       <Stack alignItems="center">
         {loading && <CircularProgress />}
       </Stack>

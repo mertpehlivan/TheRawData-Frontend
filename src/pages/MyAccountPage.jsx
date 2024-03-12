@@ -6,6 +6,7 @@ import AvatarComponent from '../components/myaccount/AvatarComponent';
 import EmailDialog from '../components/myAccounts/EmailDialog'
 import UsernameDialog from '../components/myAccounts/UsernameDialog'
 import PasswordDialog from '../components/myAccounts/PasswordDialog';
+import CountryDialog from '../components/myAccounts/CountryDialog';
 
 export default function MyAccount() {
     const { user } = useUserContext()
@@ -13,7 +14,7 @@ export default function MyAccount() {
     const [emailChange, setEmailChange] = useState(false)
     const [usernameChange, setUsernameChange] = useState(false)
     const [passwordChange,setPasswordChange] = useState(false)
-
+    const [countryChange,setCountryChange] = useState(false)
 
 
     const handleClickEmailChange = () => {
@@ -34,6 +35,12 @@ export default function MyAccount() {
     const handleClosePasswordChange = () => {
         setPasswordChange(false);
     };
+    const handleClickCountryChange = () => {
+        setCountryChange(true);
+    };
+    const handleCloseCountryChange = () => {
+        setCountryChange(false);
+    };
 
 
     console.log(user)
@@ -42,6 +49,7 @@ export default function MyAccount() {
             <PasswordDialog handleClickPassowordChange={handleClickPasswordChange} handleClosePassowordChange={handleClosePasswordChange} passowordChange={passwordChange}/>
             <UsernameDialog handleClickUsernameChange={handleClickUsernameChange} handleCloseUsernameChange={handleCloseUsernameChange} usernameChange={usernameChange}/>
             <EmailDialog handleClickEmailChange={handleClickEmailChange} handleCloseEmailChange={handleCloseEmailChange} emailChange={emailChange}/>
+            <CountryDialog handleClickCountryChange={handleClickCountryChange} handleCloseCountryChange={handleCloseCountryChange} countryChange={countryChange}/>
             <Container maxWidth="md" sx={{ mt: 15 }}>
 
                 <Grid container bgcolor="white" borderRadius={3} p={2} spacing={2} >
@@ -89,7 +97,7 @@ export default function MyAccount() {
                             </Typography>
                             <Stack direction="row" alignItems="center" justifyContent="space-between">
                                 <Typography>{user.country}</Typography>
-
+                                <Button startIcon={<ChangeCircle />} variant='contained' onClick={handleClickCountryChange}>Change Country</Button>
                             </Stack>
 
                             <Divider></Divider>

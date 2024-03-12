@@ -6,6 +6,7 @@ import {
   Avatar,
   Button,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 import { Check } from '@mui/icons-material';
 import { uploadProfileImage } from '../../services/fileService';
@@ -16,10 +17,11 @@ const sanitizeFileName = (filename) => {
   return filename.replace(/[^\w.-]/g, '_');
 };
 
-export default function BackdropComponent({ handleClose,setImage }) {
+export default function BackdropComponent({ handleClose, setImage }) {
   const [helperText, setHelperText] = useState('');
   const { token } = useUserContext();
   const [avatarPreview, setAvatarPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: async (accepted) => {
@@ -27,34 +29,27 @@ export default function BackdropComponent({ handleClose,setImage }) {
         const sanitizedFileName = sanitizeFileName(accepted[0].name);
         setAvatarPreview(URL.createObjectURL(accepted[0]));
         accepted[0] = new File([accepted[0]], sanitizedFileName, { type: accepted[0].type });
-        setImage(URL.createObjectURL(accepted[0]))
+        setImage(URL.createObjectURL(accepted[0]));
+        
         try {
+          setLoading(true);
           const response = await uploadProfileImage(token, accepted[0]);
-          setHelperText(response);
+          setLoading(false);
+          setHelperText("Profile photo uploaded successfully");
+          window.location.reload()
         } catch (error) {
           console.error('Error uploading file:', error);
           setHelperText('Error uploading file. Please try again.');
+          setLoading(false);
         }
       }
     },
   });
 
-  const handleFileUpload = async () => {
-    if (acceptedFiles.length > 0) {
-      try {
-        const response = await uploadProfileImage(token, acceptedFiles[0]);
-        setHelperText(response);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-        setHelperText('Error uploading file. Please try again.');
-      }
-    }
-  };
-
   return (
     <Stack bgcolor="white" p={4} width={500}>
       <Stack direction="row" justifyContent="flex-end" p={2}>
-        <Button variant="contained" color="error" onClick={()=>{handleClose();setAvatarPreview(null);setHelperText("")}}>
+        <Button variant="contained" color="error" onClick={() => { handleClose(); setAvatarPreview(null); setHelperText("") }}>
           X
         </Button>
       </Stack>
@@ -62,24 +57,21 @@ export default function BackdropComponent({ handleClose,setImage }) {
       <Stack>
         {helperText === '' ? (
           <section className="container">
-            <Stack border="2px solid" color="primary.main" borderRadius={2} p={2}>
-              <div {...getRootProps({ className: 'dropzone' })}>
-                <input {...getInputProps()} />
-                <p>Drag or click to select image</p>
-              </div>
+            <Stack border="2px dashed" color="primary.main" borderRadius={2} p={2} {...getRootProps()}>
+              <input {...getInputProps()} />
+              <Typography variant="body1" align="center">Drag or click to select image</Typography>
             </Stack>
             <aside>
-              <h4>Files</h4>
-              <ul>
+              <Stack mt={2} spacing={1}>
                 {acceptedFiles.map((file) => (
-                  <li key={file.path}>
+                  <Typography key={file.path} variant="body2">
                     {file.path} - {file.size} bytes
-                  </li>
+                  </Typography>
                 ))}
-              </ul>
+              </Stack>
             </aside>
             {avatarPreview && (
-              <Stack mt={2}>
+              <Stack mt={2} justifyContent="center">
                 <Avatar
                   alt="Avatar Preview"
                   src={avatarPreview}
@@ -87,14 +79,9 @@ export default function BackdropComponent({ handleClose,setImage }) {
                 />
               </Stack>
             )}
-            {acceptedFiles.length > 0 && (
-              <Button variant="contained" color="primary" onClick={handleFileUpload}>
-                Save
-              </Button>
-            )}
           </section>
         ) : (
-          <Stack direction="row" border="1px solid" borderRadius={2} p={1}>
+          <Stack direction="row" border="1px solid" borderRadius={2} p={1} alignItems="center">
             <Check sx={{ height: 50, width: 50, color: 'primary.main' }} />
             <Typography variant="h5" sx={{ color: 'primary.main' }}>
               {helperText}
@@ -102,6 +89,13 @@ export default function BackdropComponent({ handleClose,setImage }) {
           </Stack>
         )}
       </Stack>
+
+      {/* Circular Progress Bar */}
+      {loading && (
+        <Stack mt={2} justifyContent="center">
+          <CircularProgress color="primary" />
+        </Stack>
+      )}
     </Stack>
   );
 }

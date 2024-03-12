@@ -1,5 +1,5 @@
 import { Box, Stack, Typography, Link } from '@mui/material';
-import PayImage from '../assets/logo_band_colored.svg'
+import PayImage from '../assets/Adsız tasarım.svg'
 function Footer() {
     return (
         <Box position="static" bottom={0} left={0} width="100%">

@@ -8,6 +8,7 @@ import FollowButton from '../button/FollowButton';
 
 export default function ProfileUserView() {
     const baseUrl = process.env.REACT_APP_BASE_URL
+    const prop = useUserContext()
     const [user, setUser] = useState({
         id: null,
         firstname: "",
@@ -34,7 +35,8 @@ export default function ProfileUserView() {
                     followers: res.data.followers,
                     following: res.data.following,
                     id: res.data.id,
-                    image: res.data.profileImageUrl
+                    image: res.data.profileImageUrl,
+                    publications: res.data.publications
                 });
             })
             .catch(() => { })
@@ -99,12 +101,12 @@ export default function ProfileUserView() {
                             Publications
                         </Typography>
                         <Typography>
-                            {user.following}
+                            {user.publications}
                         </Typography>
                     </Stack>
 
                 </Stack>
-                <FollowButton followingId={user.id} />
+                {prop.user.uniqueName != username && <FollowButton followingId={user.id} />}
             </Stack>
 
         </Stack>

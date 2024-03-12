@@ -103,6 +103,39 @@ export const changeUsername = async(token,username) =>{
         throw error;
     }
 }
+
+export const changeCountry = async (token, country) => {
+    try {
+        const res = await axios.post(
+            `${baseUrl}/api/v1/user/changeCountry`,
+            { country: country }, // Değişken adını "country" olarak değiştirildi
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+export const countPublications = async (token, uniqueName) => {
+    try {
+        const res = await axios.get(
+            `${baseUrl}/api/v1/user/userPublicationsCount/${uniqueName}`, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const changePassword = async(token,data) =>{
     console.log(data)
     
