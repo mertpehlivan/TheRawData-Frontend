@@ -46,7 +46,7 @@ const Navbar = () => {
             bgcolor='background.default'
           >
             <Stack direction="row" alignItems="center">
-              <Link to="/explore">
+              <Link to="/home">
                 <img src={Logo} width='200px' height='50px' />
               </Link>
               <Link to="publications/create"><Button startIcon={<Add/>} variant='contained' size='small'>Add new research</Button></Link>

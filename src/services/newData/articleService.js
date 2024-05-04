@@ -1,7 +1,7 @@
 import axios from "axios"
 const baseUrl = process.env.REACT_APP_BASE_URL
 const authToken = localStorage.getItem("access-token");
-export const createArticle = async ({ title, journalName, volume, issue, pages, doi, authors, comment, pdf, fileEx, fileUrl }, token, onUploadProgress) => {
+export const createArticle = async ({ year,url,title, journalName, volume, issue, pages, doi, authors, comment, pdf, fileEx, fileUrl }, token, onUploadProgress) => {
     try {
         // Dosyayı indir
         const response = await fetch(fileUrl);
@@ -28,6 +28,8 @@ export const createArticle = async ({ title, journalName, volume, issue, pages, 
         formData.append('addOnly', pdf.addOnly);
         formData.append('pdfStatus', pdf.pdfStatus);
         formData.append('pdfFile', pdfFile,fileName);
+        formData.append('url',url);
+        formData.append('year',year)
 
         // Sunucuya POST isteği gönder
         const res = await axios.post(
@@ -35,6 +37,43 @@ export const createArticle = async ({ title, journalName, volume, issue, pages, 
             formData,
             {
                 onUploadProgress,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        return res;
+    } catch (error) {
+        console.error(error);
+        throw error; // Hata yeniden fırlatılıyor, böylece çağıran kod hata hakkında bilgi sahibi olabilir
+    }
+};
+export const getArticle = async(token,id) => {
+    try {
+        const res = await axios.get(
+            `${baseUrl}/api/v1/article/getArticle/${id}`,
+            {
+
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+          
+               
+            }
+        )
+        return res;
+    } catch (error) {
+        console.error(error)
+    }
+};
+export const updateArticle = async (data, token,publicationId) => {
+    try {
+
+        const res = await axios.post(
+            `${baseUrl}/api/v1/article/update/${publicationId}`,
+            data,
+            {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchInput from '../input/SearchInput';
 import {
   Stack,
@@ -11,12 +11,15 @@ import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PdfForm from './PdfForm';
 import SearchInputV2 from '../input/SearchInputV2';
+import { getChapterInABook, updateChapterInABook } from '../../services/newData/chapterInABookService';
+import { useUserContext } from '../../hooks/AuthProvider';
+import { Save } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 
-export default function ChapterInABook() {
+export default function ChapterInABookEdit() {
   const [title, setTitle] = useState('');
   const [chapterNumber, setChapterNumber] = useState('');
   const [bookTitle, setBookTitle] = useState('');
@@ -27,14 +30,31 @@ export default function ChapterInABook() {
   const [isbn, setIsbn] = useState('');
   const [editor, setEditor] = useState('');
   const [comment, setComment] = useState('');
-
+  const [loading,setLoading] = useState(false)
   const [authors, setAuthorIds] = useState([]);
-  const [pdf, setPdf] = useState({
-    pdfStatus: true,
-    addOnly: true,
-  })
-  const [fileUrl, setFileUrl] = useState(null)
-  const [fileEx, setFileEx] = useState("")
+
+  const { token } = useUserContext()
+  const { publicationId } = useParams();
+
+  useEffect(() => {
+    const fetchPublication = async () => {
+      setLoading(true)
+      const response = await getChapterInABook(token, publicationId)
+      const data = response.data;
+      setTitle(data.title)
+      setChapterNumber(data.chapterNumber)
+      setBookTitle(data.bookTitle)
+      setYear(data.year)
+      setPages(data.pages)
+      setDoi(data.doi)
+      setPublisher(data.publisher)
+      setIsbn(data.isbn)
+      setEditor(data.editor)
+      setComment(data.comment)
+      setLoading(false)
+    }
+    fetchPublication()
+  }, []);
 
   const dispatch = useDispatch()
   const handlerCancel = () => {
@@ -55,9 +75,7 @@ export default function ChapterInABook() {
     editor,
     authors,
     comment,
-    pdf,
-    fileEx,
-    fileUrl
+
   }
   const isFormValid = () => {
     return title.trim() !== '' &&
@@ -65,20 +83,29 @@ export default function ChapterInABook() {
       bookTitle.trim() !== '' &&
       year.trim() !== '' &&
       pages.trim() !== '' &&
+      doi.trim() !== '' &&
       publisher.trim() !== '' &&
+      isbn.trim() !== '' &&
       editor.trim() !== '' &&
-      comment.trim() !== '' &&
-      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+      comment.trim() !== ''
 
   };
+  const updatePublication = async () =>{
+    const response = await updateChapterInABook(data,token,publicationId)
+    window.location.href = window.location.href;
+  }
   const handleDelete = (authorId) => {
     setAuthorIds(authors.filter((id) => id !== authorId));
   };
-
+  if(loading){
+    return(<Stack>
+      <Typography>Loading</Typography>
+    </Stack>)
+  }
   return (
     <Stack borderRadius={5}>
       <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
-        <Icon icon="material-symbols:article"  color='#091582' width={50} height={50} />
+      <Icon icon="material-symbols:article"  color='#091582' width={50} height={50} />
         <Typography color="primary.main" variant='h3'>Chapter in a Book</Typography>
       </Stack>
       <Stack mx={4} spacing={5} mt={2} direction='row'>
@@ -172,33 +199,11 @@ export default function ChapterInABook() {
         <Stack mt={3}>
           <SearchInputV2 setAuthorIds={setAuthorIds} />
         </Stack>
-        <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
-        <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-          <Link to='/'><Button
-            color='error'
-            variant='outlined'
-            onClick={handlerCancel}
 
-          >
-            Cancel
-          </Button></Link>
-          <Button
-            variant='contained'
-            disabled={!isFormValid()} // Butonu devre dışı bırak
-            onClick={() => {
-              if (isFormValid()) {
-                dispatch(addData(data));
-                dispatch(increase());
-              } else {
-                // Form geçerli değilse bir uyarı göster veya istediğiniz bir işlemi gerçekleştirin
-                console.log('Lütfen tüm alanları doldurun.');
-              }
-            }}
-          >
-            Next
-          </Button>
-        </Stack>
+
+
       </Stack>
+      <Button onClick={updatePublication} startIcon={<Save/>} variant='contained'>Save</Button>
     </Stack>
   );
 }

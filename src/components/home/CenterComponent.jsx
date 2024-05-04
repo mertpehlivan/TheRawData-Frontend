@@ -8,7 +8,7 @@ export default function CenterComponent({activeItem}) {
     const {token} = useUserContext();
 
     if (activeItem === "Explore") {
-        
+        console.log("Explore")
         return(
             <Stack spacing={1}>
                 <ExploreComponent/>

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, IconButton, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Divider, Grid, IconButton, Paper, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import DataBox from './DataBox';
 import { AddCircleRounded, Close, CloseOutlined, CloseRounded, Create, Delete, Edit, HdrPlus, PlusOne, Save } from '@mui/icons-material';
@@ -18,10 +18,11 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
   const [temData, setTemData] = useState([])
   const [fileOne, setFileOne] = useState(file)
   const chunkedRawDatas = chunkArray(fileOne.rawDatas, 3);
-
-
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [rawDatas, setRawDatas] = useState([])
   useEffect(() => {
     setFileOne(file)
+    setRawDatas(file.rawDatas)
   }, [file]);
 
 
@@ -33,17 +34,21 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
   }
 
   const deleteRawData = (id) => {
-    const newRawDatas = fileOne.rawDatas.filter(item => item.id !== id);
+    const newRawDatas = rawDatas.filter(item => item.id !== id);
 
-    setFileOne(prev => ({
-      ...prev,
-      rawDatas: newRawDatas
-    }));
+    setRawDatas(newRawDatas);
 
 
   }
   const deleteFile = async () => {
-    await deleteRawDataFile(file.id)
+    try {
+      setDeleteLoading(true)
+      await deleteRawDataFile(file.id)
+      setDeleteLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+
 
   }
 
@@ -67,7 +72,7 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
             </Typography>
             {!editFileMode && editMode && <Stack direction="row" spacing={1}>
               <Button variant='outlined' onClick={() => setEditFileMode(true)} startIcon={<Edit />}>Edit</Button>
-              <Button onClick={deleteFile} color='error' variant='outlined'><Delete /></Button>
+              <Button onClick={deleteFile} disabled={deleteLoading} color='error' variant='outlined'>{deleteLoading ? <CircularProgress style={{ color: "red", width: 14, height: 14 }} /> : <Delete />}</Button>
             </Stack>}
           </Stack>
 
@@ -77,29 +82,45 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
           <TextField size='small' type='text' value={fileName} onChange={(e) => setFileName(e.target.value)} />
         </Stack>}
         {editFileMode && editMode && <IconButton onClick={() => fileNameUpdate(file.id, fileName)} sx={{ width: 25, height: 25 }}><Save /></IconButton>}
-        {editFileMode && editMode && <IconButton onClick={() => setEditFileMode(false)} sx={{ width: 25, height: 25 }}><Delete /></IconButton>}
+        {editFileMode && editMode && <IconButton onClick={() => setEditFileMode(false)} sx={{ width: 25, height: 25 }}>{deleteLoading ? <CircularProgress style={{ color: "red", width: 14, height: 14 }} /> : <Delete />}</IconButton>}
 
       </Stack>
 
       <Divider sx={{ my: 2 }} />
-      {chunkedRawDatas.map((row, rowIndex) => (
-        <Stack key={rowIndex} spacing={2} justifyContent="center" direction="row" flexWrap="wrap">
-          {row.map((rawData, colIndex) => (
-            <DataBox counter={counter} key={colIndex} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData} />
+      <Stack  alignItems="stretch">
+        <Grid container spacing={2} >
+          {rawDatas.map((rawData, index) => (
+            <Grid item xs={3} key={index}>
+              <DataBox counter={counter} key={index} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData} />
+            </Grid>
           ))}
+          <Grid item xs={3} >
+            <Stack direction="row">
+              {editMode && !editRawData && <Stack direction="row" alignItems="center"><IconButton onClick={() => { setEditRawData(prev => !prev); }}>{editRawData ? <CloseRounded /> : <AddCircleRounded sx={{ width: 45, height: 45, color: "primary.main" }} />}</IconButton></Stack>}
+              {editRawData && <UpdateRawData handleData={handleData} handleClose={handleClose} fileId={file.id} refreshHandler={refreshHandler} />}
+            </Stack>
 
-        </Stack>
-      ))}
-      {
-        <Stack spacing={2} justifyContent="center" direction="row" flexWrap="wrap">
-          {temData.map((rawData, colIndex) => (
-            <DataBox counter={counter} key={colIndex} rawData={rawData} fileId={file.id} editMode={editMode} refreshHandler={refreshHandler} onDeleteRawData={deleteRawData} />
-          ))}
+          </Grid>
+        </Grid>
+        {/* {chunkedRawDatas.map((row, rowIndex) => (
+          <Stack key={rowIndex} spacing={2} justifyContent="center" direction="row" flexWrap="wrap">
+            {row.map((rawData, colIndex) => (
+              <DataBox counter={counter} key={colIndex} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData} />
+            ))}
 
-        </Stack>
-      }
-      {editRawData && <UpdateRawData handleData={handleData} handleClose={handleClose} fileId={file.id} refreshHandler={refreshHandler} />}
-      {editMode && <Stack direction="row" alignItems="center"><IconButton onClick={() => { setEditRawData(prev => !prev); }}>{editRawData ? <CloseRounded /> : <AddCircleRounded sx={{ width: 45, height: 45, color: "primary.main" }} />}</IconButton></Stack>}
+          </Stack>
+        ))}
+        {
+          <Stack spacing={2} justifyContent="center" direction="row" flexWrap="wrap">
+            {temData.map((rawData, colIndex) => (
+              <DataBox counter={counter} key={colIndex} rawData={rawData} fileId={file.id} editMode={editMode} refreshHandler={refreshHandler} onDeleteRawData={deleteRawData} />
+            ))}
+
+          </Stack>
+        } */}
+      </Stack>
+
+
     </Paper>
   );
 }

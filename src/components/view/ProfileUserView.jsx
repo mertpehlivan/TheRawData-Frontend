@@ -51,7 +51,7 @@ export default function ProfileUserView() {
                 {loading ? (
                     <Skeleton variant="circular" width={50} height={50} />
                 ) : (
-                    <Avatar  src={`${baseUrl}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '50px', height: '50px' }} />
+                    <Avatar  src={`${baseUrl}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '100px', height: '100px' }} />
                 )}
 
                 <Stack>

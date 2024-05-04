@@ -46,12 +46,14 @@ export default function BasketSummaryComponent() {
                 {error ? (
                     <Chip sx={{ bgcolor: "error.main", color: "white" }} label="Error loading price" />
                 ) : (
+                    <Link to="/library/basket">
                     <Chip sx={{ bgcolor: "primary.main", color: "white" }} label={
                         <Stack direction="row" p={1} alignItems="end" spacing={1}>
                             <Typography variant='h5'>{price}$</Typography>
                             <Typography>Total Price</Typography>
                         </Stack>
                     } />
+                    </Link>
                 )}
             </Stack>
             <Stack

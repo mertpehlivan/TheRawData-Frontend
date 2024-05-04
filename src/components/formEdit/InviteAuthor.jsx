@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { invite } from '../../services/userAuthentication';
-import { Dangerous, PersonAdd } from '@mui/icons-material';
+import { Dangerous } from '@mui/icons-material';
 
 function InviteAuthor({ onInvite, setInviteBox }) {
   const [loading, setLoading] = useState(false);
@@ -10,7 +10,6 @@ function InviteAuthor({ onInvite, setInviteBox }) {
     id: '',
     firstname: '',
     lastname: '',
-    username:'invite',
     email: ''
   });
 
@@ -46,7 +45,7 @@ function InviteAuthor({ onInvite, setInviteBox }) {
           console.log(error.response.data.message);
           setMessage(error.response.data.message);
         } else {
-          
+          setMessage('An error occurred.');
         }
       })
       .finally(() => {
@@ -55,7 +54,7 @@ function InviteAuthor({ onInvite, setInviteBox }) {
   };
 
   return (
-    <Stack maxWidth={400} p={3} spacing={1}>
+    <Stack maxWidth={400} p={3} spacing={1} border="1px solid" borderRadius={3}>
       {loading ? (
         <Stack justifyContent="center">
           <CircularProgress />
@@ -66,7 +65,7 @@ function InviteAuthor({ onInvite, setInviteBox }) {
             <TextField
               size="small"
               type="text"
-              label="First name"
+              label="Firstname"
               name="firstname"
               value={invitationDetails.firstname}
               onChange={handleChange}
@@ -74,7 +73,7 @@ function InviteAuthor({ onInvite, setInviteBox }) {
             <TextField
               size="small"
               type="text"
-              label="Last name"
+              label="Lastname"
               name="lastname"
               value={invitationDetails.lastname}
               onChange={handleChange}
@@ -89,11 +88,11 @@ function InviteAuthor({ onInvite, setInviteBox }) {
             onChange={handleChange}
           />
           <Stack direction="row">
-            { message && <Dangerous color="error" />}
+            <Dangerous color="error" />
             <Typography color="error">{message}</Typography>
           </Stack>
 
-          <Button startIcon={<PersonAdd/>} variant="contained" onClick={handleClick}>
+          <Button variant="outlined" onClick={handleClick}>
             Invite
           </Button>
         </>

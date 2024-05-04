@@ -8,6 +8,7 @@ import { getPublicationBasket } from '../../services/newData/basketService';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRawDataForPublication } from '../../store/basketPublicationSlice';
 import BasketSummaryComponent from '../library/BasketSummaryComponent';
+import { RefreshPriceProvider } from '../../hooks/RefreshPrice';
 
 export default function BasketAccordion({ requestCounter, counterRequest }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -31,7 +32,7 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
       });
   }, []);
   useEffect(() => {
-   
+
 
     getPublicationBasket(publicationId)
       .then(res => {
@@ -66,9 +67,9 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
         {isOpen ? <ExpandLess /> : <ExpandMoreIcon />}
       </IconButton>
 
-      <Collapse  in={isOpen} timeout="auto" unmountOnExit>
+      <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <Box
-          
+
           position="absolute"
           left="0"
           bgcolor="white"
@@ -101,14 +102,12 @@ export default function BasketAccordion({ requestCounter, counterRequest }) {
                 {/* Add more skeletons as needed */}
               </Stack>
             ) : (
-              // Actual content
-              <BasketItem counterRequest={counterRequest} data={data} />
+              <RefreshPriceProvider>
+                <BasketItem counterRequest={counterRequest} data={data} />
+              </RefreshPriceProvider>
             )}
           </Stack>
-          <Stack>
-            
-            <Link to={'/library/basket'}><Button>See all basket</Button></Link>
-          </Stack>
+        
         </Box>
       </Collapse>
     </Box>

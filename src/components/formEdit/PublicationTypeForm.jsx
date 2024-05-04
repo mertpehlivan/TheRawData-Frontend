@@ -96,7 +96,7 @@ export default function () {
                             Company Test Report
                         </Button>
                         <Stack direction="row" justifyContent="end" spacing={1}>
-                            <Link to='/home'><Button
+                            <Link to='/'><Button
                                 color='error'
                                 variant='outlined'
                                 onClick={handlerCancel}

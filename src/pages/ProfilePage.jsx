@@ -18,7 +18,7 @@ export default function ProfilePage() {
     const scrollRef = useRef(null);
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(true);
-
+    
 
     return (
         <div>

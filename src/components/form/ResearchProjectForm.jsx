@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Checkbox, Divider, Stack, TextField, Typography } from '@mui/material';
 import SearchInput from '../input/SearchInput';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -10,19 +10,39 @@ import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
 import { Link } from 'react-router-dom';
 import PdfForm from './PdfForm';
+import SearchInputV2 from '../input/SearchInputV2';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { CheckBox } from '@mui/icons-material';
 
 export default function ResearchProjectForm() {
   const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new dayjs(""));
+  const [endDate, setEndDate] = useState(new dayjs(""))
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
+  const [authorsAndRole, setAuthorsAndRole] = useState([])
+  const [grantNumber, setGrantNumber] = useState("")
+  const [companyOrUnvierstiy, setCompanyOrUnvierstiy] = useState("")
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    setEndDate(new dayjs(""))
+  };
+
+
+
   const [pdf, setPdf] = useState({
     pdfStatus: true,
     addOnly: true,
   })
   const [fileUrl, setFileUrl] = useState(null)
   const [fileEx, setFileEx] = useState("")
-
+  const handleRole = (role) => {
+    setAuthorsAndRole(role)
+  }
   const dispatch = useDispatch();
   const handlerCancel = () => {
     dispatch(format())
@@ -32,17 +52,20 @@ export default function ResearchProjectForm() {
   }
   const data = {
     title,
-    date,
+    date: date.toDate() == null ? null : date.toDate(),
     comment,
-    authors,
+    grantNumber,
+    companyOrUnvierstiy,
+    authorsAndRole,
+    endDate: endDate.toDate() == null ? null : endDate.toDate(),
     pdf,
     fileEx,
     fileUrl
   };
 
   const isFormValid = () => {
-    return title.trim() !== '' && date.trim() !== '' &&
-    (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+    return title.trim() !== '' &&
+      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
 
   const handleNext = () => {
@@ -69,12 +92,56 @@ export default function ResearchProjectForm() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+      </Stack>
+      <Stack mx={4} spacing={5} mt={2} direction='row'>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            value={date}
+            onChange={(newValue) => setDate(dayjs(newValue))} // Convert to Day.js object
+            label="Beginning date"
+            slotProps={{
+              textField: { size: 'small', fullWidth: true },
+            }}
+          />
+        </LocalizationProvider>
+        <Stack width="100%">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={endDate}
+              onChange={(newValue) => setEndDate(dayjs(newValue))} // Convert to Day.js object
+              label="Completed date "
+              slotProps={{
+                textField: { size: 'small', fullWidth: true },
+              }}
+              disabled={checked}
+            />
+
+          </LocalizationProvider>
+          <Stack direction="row" alignItems="center">
+            <Checkbox
+              checked={checked}
+              onChange={handleChange}
+
+            />
+            <Typography>Continue</Typography>
+          </Stack>
+
+        </Stack>
+      </Stack>
+      <Stack mx={4} spacing={5} mt={2} direction='row'>
+        <TextField
+          size='small'
+          label="University or company"
+          fullWidth
+          value={companyOrUnvierstiy}
+          onChange={(e) => setCompanyOrUnvierstiy(e.target.value)}
+        />
         <TextField
           size='small'
           fullWidth
-          type='date'
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+          value={grantNumber}
+          onChange={(e) => setGrantNumber(e.target.value)}
         />
       </Stack>
       <Stack mx={4} my={2}>
@@ -85,7 +152,7 @@ export default function ResearchProjectForm() {
           rows={4}
           onChange={(e) => setComment(e.target.value)}
         />
-        <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
+        <SearchInputV2 setAuthorIds={setAuthorIds} handleRole={handleRole} />
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
       </Stack>
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>

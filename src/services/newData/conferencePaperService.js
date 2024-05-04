@@ -8,7 +8,7 @@ export const createConferencePaper = async ({
   conferenceName,
   location,
   pages,
-  doi,
+  isbn,
   authors,
   comment,
   pdf,
@@ -34,7 +34,7 @@ export const createConferencePaper = async ({
     formData.append('conferenceName', conferenceName);
     formData.append('location', location);
     formData.append('pages', pages);
-    formData.append('doi', doi);
+    formData.append('isbn', isbn);
     formData.append('authors', authors);
     formData.append('comment', comment);
     formData.append('addOnly', pdf.addOnly);
@@ -58,5 +58,42 @@ export const createConferencePaper = async ({
   } catch (error) {
     console.error(error);
     throw error; // Hata yeniden fırlatılıyor, böylece çağıran kod hata hakkında bilgi sahibi olabilir
+  }
+};
+export const getConferencePaper = async(token,id) => {
+  try {
+      const res = await axios.get(
+          `${baseUrl}/api/v1/conferencePaper/getConferencePaper/${id}`,
+          {
+
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+        
+             
+          }
+      )
+      return res;
+  } catch (error) {
+      console.error(error)
+  }
+};
+export const updateConferencePaper = async (data, token,publicationId) => {
+  try {
+
+      const res = await axios.post(
+          `${baseUrl}/api/v1/conferencePaper/update/${publicationId}`,
+          data,
+          {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          }
+      );
+
+      return res;
+  } catch (error) {
+      console.error(error);
+      throw error; // Hata yeniden fırlatılıyor, böylece çağıran kod hata hakkında bilgi sahibi olabilir
   }
 };

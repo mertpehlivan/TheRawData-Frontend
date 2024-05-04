@@ -34,6 +34,7 @@ const AuthProvider = ({ children }) => {
         }
         setIsLoading(true)
         const responseUser = await getUserBox(authToken);
+        
         setUser(responseUser.data)
 
         setAuthenticated(true);

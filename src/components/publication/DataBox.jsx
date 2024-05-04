@@ -22,15 +22,15 @@ import UpdateRawDataBackdrop from './UpdateRawDataBackdrop';
 import { useUserContext } from '../../hooks/AuthProvider';
 import { deleteRawData } from '../../services/newRawData/RawDataService';
 import ImageModal from './ImageModal '
-export default function DataBox({ rawData, fileId, counter, editMode, refreshHandler,onDeleteRawData }) {
+export default function DataBox({ rawData, fileId, counter, editMode, refreshHandler, onDeleteRawData }) {
   const dispatch = useDispatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const baseUrl = process.env.REACT_APP_BASE_URL
   const [open, setOpen] = React.useState(false);
-  const [deleteLoading,setDeleteLoading] = useState(false);
-  const {token} = useUserContext();
-  const [loading,setLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const { token } = useUserContext();
+  const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleImageClick = () => {
@@ -49,9 +49,9 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
   const handleRefresh = () => {
     refreshHandler()
   }
-  const fetchDeleteRawData= async ()=>{
+  const fetchDeleteRawData = async () => {
     setDeleteLoading(true)
-    const response = await deleteRawData(rawData.id,token);
+    const response = await deleteRawData(rawData.id, token);
     setDeleteLoading(false)
     await onDeleteRawData(rawData.id)
 
@@ -92,7 +92,7 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
       }
     } catch (error) {
       console.error(error);
-    } finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -125,7 +125,7 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
         <UpdateRawDataBackdrop handleClose={handleClose} handleOpen={handleOpen} open={open} simpleData={rawData} refreshHandler={handleRefresh} />
         {editMode && <Stack direction="row" spacing={1}>
           <Button fullWidth variant='outlined' startIcon={<Edit />} onClick={handleOpen}>Edit</Button>
-          <Button disabled={deleteLoading} onClick={fetchDeleteRawData}>{deleteLoading ? <CircularProgress/>:<Delete/>}</Button>
+          <Button disabled={deleteLoading} onClick={fetchDeleteRawData}>{deleteLoading ? <CircularProgress /> : <Delete />}</Button>
         </Stack>}
         <Stack direction="row" spacing={1} mt={1}>
           <Box width={20}>
@@ -137,20 +137,23 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
           </Stack>
 
         </Stack>
-        <Box
-          width={250}
-          height={200}
-          component="img"
-          src={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`}
-          sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'fill', borderRadius: '8px' }}
-          onClick={handleImageClick}
-        />
+        
+          <Box
+            width={250}
+            height={200}
+            component="img"
+            src={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`}
+
+            sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'fill', borderRadius: '8px',cursor:"pointer" }}
+            onClick={handleImageClick}
+          />
+     
         {modalOpen && (
-        <ImageModal
-          imageUrl={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`} // Resmin URL'sini modal bileşenine geçir
-          onClose={handleCloseModal} // Modal kapatma işlevini geçir
-        />
-      )}
+          <ImageModal
+            imageUrl={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`} // Resmin URL'sini modal bileşenine geçir
+            onClose={handleCloseModal} // Modal kapatma işlevini geçir
+          />
+        )}
         <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>{rawData.comment}</Typography>
         <Box>
           <Stack spacing={1} direction="row" alignItems="center" width={40} border="1px solid" borderRadius={3} p={1} >
@@ -161,9 +164,9 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
             >
               <Stack>
 
-              
-              {loading && <CircularProgress sx={{color:!select ? "red" : "primary.main"}} style={{position:"absolute",width:40,height:'40',top:-2,left:-2}}/>}
-              {!select ? <AddShoppingCartIcon sx={{ color: 'white' }} /> : <RemoveShoppingCartIcon sx={{ color: 'white' }} />}
+
+                {loading && <CircularProgress sx={{ color: !select ? "red" : "primary.main" }} style={{ position: "absolute", width: 40, height: '40', top: -2, left: -2 }} />}
+                {!select ? <AddShoppingCartIcon sx={{ color: 'white' }} /> : <RemoveShoppingCartIcon sx={{ color: 'white' }} />}
               </Stack>
             </IconButton>}
           </Stack>

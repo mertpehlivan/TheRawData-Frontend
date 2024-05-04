@@ -11,14 +11,18 @@ import BasketItemFile from './BasketItemFile';
 import { SentimentVeryDissatisfied, Token } from '@mui/icons-material';
 import { getBasketPrice } from '../../services/newData/basketService';
 import { useUserContext } from '../../hooks/AuthProvider';
+import BasketSummaryComponent from '../library/BasketSummaryComponent';
+import { RefreshPriceProvider, useRefreshPrice } from '../../hooks/RefreshPrice';
 
 export default function BasketItem({ data, counterRequest }) {
   const [totalPrice, setTotalPrice] = useState(0)
   const { token } = useUserContext()
+  const {refreshPriceHandler} = useRefreshPrice()
   useEffect(() => {
     const fetchPrice = async () => {
       const response = await getBasketPrice(token)
       setTotalPrice(response.data)
+      refreshPriceHandler()
     }
     fetchPrice()
   }, [counterRequest]);
@@ -33,22 +37,21 @@ export default function BasketItem({ data, counterRequest }) {
 
   return (
     <Paper elevation={3} sx={{ borderRadius: 3, p: 2, marginBottom: 2 }}>
-      <Typography variant='h6' component={Link} to="/product-details">
-        {data[0].title}
-      </Typography>
-      <Divider sx={{ mt: 1, mb: 1 }} />
+     
+        <Typography variant='h6' component={Link} to="/product-details">
+          {data[0].title}
+        </Typography>
+        <Divider sx={{ mt: 1, mb: 1 }} />
 
-      {data[0].rawDataFile.map((file) => (
-        <BasketItemFile counterRequest={counterRequest} key={file.id} file={file} />
-      ))}
-      <Stack border="1px solid" borderRadius={3} borderColor="primary.main" p={1} m={1}>
-        <Chip sx={{ bgcolor: "primary.main", color: "white" }} label={
-          <Stack direction="row" p={1} alignItems="end" spacing={1}>
-            <Typography variant='h5'>{totalPrice}$</Typography>
-            <Typography>Total Price</Typography>
-          </Stack>
-        } />
-      </Stack>
-    </Paper>
+        {data[0].rawDataFile.map((file) => (
+          <BasketItemFile counterRequest={counterRequest} key={file.id} file={file} />
+        ))}
+        <Stack border="1px solid" borderRadius={3} borderColor="primary.main" p={1} m={1}>
+
+          <BasketSummaryComponent />
+
+        </Stack>
+      
+    </Paper >
   );
 }

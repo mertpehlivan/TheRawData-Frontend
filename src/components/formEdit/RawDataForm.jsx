@@ -41,7 +41,7 @@ export default function RawDataForm() {
       <Stack direction="row" alignItems="center">
         <Switch checked={uploadEnabled} onChange={handleSwitchChange} />
         <Typography>Do you want to upload raw data?</Typography>
-        
+        {`${status}`}
       </Stack>
       {uploadEnabled && <Stack>
 

@@ -122,7 +122,7 @@ export default function UploadBox({ boxKey, headerIndex }) {
             <TextField
               size="small"
               label="Specimen Name"
-              helperText="Type the raw data/ specimen's name as given in the article. e.g;K1"
+              helperText="Type the raw data/specimen's name as given in the article. e.g;K1"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);

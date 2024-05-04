@@ -6,7 +6,10 @@ export const createThesis = async ({
   degree,
   university,
   pages,
+  department,
   authors,
+  year,
+  month,
   comment,
   pdf,
   fileEx,
@@ -30,12 +33,15 @@ export const createThesis = async ({
     formData.append('degree', degree);
     formData.append('university', university);
     formData.append('pages', pages);
-    formData.append('authors', authors);
+    formData.append('year', year);
+    formData.append('month',month)
+    formData.append('department',department)
     formData.append('comment', comment);
     formData.append('fileEx', fileEx);
     formData.append('addOnly', pdf.addOnly);
     formData.append('pdfStatus', pdf.pdfStatus);
     formData.append('pdfFile', pdfFile, fileName);
+    formData.append("authors",authors)
 
     // Sunucuya POST isteği gönder
     const res = await axios.post(

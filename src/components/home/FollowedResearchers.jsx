@@ -76,7 +76,7 @@ export default function FollowedResearchers() {
   if (!posts || posts.length === 0) {
     return (
       <Stack alignItems="center" justifyContent="center" height="100%">
-        <ContinuesDeveloped/>
+        
         <Typography variant="h5" color="error">
           <Icon as={InfoOutlined} fontSize="large" marginRight={1} />
           
@@ -89,7 +89,7 @@ export default function FollowedResearchers() {
   if (error) {
     return (
       <Stack alignItems="center" justifyContent="center" height="100%">
-        <ContinuesDeveloped />
+        
         <Typography variant="h5" color="error">
           <Icon as={ErrorOutline} fontSize="large" marginRight={1} />
           An error has occurred: {error.toString()}

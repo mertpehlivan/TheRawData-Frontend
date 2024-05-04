@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ForwardToInbox, MarkEmailRead } from '@mui/icons-material';
 import NotificationPopover from '../components/view/NotificationPopover';
 import EnvelopeBox from '../components/view/EnvelopeBox';
+import { getInvitations } from '../services/notificationService';
 
 function EmailVerificationPage() {
     const { setUser, user, token } = useUserContext();
@@ -17,7 +18,12 @@ function EmailVerificationPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false)
+    const [endMessagess, setEndMessages] = useState([])
     const navigate = useNavigate()
+
+    const [page, setPage] = useState(0)
+   
+  
     useEffect(() => {
         let interval;
 
@@ -104,7 +110,7 @@ function EmailVerificationPage() {
                                     </Typography>
                                 </Stack>
                             </Stack>
-                        </> : <>
+                        </> : <>{page == 0 &&
                             <Stack spacing={1}>
                                 <Stack direction="row" spacing={1}>
                                     <MarkEmailRead sx={{ width: 35, height: 35, color: "primary.main" }} />
@@ -114,15 +120,16 @@ function EmailVerificationPage() {
 
                                 </Stack>
                                 <Typography>Welcome to <Link>The Raw Data Library</Link> community <b>{user.firstname} {user.lastname}</b></Typography>
-                                <Typography variant='h6' color="primary.main">Confirm your authorship - is this you?</Typography>
-                                <Typography>We have identified 8 items for <b>{user.firstname} </b><b>{user.lastname}</b></Typography>
-                                <Box borderRadius={2} border="1px solid" height={300} p={1}>
-                                    <EnvelopeBox />
-                                </Box>
+                                {endMessagess && <Button>{ }</Button>}
+                                <Button href='/' variant='contained'>Explore research</Button>
+                            </Stack>}
 
-                            </Stack>
-                            <Button href='/' variant='contained'>Explore research</Button>
                         </>
+                }
+                {page == 1 &&
+                    <Stack>
+                    
+                    </Stack>
                 }
 
 

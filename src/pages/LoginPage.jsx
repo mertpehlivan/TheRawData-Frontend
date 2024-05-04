@@ -40,7 +40,7 @@ export default function LoginPage() {
         localStorage.setItem('access-token', res.data.token);
         setAuthenticated(true);
         setToken(res.data.token)
-        navigate('/explore');
+        navigate('/home');
       } catch (err) {
         setIsLoading(false);
         console.error('Login Error:', err);  // Log the error
@@ -81,9 +81,12 @@ export default function LoginPage() {
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
               />
-              <Typography sx={{ mt: 2 }} textAlign="right">
-                Forget password ?
-              </Typography>
+              <Link to="/forget">
+
+                <Typography sx={{ mt: 2 }} textAlign="right">
+                  Forget password ?
+                </Typography>
+              </Link>
               <TextField
                 type="password"
                 size="small"

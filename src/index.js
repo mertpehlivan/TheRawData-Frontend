@@ -8,9 +8,8 @@ import { BrowserRouter} from 'react-router-dom';
 import store from './store/store';
 import { Provider } from 'react-redux';
 
-
 import AuthProvider, { useUserContext } from './hooks/AuthProvider';
-
+import {zhCN } from '@mui/material/locale';
 const theme = createTheme({
     palette: {
         primary: {
@@ -37,7 +36,8 @@ const theme = createTheme({
     },
     typography: {
         fontSize: 12,
-    }
+    },
+    zhCN
 });
 
 

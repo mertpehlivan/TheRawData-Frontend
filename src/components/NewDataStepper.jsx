@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 export default function NewDataStepper() {
     const steps = [
-        "Publication type","New Data Info","Upload Raw Data"
+        "Publication type","Publication Info","Upload Raw Data"
     ]
     const pageNumber = useSelector((state)=>state.pageNumber.value)
   return (

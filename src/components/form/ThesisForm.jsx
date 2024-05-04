@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import SearchInput from '../input/SearchInput';
 import { Icon } from '@iconify/react';
@@ -10,15 +10,47 @@ import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
 import { Link } from 'react-router-dom';
 import PdfForm from './PdfForm';
-
+import UniversitySearch from '../UniversitySearch'
+import SearchDepartment from '../SearchDepartment';
+import { useUserContext } from '../../hooks/AuthProvider';
 export default function ThesisForm() {
   const [title, setTitle] = useState('');
-  const [degree, setDegree] = useState('');
+  const [degree, setDegree] = useState('Bachelor');
   const [university, setUniversity] = useState('');
   const [pages, setPages] = useState('');
   const [comment, setComment] = useState('');
-  const [authors, setAuthorIds] = useState([])
-  const [isValid, setIsValid] = useState(true); // Kontrol eklemek için bir state ekledik
+  const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+  const [department,setDepartment] = useState("")
+  const [authors, setAuthorIds] = useState([]);
+  const [isValid, setIsValid] = useState(true);
+  const {user} = useUserContext()
+  const handleMonthChange = (event) => {
+    setMonth(event.target.value);
+  };
+  console.log("department:",department)
+  useEffect(() => {
+    setAuthorIds([`${user.id}`])
+  }, []);
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
+  const years = Array.from({ length: 10 }, (_, i) => String(new Date().getFullYear() + i)); // Kontrol eklemek için bir state ekledik
+  const months = [
+    { value: 'January', label: 'January' },
+    { value: 'February', label: 'February' },
+    { value: 'March', label: 'March' },
+    { value: 'April', label: 'April' },
+    { value: 'May', label: 'May' },
+    { value: 'June', label: 'June' },
+    { value: 'July', label: 'July' },
+    { value: 'August', label: 'August' },
+    { value: 'September', label: 'September' },
+    { value: 'October', label: 'October' },
+    { value: 'November', label: 'November' },
+    { value: 'December', label: 'December' },
+  ];
 
   const [pdf, setPdf] = useState({
     pdfStatus: true,
@@ -39,7 +71,10 @@ export default function ThesisForm() {
     degree,
     university,
     pages,
+    department,
     authors,
+    year,
+    month,
     comment,
     pdf,
     fileEx,
@@ -94,21 +129,14 @@ export default function ThesisForm() {
           value={degree}
           onChange={(e) => setDegree(e.target.value)}
         >
-          <MenuItem value={"Professor"}>Professor</MenuItem>
-          <MenuItem value={"Associate professor"}>Associate</MenuItem>
-          <MenuItem value={"Dr. Lecturer"}>Dr. Lecturer</MenuItem>
-          <MenuItem value={"Lecturer"}>Lecturer</MenuItem>
-          <MenuItem value={"Research Assistant"}>Research Assistant</MenuItem>
+          <MenuItem value={"Bachelor"}>Bachelor</MenuItem>
+          <MenuItem value={"Master"}>Master</MenuItem>
+          <MenuItem value={"Doctorate"}>Doctorate</MenuItem>
+          <MenuItem value={"Post Doctorate"}>Post Doctorate</MenuItem>
         </Select>
       </Stack>
       <Stack mx={4} spacing={5} mt={2} direction='row'>
-        <TextField
-          size='small'
-          label="University"
-          fullWidth
-          value={university}
-          onChange={(e) => setUniversity(e.target.value)}
-        />
+        <UniversitySearch setSelected={setUniversity} />
         <TextField
           size='small'
           fullWidth
@@ -117,19 +145,56 @@ export default function ThesisForm() {
           onChange={(e) => setPages(e.target.value)}
         />
       </Stack>
-      <TextField
-        id="outlined-multiline-static"
-        label="Abstract"
-        multiline
-        rows={4}
-        value={comment}
-        onChange={handleCommentChange}
+      <Stack mx={4} spacing={5} mt={2} direction='row'>
+        <TextField
+          size='small'
+          select
+          label="Month"
+          value={month}
+          onChange={handleMonthChange}
+          fullWidth
+        >
+          {months.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          fullWidth
+          size='small'
+          label="Year"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+          type="number"
+          InputProps={{
+            inputProps: {
+              min: 1000,
+              max: 9999,
+            },
+          }}
+        />
+      </Stack>
+    
+        <SearchDepartment setDepartment={setDepartment}/>
+      
 
-      />
+
+      <Stack>
+
+        <TextField
+          id="outlined-multiline-static"
+          label="Abstract"
+          multiline
+          rows={4}
+          value={comment}
+          onChange={handleCommentChange}
+
+        />
+      </Stack>
       <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
         {comment.length}/2000
       </div>
-      <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
       <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
 
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>

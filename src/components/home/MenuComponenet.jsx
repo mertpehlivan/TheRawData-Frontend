@@ -13,7 +13,7 @@ export default function MenuComponenet({ activeItem, setActiveItem }) {
   };
   return (
     <List sx={{ bgcolor: 'background.default', borderRadius: 2, p: 1 }}>
-      <Link to='/explore' replace="true">
+      <Link to='/home' style={{textDecorationLine:"none"}}>
       <ListItem disablePadding>
         <ListItemButton onClick={() => handleItemClick('Explore')} selected={activeItem === 'Explore'}>
           <ListItemIcon>
@@ -23,17 +23,7 @@ export default function MenuComponenet({ activeItem, setActiveItem }) {
         </ListItemButton>
       </ListItem>
       </Link>
-      <Link to='followedResearchers'>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => handleItemClick('Followed Channels')} selected={activeItem === 'Followed Channels'}>
-            <ListItemIcon>
-              <AssignmentIndIcon />
-            </ListItemIcon>
-            <ListItemText primary="Followed Researchers" />
-          </ListItemButton>
-        </ListItem>
-      </Link>
-      <Link to='search'>
+      <Link to='search' style={{textDecorationLine:"none"}}>
       <ListItem disablePadding>
         <ListItemButton onClick={() => handleItemClick('Search')} selected={activeItem === 'Search'}>
           <ListItemIcon>
@@ -43,6 +33,17 @@ export default function MenuComponenet({ activeItem, setActiveItem }) {
         </ListItemButton>
       </ListItem>
       </Link>
+      <Link to='followedResearchers' style={{textDecorationLine:"none"}}>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleItemClick('Followed Channels')} selected={activeItem === 'Followed Channels'}>
+            <ListItemIcon>
+              <AssignmentIndIcon />
+            </ListItemIcon>
+            <ListItemText primary="Followed Researchers" />
+          </ListItemButton>
+        </ListItem>
+      </Link>
+      
     </List>
   )
 }

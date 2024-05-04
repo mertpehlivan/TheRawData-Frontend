@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
-import { Stack, Typography, TextField, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Stack, Typography, TextField, Icon, Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
 import SearchInput from '../input/SearchInput';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PdfForm from './PdfForm';
+import { getConferencePaper, updateConferencePaper } from '../../services/newData/conferencePaperService';
 import SearchInputV2 from '../input/SearchInputV2';
-import { Icon } from '@iconify/react';
+import { useUserContext } from '../../hooks/AuthProvider';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { Save } from '@mui/icons-material';
 
-export default function ConferencePaper() {
+export default function ConferencePaperEdit() {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(dayjs(""));
   const [conferenceName, setConferenceName] = useState('');
@@ -24,15 +26,34 @@ export default function ConferencePaper() {
   const [isbn, setIsbn] = useState('');
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
+  const { publicationId } = useParams();
+  const [loading, setLoading] = useState(false)
+  const { token } = useUserContext()
+  const [author,setAuthor] = useState([])
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true)
+      const response = await getConferencePaper(token, publicationId);
+      const data = response.data;
+      console.log("Conference Paper --- :", data)
+      setLoading(false)
+      setTitle(data.title)
+      setDate(dayjs(data.date))
+      setConferenceName(data.conferenceName)
+      setLocation(data.location)
+      setPages(data.pages)
+      setIsbn(data.isbn)
+      setComment(data.comment)
+      setAuthor(data.authors)
+    }
+    fetch()
+  }, []);
 
-  const [pdf, setPdf] = useState({
-    pdfStatus: true,
-    addOnly: true,
-  })
-  const [fileUrl, setFileUrl] = useState(null)
-  const [fileEx, setFileEx] = useState("")
   const dispatch = useDispatch();
-
+  const handelSave = async () =>{
+    const response = updateConferencePaper(data,token,publicationId)
+    window.location.href = window.location.href;
+  } 
   const handlerCancel = () => {
     dispatch(format())
     dispatch(clearData())
@@ -41,34 +62,39 @@ export default function ConferencePaper() {
   }
   const data = {
     title,
-    date:date.toDate() == null ? null : date.toDate(),
+    date,
     conferenceName,
     location,
     pages,
     isbn,
     authors,
     comment,
-    pdf,
-    fileEx,
-    fileUrl
+
   };
 
   const isFormValid = () => {
     return (
       title.trim() !== '' &&
+      date.trim() !== '' &&
       conferenceName.trim() !== '' &&
       location.trim() !== '' &&
       pages.trim() !== '' &&
-      comment.trim() !== '' &&
-      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+      comment.trim() !== ''
     );
   };
-  console.log(date.toDate() )
+
+  if (loading) {
+    return (<Stack>
+      <Typography>Loading</Typography>
+    </Stack>)
+  }
+
+
   return (
     <Stack borderRadius={5}>
       <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
-        <Icon icon="game-icons:video-conference" style={{ color: "#091582" }} width={50} height={50} />
-        <Typography color="primary.main" variant='h3'>Conference Paper</Typography>
+        <Icon icon="game-icons:video-conference" width={50} height={50} />
+        <Typography variant='h3'>Conference Paper</Typography>
       </Stack>
       <Stack mx={4} spacing={5} mt={2} direction='row'>
         <TextField
@@ -130,36 +156,12 @@ export default function ConferencePaper() {
           onChange={(e) => setComment(e.target.value)}
         />
         <Stack mt={3}>
-          <SearchInputV2 setAuthorIds={setAuthorIds} />
+          <SearchInputV2 setAuthorIds={setAuthorIds}/>
         </Stack>
 
-        <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
-        <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-          <Link to='/'><Button
-            color='error'
-            variant='outlined'
-            onClick={handlerCancel}
 
-          >
-            Cancel
-          </Button></Link>
-          <Button
-            variant='contained'
-            disabled={!isFormValid()}
-            onClick={() => {
-              if (isFormValid()) {
-                console.log(data)
-                dispatch(addData(data));
-                dispatch(increase());
-              } else {
-                console.log('Please fill out all fields.');
-              }
-            }}
-          >
-            Next
-          </Button>
-        </Stack>
       </Stack>
+      <Button variant='contained' onClick={handelSave} startIcon={<Save/>} >Save</Button>
     </Stack>
   );
 }

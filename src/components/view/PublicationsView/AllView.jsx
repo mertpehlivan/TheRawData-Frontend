@@ -5,20 +5,24 @@ import { getByType, getProfilePost } from '../../../services/post/postService';
 import { Stack, Typography, CircularProgress, debounce } from '@mui/material';
 import DataPost from '../../home/DataPost';
 
-export default function AllView({ setPage,page,setLoading,loading }) {
-  const { username,type } = useParams();
+export default function AllView({ setPage, page, setLoading, loading }) {
+  const { username, type } = useParams();
   const [datas, setDatas] = useState([]);
   const { token } = useUserContext();
   const [isPageIncrementing, setIsPageIncrementing] = useState(false);
-  const [message,setMessage] = useState("")
+  const [message, setMessage] = useState("")
 
   useEffect(() => {
+    console.log("pageÇ:", page)
     const requestPublication = async (type) => {
       setLoading(true);
       try {
         if (type) {
-          const response = await getByType(token, type, username,page);
+          const response = await getByType(token, type, username, page);
+
           setDatas((prev) => [...prev, ...response]);
+
+
         } else {
           const size = 6;
           console.log('Effect triggered with page:', page);
@@ -35,13 +39,13 @@ export default function AllView({ setPage,page,setLoading,loading }) {
     };
 
     requestPublication(type);
-  }, [page,type,username]);
+  }, [page, type, username]);
 
 
   useEffect(() => {
     setDatas([])
     setPage(0)
-  }, [type,username]);
+  }, [type, username]);
 
   console.log(datas);
 

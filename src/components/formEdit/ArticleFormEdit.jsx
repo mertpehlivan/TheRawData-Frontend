@@ -3,21 +3,21 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import SearchInput from '../input/SearchInput';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, FormControl, FormControlLabel, FormLabel, Input, Radio, RadioGroup, Typography } from '@mui/material';
 import AlertDialog from '../view/AlertDialog';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from '@iconify/react';
 import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
-import { clearType } from '../../store/newDataTypeSlice';
-import { clearRawData } from '../../store/rawDataSlice';
-import Dropzone from 'react-dropzone';
-import { PictureAsPdf, Visibility, VisibilityOff } from '@mui/icons-material';
-import PdfForm from './PdfForm'
+import { getArticle, updateArticle } from '../../services/newData/articleService';
+import { useUserContext } from '../../hooks/AuthProvider';
 import SearchInputV2 from '../input/SearchInputV2';
+import { Save } from '@mui/icons-material';
+import { update } from '../../store/userSlice';
+import { Icon } from '@iconify/react';
 
-export default function ArticleForm() {
+
+export default function ArticleFormEdit() {
     const [title, setTitle] = useState('');
     const [journalName, setJournalName] = useState('');
     const [volume, setVolume] = useState('');
@@ -26,57 +26,38 @@ export default function ArticleForm() {
     const [doi, setDoi] = useState('');
     const [authors, setAuthorIds] = useState([]);
     const [comment, setComment] = useState('');
+    const { token } = useUserContext()
+    const { publicationId } = useParams();
+    const [loading, setLoading] = useState(false)
     const [year, setYear] = useState()
     const [url, setUrl] = useState('');
     const [errorUrl, setErrorUrl] = useState('');
-
-
-
-
-
-    const [pdf, setPdf] = useState({
-        pdfStatus: true,
-        addOnly: true,
-    })
-    const [fileUrl, setFileUrl] = useState(null)
-    const [fileEx, setFileEx] = useState("")
-
     useEffect(() => {
-        console.log("dosya ke ", fileEx)
-    }, [fileEx]);
+        const fetch = async () => {
+            try {
 
-    const dispatch = useDispatch()
-    const handlerCancel = () => {
-        dispatch(format())
-        dispatch(clearData())
-        dispatch(clearType())
-        dispatch(clearRawData())
-    }
-    const data = {
-        title,
-        journalName,
-        volume,
-        issue,
-        pages,
-        doi,
-        authors,
-        comment,
-        year,
-        url,
-        pdf,
-        fileEx,
-        fileUrl
-    }
-    const isFormValid = () => {
-        return title.trim() !== '' &&
-            journalName.trim() !== '' &&
-            
-            pages.trim() !== '' &&
-            
-            comment.trim() !== '' &&
-            (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+                setLoading(true)
+                const response = await getArticle(token, publicationId)
+                const data = response.data;
+                console.log(data)
+                setLoading(false)
+                setTitle(data.title)
+                setJournalName(data.journalName)
+                setVolume(data.volume)
+                setIssue(data.issue)
+                setComment(data.comment)
+                setPages(data.pages)
+                setDoi(data.doi)
+                setUrl(data.url)
+                setYear(data.year)
 
-    };
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        fetch()
+    }, []);
 
     function validateUrl(url) {
         const urlRegex = new RegExp(
@@ -95,25 +76,43 @@ export default function ArticleForm() {
         setUrl(e.target.value);
         setErrorUrl(validateUrl(e.target.value) ? null : 'Please enter a valid URL');
     };
+    const handlerUpdate = async () => {
+        try {
+            const data = {
+                title,
+                journalName,
+                volume,
+                issue,
+                pages,
+                doi,
+                authors,
+                comment,
+                year,
+                url
+
+            }
+            const response = await updateArticle(data, token, publicationId)
+            window.location.href = window.location.href;
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+
+
 
     const handleDelete = (authorId) => {
         setAuthorIds(authors.filter((id) => id !== authorId));
     };
-    const handleNext = () => {
-        // Kontrol edilecek durumlar buraya eklenebilir
-        if (!title || !journalName || !volume || !issue || !pages || !doi || authors.length === 0) {
-            // Stateler boşsa bir uyarı göster veya bir işlem gerçekleştirme
+    if (loading) {
+        return (<Typography>Loading...</Typography>)
+    }
 
-        } else {
-            // Stateler doluysa veriyi ekleyip sayacı arttır
-            dispatch(addData(data));
-            dispatch(increase());
-        }
-    };
     return (
         <Stack borderRadius={5} spacing={2} p={3}>
             <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
-                <Icon icon="material-symbols:article" color='#091582' width={50} height={50} />
+            <Icon icon="material-symbols:article" color='#091582' width={50} height={50} />
                 <Typography color="primary.main" variant='h3'>Article</Typography>
             </Stack>
             <Stack mx={4} spacing={5} mt={2} direction='row'>
@@ -195,40 +194,19 @@ export default function ArticleForm() {
                 label="Abstract"
                 multiline
                 rows={4}
+                value={comment}
                 onChange={(e) => setComment(e.target.value)}
             />
+            <SearchInputV2 setAuthorIds={setAuthorIds} />
 
-            <SearchInputV2 setAuthorIds={setAuthorIds}/>
-            
-            <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
+            <Button disabled={!(title.trim() !== '' &&
+                journalName.trim() !== '' &&
 
-            <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-                <Link to='/'>
-                    <Button
-                        color='error'
-                        variant='outlined'
-                        onClick={handlerCancel}
-
-                    >
-                        Cancel
-                    </Button></Link>
-                <Button
-                    variant='contained'
-                    disabled={!isFormValid()} // Butonu devre dışı bırak
-                    onClick={() => {
-                        if (isFormValid()) {
-                            dispatch(addData(data));
-                            dispatch(increase());
-                        } else {
-                            // Form geçerli değilse bir uyarı göster veya istediğiniz bir işlemi gerçekleştirin
-                            console.log('Lütfen tüm alanları doldurun.');
-                        }
-                    }}
-                >
-                    Next
-                </Button>
-            </Stack>
-
+                pages.trim() !== '' &&
+                comment.trim() !== '')
+            } startIcon={<Save />} variant='contained' onClick={handlerUpdate}>Save</Button>
         </Stack>
+
+
     );
 }

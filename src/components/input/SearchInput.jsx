@@ -6,7 +6,7 @@ import { useUserContext } from '../../hooks/AuthProvider';
 import { Autocomplete, Avatar, Button, Divider, Stack, Typography } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 import InviteAuthor from '../form/InviteAuthor';
-import { searchUser } from '../../services/userService';
+import { searchUser, searchUserByUniqueName } from '../../services/userService';
 
 const SearchComponent = ({ setAuthorIds, authorIds }) => {
   const [fullName, setFullName] = useState('');
@@ -25,19 +25,22 @@ const SearchComponent = ({ setAuthorIds, authorIds }) => {
     try {
       const [firstName, ...rest] = fullName.split(' ');
       const lastName = rest.join(' ');
-
-      const response = await searchUser(token,fullName)
-
-      // If there is a third name, add it to the search results
+      
+      let response = null;
+      if (firstName.startsWith('@')) {
+        const cleanedSearchData = firstName.substring(1);
+        response = await searchUserByUniqueName(token, cleanedSearchData);
+      } else {
+        response = await searchUser(token, fullName);
+      }
+  
       const additionalName = rest.length > 1 ? rest[1] : '';
       const updatedResults = response.data.map(result => ({
         ...result,
         fullName: `${result.firstname} ${result.lastname} ${additionalName}`,
       }));
-
-      // Set the updated results in the state
+  
       setSearchResults(updatedResults);
-
     } catch (error) {
       console.error('Error:', error.message);
     }

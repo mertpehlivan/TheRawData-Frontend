@@ -6,7 +6,7 @@ import FollowButton from '../button/FollowButton';
 import PdfPreViewerImage from './PdfPreViewerImage';
 import FriendComponent from '../view/FriendComponent';
 import BackdropImage from '../view/BackdropImage';
-import { Download, Image, PictureAsPdf, PictureAsPdfOutlined } from '@mui/icons-material';
+import { Download, Image, LinkOff, LinkOutlined, PictureAsPdf, PictureAsPdfOutlined, Timelapse, Today } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ChipIconComponent from '../view/ChipIconComponent';
@@ -38,7 +38,7 @@ export default function DataPost({ data }) {
   const [imageList, setImageList] = useState([])
   const [selectImageSrc, setSelectImageSrc] = useState("");
   const {token} = useUserContext()
-  console.log(data)
+
   const handleDownload = (publicationId, name) => {
     axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, {
       responseType: 'blob',
@@ -179,6 +179,9 @@ export default function DataPost({ data }) {
 
           <Stack direction="row" spacing={1}>
             <Chip icon={<ChipIconComponent publicationType={data.publicationType} />} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={data.publicationType} />
+            
+            {data.url && <Chip icon={<LinkOutlined color='white'/>} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={<Link target='_blank' to={data.url} style={{color:"white"}}>Link of the paper</Link>}/>}
+            {data.year && <Chip  sx={{ bgcolor: "primary.main", color:"white", p: 1 }} label={`${data.year}`}/>}
           </Stack>
           <Stack direction="row">
             <Stack direction="row" justifyContent="space-between">
@@ -220,7 +223,7 @@ export default function DataPost({ data }) {
                               ]);
                             }}
                           >
-                            <Image />
+                            <Box boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px" component="img" width={40} height={40} src={`${baseUrl}/api/v1/auth/previewImage/${rawdata.previewImageUrl}`}/>
                           </IconButton>
                         </Tooltip>
 
@@ -241,14 +244,14 @@ export default function DataPost({ data }) {
           <Divider my={2} />
 
           <Stack direction="row" spacing={1} alignItems="center">
-            {data.authors ? (
+            {data.authors && data.publicationType != "Thesis" ? (
 
               data.authors.map((author, index) => (
                 index <= 2 ?
                   <FriendComponent
-                    key={author.id}
+                    key={index}
                     imageUrl={author.profileImageUrl}
-                    fullname={`${author.firstname} ${author.lastname}`}
+                    fullname={`${author.firstName} ${author.lastName}`}
                     uniqueName = {author.uniqueName}
                   /> : null
               ))

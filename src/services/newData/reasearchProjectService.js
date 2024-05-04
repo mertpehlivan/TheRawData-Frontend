@@ -6,11 +6,16 @@ export const createReaserachProject = async ({
   title,
   date,
   comment,
-  authors,
+  grantNumber,
+  companyOrUnvierstiy,
+  authorsAndRole,
+  endDate,
   pdf,
   fileEx,
   fileUrl
 }, token, onUploadProgress) => {
+  const editAuthor = [];
+  const editAuthorString = authorsAndRole.map(author => `${author.user.id},${author.role}`).join(';');
   try {
     // Dosyayı indir
     const response = await fetch(fileUrl);
@@ -28,12 +33,14 @@ export const createReaserachProject = async ({
     formData.append('title', title);
     formData.append('date', date);
     formData.append('comment', comment);
-    formData.append('authors', authors);
+    formData.append('authors', editAuthorString);
     formData.append('addOnly', pdf.addOnly);
     formData.append('pdfStatus', pdf.pdfStatus);
     formData.append('fileEx', fileEx);
     formData.append('pdfFile', pdfFile, fileName);
-
+    formData.append('grantNumber',grantNumber);
+    formData.append("companyOrUnvierstiy",companyOrUnvierstiy)
+    formData.append("endDate",endDate)
     // Sunucuya POST isteği gönder
     const res = await axios.post(
       `${baseUrl}/api/v1/reasearchProject/create`,

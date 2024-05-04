@@ -8,37 +8,45 @@ import PdfButton from '../components/button/PdfButton';
 import BasketAcordion from '../components/view/BasketAcordion';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Add, Delete, Download, Person } from '@mui/icons-material';
+import { Add, Delete, Download, Edit, Person } from '@mui/icons-material';
 
 import { createRawDataFile, deleteRawDataFileFetch } from '../services/newRawData/RawDataFileService';
 import { Icon } from '@iconify/react';
 import axios from 'axios';
+import FormDialog from '../components/publication/FormDialog';
 export default function PublicationPage() {
   const { publicationId } = useParams();
   const [publication, setPublication] = useState(null);
   const { token } = useUserContext();
   const [loading, setLoading] = useState(true);
+  const [fileLoading, setFileLoading] = useState(false);
   const [basket, setBasket] = useState([])
   const [requestCounter, setRequestCounter] = useState(0)
   const [editMode, setEditMode] = useState(false)
   const [refresh, setRefresh] = useState(0)
   const { user } = useUserContext()
-  const [deleteLoading,setDeleteLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [formDialog,setFormDialog] = useState(false)
   const navigate = useNavigate()
-  const postDelete = async () =>{
+  const postDelete = async () => {
     try {
       setDeleteLoading(true)
-      const response = await deletePost(token,publicationId)
-      navigate("/",{replace:true})
+      const response = await deletePost(token, publicationId)
+      navigate("/explore", { replace: true })
     } catch (error) {
-      
-    }finally{
+
+    } finally {
       setDeleteLoading(false)
     }
-    
+
   }
 
-
+  const handlerFormDialog = () =>{
+    setFormDialog(false)
+  }
+  const handlerFormDialogOpen = () =>{
+    setFormDialog(true)
+  }
   const handleDownload = (publicationId, name) => {
     axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, {
       responseType: 'blob',
@@ -65,8 +73,10 @@ export default function PublicationPage() {
     setRefresh(prev => prev + 1)
   }
   const createFile = () => {
+    setFileLoading(true)
     createRawDataFile("Type the name of the raw data", publicationId, token).then(() => {
       refreshHandler();
+      setFileLoading(false)
     })
   }
   const deleteRawDataFile = async (id) => {
@@ -136,20 +146,23 @@ export default function PublicationPage() {
   const baseUrl = process.env.REACT_APP_BASE_URL
   return (
     <Container sx={{ mt: "100px" }} maxWidth="lg">
-      {!loading && <>{user.id == publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Data</Button>}</>}
+      {!loading && <>{user.id == publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Publcation</Button>}</>}
       <BasketAcordion requestCounter={requestCounter} counterRequest={counterRequest} />
       <Stack bgcolor="background.default" p={2} spacing={1} borderRadius={3}>
+        <FormDialog type={`${publication.publicationType}`} handleFormDialog={handlerFormDialog} setFormDialog={setFormDialog} formDialog={formDialog}/>
         {!loading && (
           <>
             <Stack >
-
-
-           
               <Stack direction="row" justifyContent="space-between" spacing={1}>
                 <Stack spacing={1}>
-                  <Stack direction="row" justifyContent="space-between" spacing={1}>
+                  <Stack justifyContent="space-between" spacing={1}>
+                    <Stack direction="row" spacing={1}>
+                      {editMode && <Button onClick={postDelete} variant='outlined' color='error' startIcon={deleteLoading ? <CircularProgress sx={{ color: "red", width: 14, height: 14 }} /> : <Delete />}>Delete Publication</Button>}
+                      {editMode && <Button onClick={handlerFormDialogOpen} variant='outlined' startIcon={<Edit />}>Edit</Button>}
+                    </Stack>
+
                     <Typography variant="h4">{publication.title}</Typography>
-                    {editMode && <Button  onClick={postDelete} variant='outlined' color='error' startIcon={deleteLoading ? <CircularProgress sx={{color:"red", width:14,height:14}}/> :<Delete/>}>Delete Publication</Button>}
+
                   </Stack>
 
                   <Typography>{publication.comment}</Typography>
@@ -179,17 +192,18 @@ export default function PublicationPage() {
 
                 } />
             </Box>
-            <Typography variant="h5">Authors</Typography>
+
+            {publication.publicationType != "Thesis" && <>  <Typography variant="h5">Authors</Typography>
             <Stack>
               {publication.authors.length > 0 ? (
                 <Stack direction="row" flexWrap="wrap">
                   {publication.authors.map((data, index) => (
                     <Chip
                       key={index}
-                      avatar={<Avatar sx={{ zIndex: 0 }} src={`${baseUrl}/api/v1/auth/profileImage/${data.profileImageUrl}`} />}
+                      avatar={<Avatar sx={{ zIndex: 0 }} src={`${baseUrl}/api/v1/auth/profileImage/${data.profileImageName}`} />}
                       label={
                         <Link style={{ textDecoration: "none" }} to={`/users/${data.uniqueName}`}>
-                          <Typography variant="subtitle1">{data.firstname} {data.lastname}</Typography>
+                          <Typography variant="subtitle1">{data.firstName} {data.lastName}</Typography>
                         </Link>
                       }
                       sx={{ mb: 1, mr: 1 }} // Yazar çiplerini boşluk bırakarak yerleştirir
@@ -202,14 +216,14 @@ export default function PublicationPage() {
                   <Typography color="red">There is no co-author</Typography>
                 </Stack>
               )}
-            </Stack>
+            </Stack></>}
 
             <Typography variant="h5">Summary</Typography>
 
             <Stack spacing={1}>
               <Stack direction="row">
                 <Typography>
-                  {publication.summary}, {publication.fullname}
+                  {publication.summary}
                 </Typography>
               </Stack>
               <Divider sx={{ m: 3 }} />
@@ -218,7 +232,7 @@ export default function PublicationPage() {
                   <File deleteRawDataFile={deleteRawDataFile} setPublication={setPublication} publication={publication} key={index} file={file} counter={counterRequest} editMode={editMode} refreshHandler={refreshHandler} /></>
               ))}
               <Stack justifyContent="center">
-                {editMode && <IconButton onClick={createFile}><Add sx={{ color: "primary.main" }} /></IconButton>}
+                {editMode && <Button onClick={createFile} disabled={fileLoading} startIcon={fileLoading ? <CircularProgress size={14} sx={{ color: "white" }} /> : <Add />} variant='contained'>Add raw data</Button>}
               </Stack>
 
             </Stack>

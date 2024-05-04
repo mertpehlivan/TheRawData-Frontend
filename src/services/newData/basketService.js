@@ -65,7 +65,7 @@ export const getPublicationBasket = async (id) => {
         return res;
     } catch (error) {
         console.error(error)
-        throw new error;
+        
     }
 };
 export const getBasket = async () => {
@@ -81,7 +81,7 @@ export const getBasket = async () => {
         return res;
     } catch (error) {
         console.error(error)
-        throw new error;
+     
     }
 };
 export const getBasketPrice = async (token) => {
@@ -100,6 +100,6 @@ export const getBasketPrice = async (token) => {
         return res;
     } catch (error) {
         console.error(error)
-        throw new error;
+
     }
 };

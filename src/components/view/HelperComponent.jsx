@@ -32,6 +32,9 @@ export default function HelperComponent() {
 
                         <Typography variant='h5' color="primary.main"></Typography>
                         <Typography variant='h6'>
+                            <Check/> Raw data can be uploaded in different formats (e.g., Excel, Sap 2000, Matlab, Java, Abaqus, SPSS files ext.)
+                        </Typography>
+                        <Typography variant='h6'>
                             <Check/> For the data given in excel format use the excel file given here.
                         </Typography>
                         <Typography variant='h6'>

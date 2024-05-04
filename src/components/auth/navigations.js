@@ -4,6 +4,7 @@ import LoginPage from "../../pages/LoginPage";
 import NewDataPage from "../../pages/NewDataPage";
 import ProfilePage from "../../pages/ProfilePage";
 import PublicationPage from "../../pages/PublicationPage";
+import MainPage from '../../pages/MainPage'
 import SignUpPage from "../../pages/SignUpPage";
 import ExploreComponent from "../home/ExploreComponent";
 import FollowedResearchers from "../home/FollowedResearchers";
@@ -13,27 +14,33 @@ import AllView from "../view/PublicationsView/AllView";
 import MyAccountPage from "../../pages/MyAccountPage";
 import LibraryBox from "../view/LibraryBox";
 import SearchComponent from "../home/SearchComponent";
-import MainPage from "../../pages/MainPage";
+
 import PaymentPage from "../../pages/PaymentPage";
+import ForgetPasswordPage from "../../pages/ForgetPasswordPage";
 
 
 
 export const nav = [
     {
+         path: "/",
+         element: <MainPage />,
+         isMenu: true,
+         isPrivate: true
+    },
+    {
         path: "/",
         element: <MainPage />,
-        isMenu: true,
+        isMenu: false,
         isPrivate: false
-    },
-
+   },
     {
-        path: "",
+        path: "/home",
         element: <HomePage />,
         isMenu: true,
         isPrivate: true,
         children: [
             {
-                path: "explore",
+                path: "",
                 element: <ExploreComponent />,
 
             },
@@ -129,6 +136,14 @@ export const nav = [
         element: <PaymentPage />,
         isMenu: true,
         isPrivate: true
+
+    },
+    {
+
+        path: "/forget",
+        element: <ForgetPasswordPage />,
+        isMenu: false,
+        isPrivate: false
 
     }
 

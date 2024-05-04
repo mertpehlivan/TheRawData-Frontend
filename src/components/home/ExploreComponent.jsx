@@ -11,7 +11,7 @@ export default function ExploreComponent() {
   const { token } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [page, setPage] = useState(0);
   const [hasMorePosts, setHasMorePosts] = useState(true); // New state for tracking whether there are more posts
 
@@ -95,8 +95,8 @@ export default function ExploreComponent() {
 
   return (
     <Stack spacing={1}>
-      {posts.map((post) => (
-        <DataPost key={post.id} data={post} handleLoadMore={handleLoadMoreRef.current} />
+      {posts.map((post,index) => (
+        <DataPost key={index} data={post} handleLoadMore={handleLoadMoreRef.current} />
       ))}
       {!hasMorePosts ? (
         <Typography variant="h6" color="textSecondary" textAlign="center">
