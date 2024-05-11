@@ -198,7 +198,7 @@ function MinimizeSearchAuthor({ selectedAuthor, setSelectedAuthor }) {
 
 
 
-            <Box sx={{ overflowY: "scroll" }} height={400} spacing={1}>
+            <Box sx={{ overflowY: "auto" }} height={200} spacing={1}>
                 {searchData != "" && loading && <LoadingComponent />}
                 {searchType == "Researcher" && data.length > 0 && data.map((user, index) => (
                     <Stack>

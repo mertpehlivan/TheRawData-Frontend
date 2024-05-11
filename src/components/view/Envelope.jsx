@@ -141,9 +141,9 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
                 <ListItem key={index} divider>
                   <Stack>
                     <Stack direction="row">
-                      <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
+                      <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(0, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)} confirm your authorship.</Typography>
                       <Stack alignItems="center" >
-                        <Button onClick={() => acceptHandler(msg.publicationId)} variant="contained" color="success">Admit</Button>
+                        <Button onClick={() => acceptHandler(msg.publicationId)} variant="contained" color="success">Confirm</Button>
                         <Button color="error">Reject</Button>
                       </Stack>
                     </Stack>
@@ -157,9 +157,9 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
                   <ListItem key={index} divider>
                     <Stack>
                       <Stack direction="row">
-                        <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
+                        <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(0, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)} confirm your authorship.</Typography>
                         <Stack alignItems="center" >
-                          <Button onClick={() => acceptHandler(msg.publicationId,msg.id)} variant="contained" color="success">Admit</Button>
+                          <Button onClick={() => acceptHandler(msg.publicationId,msg.id)} variant="contained" color="success">Cofirm</Button>
                           <Button color="error">Reject</Button>
                         </Stack>
                       </Stack>

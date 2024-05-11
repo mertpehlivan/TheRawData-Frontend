@@ -93,7 +93,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
             <Typography>Download complete</Typography>
             <Typography>Raw data : {name}</Typography>
             <Typography>{comment}</Typography>
-            <Button startIcon={<Add/>} variant='outlined' onClick={() => { handleClose(); refreshHandler()}}>Now Add RawData</Button>
+            <Button startIcon={<Add/>} variant='outlined' onClick={() => { handleClose(); refreshHandler()}}>Now Add Raw Data</Button>
           </Stack>
 
         }

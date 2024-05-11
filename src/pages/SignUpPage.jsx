@@ -41,7 +41,7 @@ export default function SignUpPage() {
   const [errorHandlerText, setErrorHandlerText] = useState("");
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState("");
-  const { setAuthenticated,setToken } = useUserContext();
+  const { setAuthenticated, setToken } = useUserContext();
   const formik = useFormik({
     initialValues: {
       firstname: '',
@@ -56,9 +56,8 @@ export default function SignUpPage() {
       setIsLoading(true);
       signUp(values)
         .then((res) => {
-          localStorage.setItem("access-token",res.data.token)
-          setToken(res.data.token)
-          setAuthenticated(true)
+          
+          navigate("/login")
 
         }).catch((e) => {
           setErrorHandlerText(e.response.data.errorMessage)
@@ -78,7 +77,7 @@ export default function SignUpPage() {
         <Grid item xs={6} >
           <Stack direction='column' px={5}>
             <Stack alignItems='center' mb={5} direction="row" spacing={1}>
-              <Link to="/"><Button variant="contained" startIcon={<ArrowBack/>}>Back</Button></Link>
+              <Link to="/"><Button variant="contained" startIcon={<ArrowBack />}>Back</Button></Link>
               <img src={Logo} width='175px' />
             </Stack>
             <Divider />
@@ -165,13 +164,13 @@ export default function SignUpPage() {
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
               />
-              {errorHandlerText &&<Stack direction="row" >
-                <Dangerous sx={{color:"red"}} />
+              {errorHandlerText && <Stack direction="row" >
+                <Dangerous sx={{ color: "red" }} />
                 <Typography color="red">{errorHandlerText}</Typography>
               </Stack>}
 
               <Button type='submit' size='large' sx={{ mt: 1 }} color="primary" variant='contained'>Sign up</Button>
-              <Typography sx={{ mt: 1 }}>Don’t have an account yet? <Link to="/login">log in</Link></Typography>
+              <Typography sx={{ mt: 1 }}>Account already exists. <Link to="/login">log in</Link></Typography>
             </Stack>
 
           </Stack>
@@ -182,7 +181,7 @@ export default function SignUpPage() {
           </Stack>
         </Grid>
       </Grid>
-      <Footer/>
+      <Footer />
     </Container>
 
   )

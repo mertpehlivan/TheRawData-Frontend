@@ -41,8 +41,8 @@ export const getProfilePost = async (token, page, size, uniqueName) => {
   }
 };
 
-export const getByType = async (token, type, uniqueName,page) => {
-  
+export const getByType = async (token, type, uniqueName, page) => {
+
   switch (type) {
     case "articles":
       try {
@@ -59,7 +59,7 @@ export const getByType = async (token, type, uniqueName,page) => {
           }
         );
         return res.data;
-        
+
       } catch (error) {
         return error;
         console.error(error);
@@ -189,7 +189,7 @@ export const getPost = async (token, publicationId) => {
     console.error(error);
   }
 };
-export const addAuthorPost = async (token, publicationId,invitationId) => {
+export const addAuthorPost = async (token, publicationId, invitationId) => {
   console.log(publicationId);
 
   try {

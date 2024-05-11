@@ -20,12 +20,17 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
   const chunkedRawDatas = chunkArray(fileOne.rawDatas, 3);
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [rawDatas, setRawDatas] = useState([])
+
+ 
   useEffect(() => {
     setFileOne(file)
     setRawDatas(file.rawDatas)
   }, [file]);
 
-
+  const refresh = ()=>{
+    console.log("Refresh")
+    refreshHandler()
+  }
   const handleData = (data) => {
     file.rawDatas.push(data)
   }
@@ -91,7 +96,7 @@ export default function File({ file, counter, editMode, refreshHandler, setPubli
         <Grid container spacing={2} >
           {rawDatas.map((rawData, index) => (
             <Grid item xs={3} key={index}>
-              <DataBox counter={counter} key={index} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData} />
+              <DataBox refreshHandler={refresh} counter={counter} key={index} rawData={rawData} fileId={file.id} editMode={editMode} onDeleteRawData={deleteRawData} />
             </Grid>
           ))}
           <Grid item xs={3} >

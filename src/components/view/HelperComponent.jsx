@@ -22,26 +22,28 @@ export default function HelperComponent() {
                 </IconButton>
             </Tooltip>
             <Backdrop
-                sx={{ zIndex:1000 }}
+                sx={{ zIndex: 1000 }}
                 open={open}
-                onClick={handleClose}
-            >
-                <Stack bgcolor="white"mt={10} p={2}>
 
+            >
+                <Stack bgcolor="white" mt={10} p={2}>
+                    <Stack justifyContent="flex-end" alignItems="flex-end">
+                        <Button variant='contained' color='error' onClick={handleClose}>X</Button>
+                    </Stack>
                     <Stack justifyContent="center" alignContent="center" spacing={1} p={3}>
 
                         <Typography variant='h5' color="primary.main"></Typography>
                         <Typography variant='h6'>
-                            <Check/> Raw data can be uploaded in different formats (e.g., Excel, Sap 2000, Matlab, Java, Abaqus, SPSS files ext.)
+                            <Check /> Raw data can be uploaded in different formats (e.g., Excel, Sap 2000, Matlab, Java, Abaqus, SPSS files ext.)
                         </Typography>
                         <Typography variant='h6'>
-                            <Check/> For the data given in excel format use the excel file given here.
+                            <Check /> For the data given in excel format use the excel file given here.
                         </Typography>
                         <Typography variant='h6'>
-                        <Check/> <b>If it is a questionary survey</b>, upload all the forms as a merged pdf file.
+                            <Check /> <b>If it is a questionary survey</b>, upload all the forms as a merged pdf file.
                         </Typography>
                         <Typography variant='h6'>
-                        <Check/>  If it is a software modelling upload it as zip file.
+                            <Check />  If it is a software modelling upload it as zip file.
                         </Typography>
                         <Button variant='contained' startIcon={<Download />}>Download Excel File</Button>
 

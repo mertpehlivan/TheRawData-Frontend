@@ -25,7 +25,7 @@ export default function UploadBox({ boxKey, headerIndex }) {
   const [previewEx, setPreviewEx] = useState('');
   const [isSave, setIsSave] = useState(false)
 
-  const isSaveDisabled = !name || !comment || !priceSuggestion || !rawDataUrl || !previewUrl;
+  const isSaveDisabled = !name || !priceSuggestion || !rawDataUrl || !previewUrl;
   const rawdata = useSelector((state) => state.rawData)
   const handleSave = async () => {
     dispatch(addRawData({
@@ -138,7 +138,7 @@ export default function UploadBox({ boxKey, headerIndex }) {
             </Stack>
             <TextField
               color="success"
-              label="Comment"
+              label="Comment (Optional)"
               size="small"
               rows="2"
               value={comment}

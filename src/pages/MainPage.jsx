@@ -8,7 +8,9 @@ import Academia from '../assets/academia.jpg';
 import { FiberManualRecord } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
-import Scince from '../assets/pexels-rfstudio-3825527.jpg'
+import Scince from '../assets/file.jpeg'
+import Type from '../assets/Type.jpeg'
+import Prem from '../assets/repo.jpeg'
 function ScrollToTop(props) {
     const trigger = useScrollTrigger({
         disableHysteresis: true,
@@ -47,7 +49,7 @@ function MainPage() {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     return (
-        <Stack>
+        <Stack spacing={3}>
             <Box position="fixed" sx={{ opacity: 0.2 }} zIndex={-10}>
 
                 <video autoPlay loop muted style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'fixed', top: 0, left: 0, zIndex: -1 }}>
@@ -59,7 +61,32 @@ function MainPage() {
             <Container maxWidth>
                 <div id="back-to-top-anchor" />
                 <Box position="sticky" width="100%" style={{ opacity: 0.9 }}>
-                    <Stack direction="row" justifyContent="flex-end" p={3}>
+
+                    <Stack direction="row" justifyContent="space-between" p={3}>
+                        <Stack justifyContent="start" direction="row" spacing={1}>
+                            <Link to="/aboutUs" target='_blank'>
+                                <Button>
+                                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
+                                        About us
+                                    </Typography>
+                                </Button>
+                            </Link>
+                            <Link to="/whatIs" target='_blank'>
+                                <Button>
+                                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
+                                        What is a journal page? and Who we are?
+                                    </Typography>
+                                </Button>
+                            </Link>
+                            <Link to="/accuracy" target='_blank'>
+                                <Button>
+                                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
+                                        Accuracy of Purchased Data
+                                    </Typography>
+                                </Button>
+                            </Link>
+                        </Stack>
+
                         <ButtonGroup variant='text'>
                             <Link to="/login">
                                 <Button>
@@ -69,11 +96,11 @@ function MainPage() {
                                 </Button>
                             </Link>
                             <Link to="/signup">
-                            <Button size='large' fontWeight="bold">
-                                <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                                    Join for free
-                                </Typography>
-                            </Button>
+                                <Button size='large' fontWeight="bold">
+                                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
+                                        Join for free
+                                    </Typography>
+                                </Button>
                             </Link>
                         </ButtonGroup>
                     </Stack>
@@ -94,8 +121,10 @@ function MainPage() {
                         </Stack>
 
                         <Stack alignItems="flex-end">
-                            <Typography fontFamily="Times New Roman,sans-serif"  p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 600}>
-                                Researchers who upload their raw data to the system are paid according to the number of downloads of their data through the raw data library company.
+                            <Typography fontFamily="Times New Roman,sans-serif" p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 700}>
+                                Academic incentives are provided to researchers who upload their raw or processed data to the RDL platform and they are paid according to the number of downloads of their data through the Raw Data Library company.
+
+
                             </Typography>
                         </Stack>
                     </Grid>
@@ -103,15 +132,17 @@ function MainPage() {
 
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <Stack direction="row" mt={3}  p={2} alignItems="center" borderRadius={3} spacing={2}>
+                        <Stack direction="row" mt={3} p={2} alignItems="center" borderRadius={3} spacing={2}>
                             <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
                                 The New Face of the Academy
                             </Typography>
                             <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                               
-                                Researchers who upload their Raw Data to the system are paid according to the number of downloads of their data through the Raw Data Library company.
+
+                                Duplication of experiments can be avoided and
+
+                                it is time to access data and financially encourage the data owner of the researchers.
                             </Typography>
-                            <Link to="/signup"><Button sx={{minWidth:100}} variant='contained'>JOIN FOR FREE</Button></Link>
+                            <Link to="/signup"><Button sx={{ minWidth: 100 }} variant='contained'>JOIN FOR FREE</Button></Link>
                         </Stack>
 
 
@@ -125,26 +156,184 @@ function MainPage() {
                 <Stack >
                     <Grid container sx={{ height: (isSmallScreen ? "100%" : "100vh"), opacity: 1, boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }} bgcolor="white" borderRadius={3}  >
                         <Grid item sm={12} md={5}>
-                            <Box borderRadius={3} component="img" src={Researcher} width="100%" height="100%" sx={{ objectFit: 'cover' }} />
+                            <Stack height="95%">
+                                <Box borderRadius={3} component="img" src={Researcher} width="100%" height="100%" sx={{ objectFit: 'cover' }} />
+                            </Stack>
+
                         </Grid>
                         <Grid item sm={12} md={7}>
-                            <Stack spacing={3} alignContent="center" p={5} sx={{ pt: (isSmallScreen ? 2 : 30) }}>
-                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h3'> Academic Research Incentive</Typography>
-                                <Stack spacing={2}>
+                            <Stack spacing={3} p={10} >
 
-                                    <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                        <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                        The main purpose of the <b>Raw Data Library</b>  is to contribute to the scientific world by providing easy access to <b>Experimental Raw Data or Analytical Models</b> by other researchers.
-                                    </Typography>
-                                    <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                        <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                        In this context, researchers who upload their <b>Raw Data</b> to the online system with their own consent provide their previously obtained raw data to the use of other researchers.
-                                    </Typography>
-                                    <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                        <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                        Data owners are <b>financially supported</b> for each of their data downloaded by other researchers.
-                                    </Typography>
+                                <Stack spacing={5}>
+                                    <Stack spacing={1}>
+                                        <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            More than one output is obtained from an academic study. In published articles, generally some of them can be presented and discussed. In some of the related publications, outputs are only mentioned, but no data are presented.
+                                        </Typography>
+                                        <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            In the published articles, the data are presented as a summarized table or graphically. This makes it difficult to reuse the data by other researchers.
+                                        </Typography>
+                                        <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            Many of the outputs mentioned in the relevant articles (for example: graphical representations) cannot be presented due to the page limit. It may not be possible to present survey data or provide graphs of all the results.
+                                        </Typography>
+                                        <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            RDL platform was established to ensure that the data in the studies can be easily discovered and accessed and to offer academic incentives to researchers.
+                                        </Typography>
+                                    </Stack>
+                                    <Stack>
+                                        <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h3'> Academic Research Incentive</Typography>            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            The main purpose of the <b>Raw Data Library</b>  is to contribute to the scientific world by providing easy access to <b>Experimental Raw Data or Analytical Models</b> by other researchers.
+                                        </Typography>
+                                        <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            In this context, researchers who upload their <b>Raw Data</b> to the online system with their own consent provide their previously obtained raw data to the use of other researchers.
+                                        </Typography>
+                                        <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                            <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                            Data owners are <b>financially supported</b> for each of their data downloaded by other researchers.
+                                        </Typography>
+                                    </Stack>
+
                                 </Stack>
+
+                            </Stack>
+
+                        </Grid>
+                    </Grid>
+                </Stack>
+
+            </Container>
+            <Container maxWidth>
+                <Stack >
+                    <Grid container sx={{ height: (isSmallScreen ? "100%" : "100vh"), opacity: 1, boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }} bgcolor="white" borderRadius={3}  >
+                        <Grid item sm={12} md={5}>
+                            <Stack height="95%">
+                                <Box borderRadius={3} component="img" src={Type} width="100%" height="100%" sx={{ objectFit: 'cover' }} />
+                            </Stack>
+
+                        </Grid>
+                        <Grid item sm={12} md={7}>
+                            <Stack spacing={3} p={10} >
+                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h3'>Upload Your Data</Typography>
+
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Experimental data,
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Survey data,
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Analytical models,
+                                </Typography>
+
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Software/Codes
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Algorithms and methods,
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Tabular Data,
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Dataset,
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    with all types of formats (e.g., excel, .txt, .docx .csv, .pdf and ext.) used in your research study.
+
+                                </Typography>
+
+                            </Stack>
+
+                        </Grid>
+                    </Grid>
+                </Stack>
+
+            </Container>
+            <Container maxWidth>
+                <Stack >
+                    <Grid container sx={{ opacity: 1, boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }} bgcolor="white" borderRadius={3}  >
+                        <Grid item sm={12} md={5}>
+                            <Stack height="100%">
+                                <Box borderRadius={3} component="img" src={Prem} width="100%" height="100%" sx={{ objectFit: 'cover' }} />
+                            </Stack>
+
+                        </Grid>
+                        <Grid item sm={12} md={7}>
+
+                            <Stack spacing={3} p={10} bgcolor="white" >
+                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h3'>Premium Membership</Typography>
+
+                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h4'>Advantages of premium membership</Typography>
+
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Premium members can download raw data which is offered as free of a charge by other researchers.
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Premium members can use the RDL DATA TRANSFER software.
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h4'>What is RDL data transfer? </Typography>
+
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    In scientific studies and in a multi-author article, the raw data may not be under the control of all authors. Most of the time it is stored on the computer of one of the authors.
+                                </Typography>
+
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    As time passes, it becomes difficult to remember and interpret raw data that has not been cleaned and classified
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Sample names that change during the publication process or during the research may cause confusion during the subsequent use of the obtained raw data.
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    "Wherever you go, your data and flash memory are now with you."
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Thanks to the special software provided, premium members can transfer all their own RDL information to any flash memory or a computer.
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Premium members can download all portfolio information, articles and corresponding raw data files by accessing them on any computer in a classified format without internet.
+
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    All of your studies with cleaned data are now is with you.
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Free premium membership is given by RDL company to researchers who have more than 500 raw data or whose H-index is over 30.                                 </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    Premium Members receive their INCOME within the WEEK their data are sold.
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    The storage capacity of premium members is unlimited.
+
+
+                                </Typography>
+                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                    The latest studies of the 5 premium members with the highest H-index score is permanently displayed on the public research page of RDL
+                                </Typography>
 
                             </Stack>
 

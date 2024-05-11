@@ -119,7 +119,7 @@ export default function LoginPage() {
                 <Typography color="error">Please fill in all required fields correctly.</Typography>
               )}
               <Typography sx={{ mt: 1 }}>
-                No account ? <Link to="/signup">Sign up</Link>
+              Don’t have an account yet? <Link to="/signup">Sign up</Link>
               </Typography>
             </Stack>
           </form>

@@ -6,7 +6,7 @@ import { useUserContext } from '../../hooks/AuthProvider';
 import { useParams } from 'react-router-dom';
 import FollowButton from '../button/FollowButton';
 
-export default function ProfileUserView() {
+export default function ProfileUserView({setUserStatus}) {
     const baseUrl = process.env.REACT_APP_BASE_URL
     const prop = useUserContext()
     const [user, setUser] = useState({
@@ -18,10 +18,11 @@ export default function ProfileUserView() {
         followers: "",
         following: ""
     });
+  
     const { username } = useParams();
     const [loading, setLoading] = useState(true);
 
-    const { token } = useUserContext();
+    const { token} = useUserContext();
 
     useEffect(() => {
         getUser(token, username)
@@ -36,8 +37,15 @@ export default function ProfileUserView() {
                     following: res.data.following,
                     id: res.data.id,
                     image: res.data.profileImageUrl,
-                    publications: res.data.publications
+                    publications: res.data.publications,
+                    academicDegree: res.data.academicDegree,
+                    university : res.data.university,
+                    department: res.data.department
                 });
+                setUserStatus({
+                    id:prop.user.id,
+                    status: prop.user.uniqueName == username
+                })
             })
             .catch(() => { })
             .finally(() => {
@@ -58,19 +66,16 @@ export default function ProfileUserView() {
                     <Typography variant="h6">
                         {loading ? <Skeleton width={100} /> : `${user.firstname} ${user.lastname}`}
                     </Typography>
-                    <Typography color="gray" fontSize="sm">
-                        {loading ? <Skeleton width={80} /> : "Professor"}
+                    <Typography color="gray">
+                        {loading ? <Skeleton width={200} /> : user.department && user.academicDegree  && `in ${user.department} ${user.academicDegree}`}
                     </Typography>
                     <Typography color="gray">
-                        {loading ? <Skeleton width={200} /> : "in Civil Engineering Professor (Full)"}
-                    </Typography>
-                    <Typography color="gray">
-                        {loading ? <Skeleton width={250} /> : "at Erzincan Binali Yildirim University"}
+                        {loading ? <Skeleton width={250} /> : user.university  && `at ${user.university}`}
                     </Typography>
                     <Stack direction="row">
                         <Icon icon="mdi:location" />
                         <Typography color="gray">
-                            {loading ? <Skeleton width={100} /> : user.country}
+                            {loading ? <Skeleton width={100} /> : user.country && user.country}
                         </Typography>
                     </Stack>
                 </Stack>

@@ -19,21 +19,22 @@ import { Divider, MenuItem, Select, Stack } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useUserContext } from '../../hooks/AuthProvider';
 
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export default function SelectedAuthor({ selectedAuthor, deleteList, setRole, setSelectedAuthor }) {
+export default function SelectedAuthor({role, selectedAuthor, deleteList, setRole, setSelectedAuthor }) {
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
   const dataType = useSelector((state) => state.newDataType.value)
-
+  const {user} = useUserContext()
   const handleRoleChange = (event,author) => {
     const newRole = event.target.value;
     setSelectedAuthor(prevAuthors => {
       const updatedAuthors = prevAuthors.map(prevAuthor => {
         if (prevAuthor.user.id === author.user.id) {
-          return { ...prevAuthor, role: newRole };
+          return { ...prevAuthor, role:newRole};
         }
         return prevAuthor;
       });
@@ -48,29 +49,29 @@ export default function SelectedAuthor({ selectedAuthor, deleteList, setRole, se
           Authors
         </Typography>
         <Divider />
-        <List>
+        <Box sx={{overflowY:"auto"}} maxHeight={200}>
           {
             selectedAuthor.map((author, index) => (
               <ListItem key={index} divider>
                 <ListItemAvatar>
-                  <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${author.user.profileImageName}`} />
+                  {author.user.profileImageName ? <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${author.user.profileImageName}`} /> : <Avatar/>}
                 </ListItemAvatar>
 
 
                 <ListItemText>{author.user.firstname} {author.user.lastname} <ListItemText>@{author.user.uniqueName}</ListItemText></ListItemText>
-                {dataType == "Research Project" && <Select size='small' sx={{ width: 80 }} value={author.role} onChange={e=>handleRoleChange(e,author)}>
+                {dataType == "Research Project" || role == "Research Project" && <Select size='small' sx={{ width: 80 }} value={author.role} onChange={e=>handleRoleChange(e,author)}>
                   <MenuItem value={"Advisor"}>Advisor</MenuItem>
                   <MenuItem value={"Project manager"}>Project manager</MenuItem>
                   <MenuItem value={"Researcher"}>Researcher</MenuItem>
                   <MenuItem value={"Student"}> Student</MenuItem>
                 </Select>}
-                <ListItemIcon onClick={() => deleteList(author.user.id)}><Delete /></ListItemIcon>
+                {author.user.id !== user.id && <ListItemIcon onClick={() => deleteList(author.user.id)}><Delete /></ListItemIcon>}
 
               </ListItem>
             ))
           }
 
-        </List>
+        </Box>
 
       </Grid>
     </Stack>

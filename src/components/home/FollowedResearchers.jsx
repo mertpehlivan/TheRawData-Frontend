@@ -75,12 +75,11 @@ export default function FollowedResearchers() {
 
   if (!posts || posts.length === 0) {
     return (
-      <Stack alignItems="center" justifyContent="center" height="100%">
-        
+      <Stack alignItems="center" justifyContent="center" height="100%" bgcolor="background.default" p={2} borderRadius={3}>
+        <Icon as={InfoOutlined} sx={{ color: "red" }} fontSize="large" marginRight={1} />
         <Typography variant="h5" color="error">
-          <Icon as={InfoOutlined} fontSize="large" marginRight={1} />
-          
-          No Shipments
+
+          No Publication
         </Typography>
       </Stack>
     );
@@ -89,7 +88,7 @@ export default function FollowedResearchers() {
   if (error) {
     return (
       <Stack alignItems="center" justifyContent="center" height="100%">
-        
+
         <Typography variant="h5" color="error">
           <Icon as={ErrorOutline} fontSize="large" marginRight={1} />
           An error has occurred: {error.toString()}
@@ -100,21 +99,21 @@ export default function FollowedResearchers() {
 
   return (
     <Stack spacing={1}>
-     
+
       {posts.map((post) => (
         <DataPost key={post.id} data={post} handleLoadMore={handleLoadMoreRef.current} />
       ))}
-       
+
       {!hasMorePosts ? (
         <Typography variant="h6" color="textSecondary" textAlign="center">
           There are no more posts available.
         </Typography>
-      ):
-      (<Button onClick={handleLoadMoreRef.current} variant="outlined"  color="primary">
-        see more
-      </Button>)
+      ) :
+        (<Button onClick={handleLoadMoreRef.current} variant="outlined" color="primary">
+          see more
+        </Button>)
       }
-     
+
     </Stack>
   );
 }

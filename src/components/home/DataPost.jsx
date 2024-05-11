@@ -6,7 +6,7 @@ import FollowButton from '../button/FollowButton';
 import PdfPreViewerImage from './PdfPreViewerImage';
 import FriendComponent from '../view/FriendComponent';
 import BackdropImage from '../view/BackdropImage';
-import { Download, Image, LinkOff, LinkOutlined, PictureAsPdf, PictureAsPdfOutlined, Timelapse, Today } from '@mui/icons-material';
+import { BookOnline, Download, Image, LinkOff, LinkOutlined, Paid, PictureAsPdf, PictureAsPdfOutlined, ShoppingCart, Timelapse, Today } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ChipIconComponent from '../view/ChipIconComponent';
@@ -119,7 +119,7 @@ export default function DataPost({ data }) {
           <Spacer />
           <Icon icon="mdi:ellipsis-vertical" style={{ fontSize: '20px' }} />
         </Stack>}
-        {data.shareUserId && <Typography variant='h6' mb={2}>In this research, the author</Typography>}
+        {data.shareUserId && <Typography variant='h6' mb={2}>Re-shared by</Typography>}
         <Stack spacing={2} direction="column" borderRadius={2} p={1} boxShadow={data.shareUserId && " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"}>
 
           <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" justifyItems="center" >
@@ -182,6 +182,7 @@ export default function DataPost({ data }) {
             
             {data.url && <Chip icon={<LinkOutlined color='white'/>} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={<Link target='_blank' to={data.url} style={{color:"white"}}>Link of the paper</Link>}/>}
             {data.year && <Chip  sx={{ bgcolor: "primary.main", color:"white", p: 1 }} label={`${data.year}`}/>}
+            <Stack spacing={1} direction="row" sx={{width:"100%"}} justifyContent="flex-end" alignItems="flex-end"> <Button size='small' variant='outlined' color='success' startIcon={<BookOnline/>}>Request full-text</Button> <Link replace={false} to={`/publications/${data.id}`}><Button size='small' variant='outlined' startIcon={<ShoppingCart/>}>Purchase Data</Button></Link></Stack>
           </Stack>
           <Stack direction="row">
             <Stack direction="row" justifyContent="space-between">
@@ -250,7 +251,7 @@ export default function DataPost({ data }) {
                 index <= 2 ?
                   <FriendComponent
                     key={index}
-                    imageUrl={author.profileImageUrl}
+                    imageUrl={author.profileImageName}
                     fullname={`${author.firstName} ${author.lastName}`}
                     uniqueName = {author.uniqueName}
                   /> : null
@@ -266,7 +267,7 @@ export default function DataPost({ data }) {
                     (<Stack key={index} direction="row" spacing={-1}>
                       <FriendComponent
                         key={author.id}
-                        imageUrl={author.profileImageUrl}
+                        imageUrl={author.profileImageName}
                       />
                       <Avatar sx={{ width: "25px", height: "25px", bgcolor: "primary.main" }}>
                         {`+${data.authors.length - 3}`}

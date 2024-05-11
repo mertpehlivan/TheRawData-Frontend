@@ -4,8 +4,8 @@ import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useState } from 'react';
 
-export default function SearchDepartment({setDepartment}) {
-  const [selectedDepartment, setSelectedDepartment] = useState("Computer Engineering");
+export default function SearchDepartment({department,setDepartment}) {
+  const [selectedDepartment, setSelectedDepartment] = useState(department == ""|| !department ?  "" : department);
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
@@ -22,6 +22,7 @@ export default function SearchDepartment({setDepartment}) {
         }}
         renderInput={(params) => (
           <TextField
+            
             fullWidth
             {...params}
             label="Department"

@@ -14,6 +14,7 @@ import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
 import { Link } from 'react-router-dom';
 import PdfForm from './PdfForm';
+import SearchInputV2 from '../input/SearchInputV2';
 
 export default function CompanyTestReportFrom() {
   const [title, setTitle] = useState('');
@@ -92,7 +93,7 @@ export default function CompanyTestReportFrom() {
           rows={4}
           onChange={(e) => setComment(e.target.value)}
         />
-        <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
+        <SearchInputV2 setAuthorIds={setAuthorIds} />
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
           <Link to='/'><Button

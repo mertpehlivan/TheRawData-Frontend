@@ -17,3 +17,21 @@ export const createAuthors = async(data) => {
         console.error(error)
     }
 };
+export const getPublicationToAuthors = async(token,id) => {
+    try {
+        const res = await axios.get(
+            `${baseUrl}/api/v1/authors/getPublicationToAuthors/${id}`,
+            {
+
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+          
+               
+            }
+        )
+        return res;
+    } catch (error) {
+        console.error(error)
+    }
+};

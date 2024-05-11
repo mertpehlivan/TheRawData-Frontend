@@ -39,6 +39,7 @@ export default function FormDialog({ handlerFormDialog, setFormDialog, formDialo
         aria-labelledby="customized-dialog-title"
         open={formDialog}
         maxWidth="lg"
+
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           <Stack alignItems="center" direction="row" spacing={1}>

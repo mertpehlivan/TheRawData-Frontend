@@ -38,9 +38,9 @@ export const createReaserachProject = async ({
     formData.append('pdfStatus', pdf.pdfStatus);
     formData.append('fileEx', fileEx);
     formData.append('pdfFile', pdfFile, fileName);
-    formData.append('grantNumber',grantNumber);
-    formData.append("companyOrUnvierstiy",companyOrUnvierstiy)
-    formData.append("endDate",endDate)
+    formData.append('grantNumber', grantNumber);
+    formData.append("companyOrUnvierstiy", companyOrUnvierstiy)
+    formData.append("endDate", endDate)
     // Sunucuya POST isteği gönder
     const res = await axios.post(
       `${baseUrl}/api/v1/reasearchProject/create`,
@@ -57,5 +57,66 @@ export const createReaserachProject = async ({
   } catch (error) {
     console.error(error);
     throw error; // Hata yeniden fırlatılıyor, böylece çağıran kod hata hakkında bilgi sahibi olabilir
+  }
+};
+export const getResearchProject = async (token, publicationId) => {
+  try {
+    const res = await axios.get(
+      `${baseUrl}/api/v1/reasearchProject/getResearchProject/${publicationId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    return res;
+  } catch (error) {
+    console.error(error)
+  }
+};
+export const updateResearchProject = async ({
+  title,
+  date,
+  comment,
+  grantNumber,
+  companyOrUnvierstiy,
+  authorsAndRole,
+  endDate,
+}, token, publicationId) => {
+  const editAuthor = [];
+  const editAuthorString = authorsAndRole.map(author => `${author.user.id},${author.role}`).join(';');
+  try {
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('date', date);
+    formData.append('comment', comment);
+    formData.append('authors', editAuthorString);
+    formData.append('grantNumber', grantNumber);
+    formData.append("companyOrUnvierstiy", companyOrUnvierstiy)
+    formData.append("endDate", endDate)
+
+    const res = await axios.post(
+      `${baseUrl}/api/v1/reasearchProject/update/${publicationId}`,
+      {
+        title,
+        date,
+        comment,
+        grantNumber,
+        companyOrUnvierstiy,
+        authors:editAuthorString,
+        endDate,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };

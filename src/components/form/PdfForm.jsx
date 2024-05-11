@@ -21,7 +21,7 @@ function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
     }
     useEffect(() => {
         setFileEx(ex)
-        if (ex === "pdf") {
+        if (ex === "pdf" || ex == null) {
             setErrorMessage("")
         } else {
             setErrorMessage("You can only upload pdf files")
@@ -51,7 +51,7 @@ function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
                                     name="radio-buttons-group"
                                 >
                                     <Stack justifyContent="center">
-                                        <FormControlLabel name='addOnly' sx={{ mt: 1, border: "1px solid", borderRadius: 3, borderColor: "primary.main" }} onChange={handleChangePdf} value={true} control={<Radio defaultChecked />} label={<Stack>
+                                        <FormControlLabel name='addOnly' sx={{ mt: 1, borderRadius: 3, borderColor: "primary.main" }} onChange={handleChangePdf} value={true} control={<Radio defaultChecked />} label={<Stack>
                                             <Stack direction="row" spacing={1}>
                                                 <Visibility sx={{ color: "primary.main" }} />
                                                 <Typography sx={{ color: "primary.main" }}>Add only a public file</Typography>
@@ -59,7 +59,7 @@ function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
                                             <Typography variant='body2'>Upload a public file which everyone can access and read.</Typography>
 
                                         </Stack>} />
-                                        <FormControlLabel name='addOnly' sx={{ mt: 1, border: "1px solid", borderRadius: 3, borderColor: "primary.main" }} onChange={handleChangePdf} value={false} control={<Radio />} label={<Stack>
+                                        <FormControlLabel name='addOnly' sx={{ mt: 1, borderRadius: 3, borderColor: "primary.main" }} onChange={handleChangePdf} value={false} control={<Radio />} label={<Stack>
                                             <Stack direction="row" spacing={1}>
                                                 <VisibilityOff sx={{ color: "primary.main" }} />
                                                 <Typography sx={{ color: "primary.main" }}>Add only a private file</Typography>

@@ -24,11 +24,16 @@ export const signUp = async (usernameAndPassword) => {
         throw error;
     }
 }
-export const invite = async (invitationDetails) => {
+export const invite = async (invitationDetails,token) => {
     try{
         return await axios.post(
-            `${baseUrl}/api/v1/auth/invite`,
-            invitationDetails
+            `${baseUrl}/api/v1/user/invite`,
+            invitationDetails, {
+
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            }
         );
     }catch(error){
         throw error;

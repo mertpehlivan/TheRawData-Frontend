@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Button, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { invite } from '../../services/userAuthentication';
 import { Dangerous, PersonAdd } from '@mui/icons-material';
+import { useUserContext } from '../../hooks/AuthProvider';
 
 function InviteAuthor({ onInvite, setInviteBox }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const {token} = useUserContext()
   const [invitationDetails, setInvitationDetails] = useState({
     id: '',
     firstname: '',
     lastname: '',
     username:'invite',
-    email: ''
+    email: '',
+    profileImageName: null
   });
 
   const handleChange = (e) => {
@@ -31,7 +34,7 @@ function InviteAuthor({ onInvite, setInviteBox }) {
     setLoading(true);
     setMessage('');
 
-    invite(invitationDetails)
+    invite(invitationDetails,token)
       .then((response) => {
         console.log(response.data);
         setInvitationDetails((prevDetails) => ({

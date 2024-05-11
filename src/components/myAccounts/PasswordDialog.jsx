@@ -34,16 +34,16 @@ export default function PasswordDialog({ handleClickPassowordChange, handleClose
         setCurrentPassword("")
         setFirstPassword("")
         setLastPassword("")
-        setCurrentPasswordVisibility(false)
-        setFirstPasswordVisibility(false)
-        setLastPasswordVisibility(false)
+        setCurrentPasswordVisibility(true)
+        setFirstPasswordVisibility(true)
+        setLastPasswordVisibility(true)
         setErrorMessage("");
     }, [passowordChange]);
     const visibility = (status) => {
-        return !status ? 'password' : 'text';
+        return status ? 'password' : 'text';
     }
     const visibilityIcon = (status) => {
-        return !status ? <Visibility /> : <VisibilityOff />;
+        return status ? <VisibilityOff /> : <Visibility /> ;
     }
     const passwordsMatch = firstPassword === lastPassword ? false : true ;
     const changePasswordFatch = async () => {
@@ -73,7 +73,7 @@ export default function PasswordDialog({ handleClickPassowordChange, handleClose
                 open={passowordChange}
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Username change
+                    Password change
                 </DialogTitle>
                 <IconButton
                     aria-label="close"
@@ -90,7 +90,7 @@ export default function PasswordDialog({ handleClickPassowordChange, handleClose
                 <DialogContent dividers>
 
                     <Stack padding={3} spacing={2}>
-                        <Typography>You're about to change your username. Please enter your new username and confirm it. Your username must be unique and must be greater than 6 letters.</Typography>
+                        <Typography>You're about to change your password. Please enter your new password and confirm it. </Typography>
                         <Stack>
                             <Typography variant='body2'>Current Password:</Typography>
                             <OutlinedInput

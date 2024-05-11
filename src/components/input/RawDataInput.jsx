@@ -76,7 +76,7 @@ const RawDataInput = ({ setRawDataUrl ,setRawDataEx}) => {
         {files.length > 0 && (
           <Stack direction="row" alignItems="center" justifyContent="center" bgcolor="primary.main" color="white" p={0.3} borderRadius={2}>
             <Check/>
-            <Typography  >Selected Data</Typography>
+            <Typography  >Data Uploaded</Typography>
           </Stack>
         )}
       </div>

@@ -60,7 +60,7 @@ const SummaryBox = ({ simpleData }) => {
 }
 
 
-export default function UpdateRawDataBackdrop({ handleOpen, handleClose, open, simpleData,refreshHandler }) {
+export default function UpdateRawDataBackdrop({ handleOpen, handleClose, open, simpleData, refreshHandler }) {
   const [name, setName] = useState(simpleData.title);
   const [previewUrl, setPreviewUrl] = useState("");
   const [comment, setComment] = useState(simpleData.comment);
@@ -123,184 +123,184 @@ export default function UpdateRawDataBackdrop({ handleOpen, handleClose, open, s
       rawDataEx: rawDataEx,
       previewEx: previewEx
     }
-      
-      try {
-        const response = await updateRawData(data, { rawData, previewImage }, simpleData.id, token, onUploadProgres => {
-          const percentage = Math.round((onUploadProgres.loaded / onUploadProgres.total) * 100);
-          setUploadProgress(percentage);
-          setUploud(true)
-        });
-        console.log(response)
-        refreshHandler();
-        handleDelete()
-      } catch (error) {
-        console.error(error)
-      }
-      
+
+    try {
+      const response = await updateRawData(data, { rawData, previewImage }, simpleData.id, token, onUploadProgres => {
+        const percentage = Math.round((onUploadProgres.loaded / onUploadProgres.total) * 100);
+        setUploadProgress(percentage);
+        setUploud(true)
+      });
+      console.log(response)
+      window.location.reload();
+      handleClose()
+    } catch (error) {
+      console.error(error)
     }
-   
-    return (
-      <div>
+
+  }
+
+  return (
+    <div>
 
 
-        {open &&
-          <Backdrop
-            sx={{  zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={open}
+      {open &&
+        <Backdrop
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
 
-          >
+        >
 
-            <Stack bgcolor="white" p={1} borderRadius={3} spacing={2}>
-              <Stack direction="row" justifyContent="flex-end">
-                <Button onClick={() => { handleClose(); handleDelete() }} color='error' variant='contained'><Close /></Button>
-              </Stack>
-              <Stack direction="row" p={6} alignItems="center">
-
-
-                <SummaryBox simpleData={{ title: name, previewImageUrl: simpleData.previewImageUrl, changeImage: previewUrl, price: priceSuggestion, comment: comment, rawDataExtension: rawDataEx }} />
-                <Stack justifyContent="start">
-                  {uploud ? <Stack spacing={1}
-                    mt={1}
-                    p={2}
-                    maxWidth={200}
-                    justifyContent="center"
-                    border="1px solid" borderRadius={3} borderColor="primary.main"
-
-                  >
-                    <LinearProgress variant="determinate" value={uploadProgress} />
-                    {
-                      uploadProgress == 100 && <Stack >
-                        <Typography>Download complete</Typography>
-                        <Typography>Raw data : {name}</Typography>
-                        <Typography>{comment}</Typography>
-                        <Button variant='contained' color='error' onClick={() => { handleClose() }}>Close</Button>
-                      </Stack>
-
-                    }
+          <Stack bgcolor="white" p={1} borderRadius={3} spacing={2}>
+            <Stack direction="row" justifyContent="flex-end">
+              <Button onClick={() => { handleClose(); handleDelete() }} color='error' variant='contained'><Close /></Button>
+            </Stack>
+            <Stack direction="row" p={6} alignItems="center">
 
 
-                  </Stack> : <>
+              <SummaryBox simpleData={{ title: name, previewImageUrl: simpleData.previewImageUrl, changeImage: previewUrl, price: priceSuggestion, comment: comment, rawDataExtension: rawDataEx }} />
+              <Stack justifyContent="start">
+                {uploud ? <Stack spacing={1}
+                  mt={1}
+                  p={2}
+                  maxWidth={200}
+                  justifyContent="center"
+                  border="1px solid" borderRadius={3} borderColor="primary.main"
 
-                    {
-                      isSave ?
-                        (
+                >
+                  <LinearProgress variant="determinate" value={uploadProgress} />
+                  {
+                    uploadProgress == 100 && <Stack >
+                      <Typography>Uploaded complete</Typography>
+                      <Typography>Raw data : {name}</Typography>
+                      <Typography>{comment}</Typography>
+                      <Button variant='contained' color='error' onClick={() => { handleClose() }}>Close</Button>
+                    </Stack>
+
+                  }
+
+
+                </Stack> : <>
+
+                  {
+                    isSave ?
+                      (
+                        <Stack
+                          height={500}
+                          width={200}
+                          border="2px solid"
+                          borderRadius={3}
+                          borderColor="primary.main"
+                          mt={2}
+                          p={2}
+                          sx={{
+                            backgroundColor: 'primary.main',
+                            color: 'white',
+                            textAlign: 'center',
+                            position: 'relative',
+                          }}
+                        >
+                          <Stack alignItems="center" spacing={2}>
+                            <BeenhereIcon sx={{ width: 100, height: 100 }} />
+                            <Typography variant="h3" p={2} borderRadius={3}>
+                              Saved!
+                            </Typography>
+                          </Stack>
                           <Stack
-                            height={500}
-                            width={200}
                             border="2px solid"
                             borderRadius={3}
                             borderColor="primary.main"
+                            spacing={1}
                             mt={2}
-                            p={2}
-                            sx={{
-                              backgroundColor: 'primary.main',
-                              color: 'white',
-                              textAlign: 'center',
-                              position: 'relative',
-                            }}
                           >
-                            <Stack alignItems="center" spacing={2}>
-                              <BeenhereIcon sx={{ width: 100, height: 100 }} />
-                              <Typography variant="h3" p={2} borderRadius={3}>
-                                Saved!
-                              </Typography>
-                            </Stack>
-                            <Stack
-                              border="2px solid"
-                              borderRadius={3}
-                              borderColor="primary.main"
-                              spacing={1}
-                              mt={2}
-                            >
-                              <Typography variant="h5">{name}</Typography>
-                              <Typography variant="body1">{comment}</Typography>
-                            </Stack>
+                            <Typography variant="h5">{name}</Typography>
+                            <Typography variant="body1">{comment}</Typography>
                           </Stack>
-
-
-                        )
-
-                        :
-
-                        <Stack
-                          alignItems="center"
-                          spacing={2}
-                          justifyContent="center"
-                          bgcolor="background.default"
-                          p="1rem"
-                          maxWidth="200px"
-
-                        >
-                          <TextField
-                            size="small"
-                            label="Specimen Name"
-                            helperText="Type the raw data/ specimen's name as given in the article. e.g;K1"
-                            value={name}
-                            onChange={(e) => {
-                              setName(e.target.value);
-                            }}
-                          />
-                          <Stack direction="row">
-                            <RawDataUpdateInput setRawDataUrl={setRawDataUrl} setRawDataEx={setRawDataEx} uploudRawData={uplodRawData} />
-
-                          </Stack>
-
-                          <Stack direction="row">
-                            <UpdatePreviewImage icon={'mdi:image-outline'} text="Select Preview Image" setPreviewUrl={setPreviewUrl} setPreviewEx={setPreviewEx} uploudPreview={uplodPreview} />
-
-                          </Stack>
-                          <TextField
-                            color="success"
-                            label="Comment"
-                            size="small"
-                            rows="2"
-                            value={comment}
-                            onChange={(e) => {
-                              setComment(e.target.value);
-                            }}
-                          />
-                          <TextField
-                            label="Price Suggestion"
-                            size="small"
-                            InputProps={{
-                              endAdornment: <InputAdornment position="start">$</InputAdornment>,
-                            }}
-                            value={priceSuggestion}
-                            onChange={(e) => {
-                              setPriceSuggestion(e.target.value);
-                            }}
-                          />
                         </Stack>
 
 
-                    }
-                    <Stack direction="row">
+                      )
 
+                      :
 
-                      {(
-                        <Button
-                          variant="contained"
+                      <Stack
+                        alignItems="center"
+                        spacing={2}
+                        justifyContent="center"
+                        bgcolor="background.default"
+                        p="1rem"
+                        maxWidth="200px"
+
+                      >
+                        <TextField
+                          size="small"
+                          label="Specimen Name"
+                          helperText="Type the raw data/ specimen's name as given in the article. e.g;K1"
+                          value={name}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                          }}
+                        />
+                        <Stack direction="row">
+                          <RawDataUpdateInput setRawDataUrl={setRawDataUrl} setRawDataEx={setRawDataEx} uploudRawData={uplodRawData} />
+
+                        </Stack>
+
+                        <Stack direction="row">
+                          <UpdatePreviewImage icon={'mdi:image-outline'} text="Select Preview Image" setPreviewUrl={setPreviewUrl} setPreviewEx={setPreviewEx} uploudPreview={uplodPreview} />
+
+                        </Stack>
+                        <TextField
                           color="success"
-                          fullWidth
-                          onClick={() => handleSave()}
-                          disabled={(name == "" || comment == "" || priceSuggestion == "" || (name === simpleData.title && comment === simpleData.comment && priceSuggestion == simpleData.price && rawData == null && previewImage == null))}
-                        >
-                          <Update sx={{ color: "white" }} />
-                          Update
-                        </Button>
-                      )}
+                          label="Comment"
+                          size="small"
+                          rows="2"
+                          value={comment}
+                          onChange={(e) => {
+                            setComment(e.target.value);
+                          }}
+                        />
+                        <TextField
+                          label="Price Suggestion"
+                          size="small"
+                          InputProps={{
+                            endAdornment: <InputAdornment position="start">$</InputAdornment>,
+                          }}
+                          value={priceSuggestion}
+                          onChange={(e) => {
+                            setPriceSuggestion(e.target.value);
+                          }}
+                        />
+                      </Stack>
 
-                    </Stack>
-                  </>}
 
-                </Stack>
+                  }
+                  <Stack direction="row">
+
+
+                    {(
+                      <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        onClick={() => handleSave()}
+                        disabled={(name == "" || comment == "" || priceSuggestion == "" || (name === simpleData.title && comment === simpleData.comment && priceSuggestion == simpleData.price && rawData == null && previewImage == null))}
+                      >
+                        <Update sx={{ color: "white" }} />
+                        Update
+                      </Button>
+                    )}
+
+                  </Stack>
+                </>}
+
               </Stack>
             </Stack>
-          </Backdrop>}
+          </Stack>
+        </Backdrop>}
 
-      </div>
+    </div>
 
-    )
-  }
+  )
+}
 
 

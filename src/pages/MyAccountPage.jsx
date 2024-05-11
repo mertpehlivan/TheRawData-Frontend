@@ -1,20 +1,21 @@
 import { Avatar, Box, Button, Container, Divider, Grid, IconButton, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useUserContext } from '../hooks/AuthProvider'
-import { ChangeCircle, PhotoCamera } from '@mui/icons-material';
+import { ArrowBack, ChangeCircle, PhotoCamera } from '@mui/icons-material';
 import AvatarComponent from '../components/myaccount/AvatarComponent';
 import EmailDialog from '../components/myAccounts/EmailDialog'
 import UsernameDialog from '../components/myAccounts/UsernameDialog'
 import PasswordDialog from '../components/myAccounts/PasswordDialog';
 import CountryDialog from '../components/myAccounts/CountryDialog';
+import { Link } from 'react-router-dom';
 
 export default function MyAccount() {
     const { user } = useUserContext()
     const [showIcon, setShowIcon] = useState(false);
     const [emailChange, setEmailChange] = useState(false)
     const [usernameChange, setUsernameChange] = useState(false)
-    const [passwordChange,setPasswordChange] = useState(false)
-    const [countryChange,setCountryChange] = useState(false)
+    const [passwordChange, setPasswordChange] = useState(false)
+    const [countryChange, setCountryChange] = useState(false)
 
 
     const handleClickEmailChange = () => {
@@ -45,15 +46,19 @@ export default function MyAccount() {
 
     console.log(user)
     return (
-        <>  
-            <PasswordDialog handleClickPassowordChange={handleClickPasswordChange} handleClosePassowordChange={handleClosePasswordChange} passowordChange={passwordChange}/>
-            <UsernameDialog handleClickUsernameChange={handleClickUsernameChange} handleCloseUsernameChange={handleCloseUsernameChange} usernameChange={usernameChange}/>
-            <EmailDialog handleClickEmailChange={handleClickEmailChange} handleCloseEmailChange={handleCloseEmailChange} emailChange={emailChange}/>
-            <CountryDialog handleClickCountryChange={handleClickCountryChange} handleCloseCountryChange={handleCloseCountryChange} countryChange={countryChange}/>
+        <>
+            <PasswordDialog handleClickPassowordChange={handleClickPasswordChange} handleClosePassowordChange={handleClosePasswordChange} passowordChange={passwordChange} />
+            <UsernameDialog handleClickUsernameChange={handleClickUsernameChange} handleCloseUsernameChange={handleCloseUsernameChange} usernameChange={usernameChange} />
+            <EmailDialog handleClickEmailChange={handleClickEmailChange} handleCloseEmailChange={handleCloseEmailChange} emailChange={emailChange} />
+            <CountryDialog handleClickCountryChange={handleClickCountryChange} handleCloseCountryChange={handleCloseCountryChange} countryChange={countryChange} />
             <Container maxWidth="md" sx={{ mt: 15 }}>
 
                 <Grid container bgcolor="white" borderRadius={3} p={2} spacing={2} >
+                    <Stack>
+                        <Link to="/home">
 
+                            <Button startIcon={<ArrowBack />} variant='outlined'>Back</Button></Link>
+                    </Stack>
                     <Grid item xs="12" >
                         <AvatarComponent />
                     </Grid>
@@ -79,7 +84,7 @@ export default function MyAccount() {
                             </Typography>
                             <Stack direction="row" alignItems="center" justifyContent="space-between">
                                 <Typography>{user.uniqueName}</Typography>
-                                <Button startIcon={<ChangeCircle />} onClick={handleClickUsernameChange} variant='contained'>Change Username</Button>
+                                
                             </Stack>
 
                             <Divider></Divider>

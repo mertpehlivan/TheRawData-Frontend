@@ -62,7 +62,7 @@ export default function UsernameDialog({ handleClickUsernameChange, handleCloseU
 
                     <Stack padding={3} spacing={2}>
                         <Typography>You're about to change your username. Please enter your new username and confirm it. Your username must be unique and must be greater than 6 letters.</Typography>
-                        <TextField fullWidth size='small' placeholder='alex434,helloworld,etc...' onChange={(e)=>setUsername(e.target.value)}/>
+                        <TextField fullWidth size='small' placeholder='Your username must be unique, real name or business name' onChange={(e)=>setUsername(e.target.value)}/>
                         <Typography>{errorMessage}</Typography>
                         <Button startIcon={()=>{return loading && <CircularProgress/>}} variant='contained' onClick={changeUsernameFatch} disabled={username.length <= 0 || username.length < 6 || loading}>Change</Button>
                     </Stack>

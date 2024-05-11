@@ -14,6 +14,7 @@ import { createRawDataFile, deleteRawDataFileFetch } from '../services/newRawDat
 import { Icon } from '@iconify/react';
 import axios from 'axios';
 import FormDialog from '../components/publication/FormDialog';
+import WhatIs from '../components/view/WhatIsDialog';
 export default function PublicationPage() {
   const { publicationId } = useParams();
   const [publication, setPublication] = useState(null);
@@ -28,11 +29,12 @@ export default function PublicationPage() {
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [formDialog,setFormDialog] = useState(false)
   const navigate = useNavigate()
+  const [open, setOpen] = React.useState(false);
   const postDelete = async () => {
     try {
       setDeleteLoading(true)
       const response = await deletePost(token, publicationId)
-      navigate("/explore", { replace: true })
+      navigate("/home", { replace: true })
     } catch (error) {
 
     } finally {
@@ -40,7 +42,13 @@ export default function PublicationPage() {
     }
 
   }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handlerFormDialog = () =>{
     setFormDialog(false)
   }
@@ -146,6 +154,7 @@ export default function PublicationPage() {
   const baseUrl = process.env.REACT_APP_BASE_URL
   return (
     <Container sx={{ mt: "100px" }} maxWidth="lg">
+      <WhatIs handleClickOpen={handleClickOpen} handleClose={handleClose} open={open} deletePost={postDelete}/>
       {!loading && <>{user.id == publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Publcation</Button>}</>}
       <BasketAcordion requestCounter={requestCounter} counterRequest={counterRequest} />
       <Stack bgcolor="background.default" p={2} spacing={1} borderRadius={3}>
@@ -157,7 +166,7 @@ export default function PublicationPage() {
                 <Stack spacing={1}>
                   <Stack justifyContent="space-between" spacing={1}>
                     <Stack direction="row" spacing={1}>
-                      {editMode && <Button onClick={postDelete} variant='outlined' color='error' startIcon={deleteLoading ? <CircularProgress sx={{ color: "red", width: 14, height: 14 }} /> : <Delete />}>Delete Publication</Button>}
+                      {editMode && <Button onClick={handleClickOpen} variant='outlined' color='error' startIcon={deleteLoading ? <CircularProgress sx={{ color: "red", width: 14, height: 14 }} /> : <Delete />}>Delete Publication</Button>}
                       {editMode && <Button onClick={handlerFormDialogOpen} variant='outlined' startIcon={<Edit />}>Edit</Button>}
                     </Stack>
 
@@ -193,11 +202,13 @@ export default function PublicationPage() {
                 } />
             </Box>
 
-            {publication.publicationType != "Thesis" && <>  <Typography variant="h5">Authors</Typography>
+            {publication.publicationType != "Thesis" && <> {publication.publicationType != "Research Project" && <Typography variant="h5">Authors</Typography>}
             <Stack>
               {publication.authors.length > 0 ? (
                 <Stack direction="row" flexWrap="wrap">
                   {publication.authors.map((data, index) => (
+                    <Stack>
+                      {publication.publicationType == "Research Project" && <Typography>{data.role}</Typography>}
                     <Chip
                       key={index}
                       avatar={<Avatar sx={{ zIndex: 0 }} src={`${baseUrl}/api/v1/auth/profileImage/${data.profileImageName}`} />}
@@ -208,6 +219,7 @@ export default function PublicationPage() {
                       }
                       sx={{ mb: 1, mr: 1 }} // Yazar çiplerini boşluk bırakarak yerleştirir
                     />
+                    </Stack>
                   ))}
                 </Stack>
               ) : (

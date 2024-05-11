@@ -17,22 +17,98 @@ import SearchComponent from "../home/SearchComponent";
 
 import PaymentPage from "../../pages/PaymentPage";
 import ForgetPasswordPage from "../../pages/ForgetPasswordPage";
-
-
+import AboutUs from "../../pages/AboutUs";
+import WhatIs from "../../pages/WhatIs";
+import Accuracy from "../../pages/Accuracy";
+import TermsPage from "../../pages/TermsPage";
+import FaqPage from "../../pages/FaqPage";
+import PrivcyPage from "../../pages/PrivcyPage";
 
 export const nav = [
     {
-         path: "/",
-         element: <MainPage />,
-         isMenu: true,
-         isPrivate: true
+        path: "/privcy",
+        element: <PrivcyPage />,
+        isMenu: true,
+        isPrivate: true
+    },
+    {
+        path: "/privcy",
+        element: <PrivcyPage />,
+        isMenu: false,
+        isPrivate: false
+    },
+    {
+        path: "/terms",
+        element: <TermsPage />,
+        isMenu: true,
+        isPrivate: true
+    },
+    {
+        path: "/terms",
+        element: <TermsPage />,
+        isMenu: false,
+        isPrivate: false
+    },
+    {
+        path: "/faq",
+        element: <FaqPage />,
+        isMenu: true,
+        isPrivate: true
+    },
+    {
+        path: "/faq",
+        element: <FaqPage />,
+        isMenu: false,
+        isPrivate: false
+    },
+    {
+        path: "/accuracy",
+        element: <Accuracy />,
+        isMenu: true,
+        isPrivate: true
+    },
+    {
+        path: "/accuracy",
+        element: <Accuracy />,
+        isMenu: false,
+        isPrivate: false
+    },
+    {
+        path: "/",
+        element: <MainPage />,
+        isMenu: true,
+        isPrivate: true
     },
     {
         path: "/",
         element: <MainPage />,
         isMenu: false,
         isPrivate: false
-   },
+    },
+    {
+        path: "/whatIs",
+        element: <WhatIs />,
+        isMenu: true,
+        isPrivate: true
+    },
+    {
+        path: "/whatIs",
+        element: <WhatIs />,
+        isMenu: false,
+        isPrivate: false
+    },
+    {
+        path: "/aboutUs",
+        element: <AboutUs />,
+        isMenu: true,
+        isPrivate: true
+    },
+    {
+        path: "/aboutUs",
+        element: <AboutUs />,
+        isMenu: false,
+        isPrivate: false
+    },
     {
         path: "/home",
         element: <HomePage />,

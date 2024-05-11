@@ -4,13 +4,20 @@ import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
 import { CircularProgress } from '@mui/material';
+import { useEffect } from 'react';
 
-const UniversitySearch = ({ setSelected }) => {
+const UniversitySearch = ({ setSelected,selected }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUniversity, setSelectedUniversity] = useState('');
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (selected) {
+      setSelectedUniversity(selected)
+    }
+    
+  }, []);
   const handleSearchInputChange = async (event) => {
     const query = event.target.value;
     setSearchQuery(query);

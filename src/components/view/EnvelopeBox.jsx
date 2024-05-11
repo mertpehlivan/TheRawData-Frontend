@@ -65,9 +65,9 @@ export default function EnvelopeBox() {
                         <ListItem key={index} divider>
                             <Stack>
                                 <Stack direction="row">
-                                    <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(12, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)}</Typography>
+                                    <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(0, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)} confirm your authorship.</Typography>
                                     <Stack alignItems="center" >
-                                        <Button variant="contained" color="success">Admit</Button>
+                                        <Button variant="contained" color="success">Confirm</Button>
                                         <Button color="error">Reject</Button>
                                     </Stack>
                                 </Stack>

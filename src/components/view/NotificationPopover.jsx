@@ -158,7 +158,7 @@ const NotificationPopover = ({ click, notification, setNotification, anchorEl, s
                     {msg.type === "follow" && msg && (
                       <Stack direction="row" spacing={1} alignItems="center">
                         <PersonAdd sx={{ color: "primary.main" }} />
-                        <Typography fontSize={12}> <Link to={`/users/${msg.userLink}`}>{msg.fullName}</Link> {`   ${msg.content}`} </Typography>
+                        <Typography fontSize={12}> <Link to={`/users${msg.userLink}`}>{msg.fullName}</Link> {`   ${msg.content}`} </Typography>
                         <Typography color="primary.main">NEW</Typography>
                       </Stack>
                     )}
@@ -179,7 +179,7 @@ const NotificationPopover = ({ click, notification, setNotification, anchorEl, s
                   {msg.type === "follow" && msg && (
                     <Stack direction="row" spacing={1} alignItems="center">
                       <PersonAdd sx={{ color: "primary.main" }} />
-                      <Typography fontSize={12}> <Link to={`/users/${msg.userLink}`}>{msg.fullName}</Link> {`   ${msg.content}`} </Typography>
+                      <Typography fontSize={12}> <Link to={`/users${msg.userLink}`}>{msg.fullName}</Link> {`   ${msg.content}`} </Typography>
                     </Stack>
                   )}
                 </ListItem>

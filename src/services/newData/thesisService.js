@@ -76,3 +76,37 @@ export const getAllThesis= async(token) => {
         console.error(error)
     }
 };
+export const getThesis= async(token,publicationId) => {
+  try {
+      const res = await axios.get(
+          `${baseUrl}/api/v1/thesis/getThesis/${publicationId}`,
+          {
+              headers:{
+                  Authorization : `Bearer ${token}`
+              }
+          }
+      )
+      return res;
+  } catch (error) {
+      console.error(error)
+  }
+};
+export const updateThesis = async (data, token,publicationId) => {
+  try {
+
+      const res = await axios.post(
+          `${baseUrl}/api/v1/thesis/update/${publicationId}`,
+          data,
+          {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          }
+      );
+
+      return res;
+  } catch (error) {
+      console.error(error);
+      throw error; 
+  }
+};

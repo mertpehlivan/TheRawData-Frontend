@@ -72,7 +72,7 @@ function EmailVerificationPage() {
                             </Stack>
 
                             <Typography>
-                                Please verify your e-mail address by entering the six-digit code sent to your e-mail <b>{user.email}</b>
+                                Please verify your e-mail address by entering the six-digit code sent to your e-mail. Please check your JUNK email! <b>{user.email}</b>
                             </Typography>
 
                             <Stack direction="row" justifyContent="center" p={1}>
@@ -121,7 +121,7 @@ function EmailVerificationPage() {
                                 </Stack>
                                 <Typography>Welcome to <Link>The Raw Data Library</Link> community <b>{user.firstname} {user.lastname}</b></Typography>
                                 {endMessagess && <Button>{ }</Button>}
-                                <Button href='/' variant='contained'>Explore research</Button>
+                                <Button href='/home' variant='contained'>Explore research</Button>
                             </Stack>}
 
                         </>

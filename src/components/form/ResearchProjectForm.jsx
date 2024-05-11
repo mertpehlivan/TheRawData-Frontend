@@ -146,6 +146,7 @@ export default function ResearchProjectForm() {
       </Stack>
       <Stack mx={4} my={2}>
         <TextField
+          value={comment}
           id="outlined-multiline-static"
           label="Abstract"
           multiline

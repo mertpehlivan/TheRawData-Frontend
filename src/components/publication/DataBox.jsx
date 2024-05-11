@@ -137,24 +137,28 @@ export default function DataBox({ rawData, fileId, counter, editMode, refreshHan
           </Stack>
 
         </Stack>
-        
-          <Box
-            width={250}
-            height={200}
-            component="img"
-            src={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`}
 
-            sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'fill', borderRadius: '8px',cursor:"pointer" }}
-            onClick={handleImageClick}
-          />
-     
+        <Box
+          width={250}
+          height={200}
+          component="img"
+          src={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`}
+
+          sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'fill', borderRadius: '8px', cursor: "pointer" }}
+          onClick={handleImageClick}
+        />
+
         {modalOpen && (
           <ImageModal
             imageUrl={`${baseUrl}/api/v1/auth/previewImage/${rawData.previewImageUrl}`} // Resmin URL'sini modal bileşenine geçir
             onClose={handleCloseModal} // Modal kapatma işlevini geçir
           />
         )}
-        <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>{rawData.comment}</Typography>
+        <Stack>
+          <Typography>Comment:</Typography>
+          <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>{rawData.comment}</Typography>
+        </Stack>
+
         <Box>
           <Stack spacing={1} direction="row" alignItems="center" width={40} border="1px solid" borderRadius={3} p={1} >
             <Typography variant='h6' color="primary.main">{`${rawData.price}$`}</Typography>

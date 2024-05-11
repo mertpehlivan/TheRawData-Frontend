@@ -216,8 +216,8 @@ function SearchComponent() {
                 </Stack>
 
                 <ButtonGroup fullWidth>
-                    <Button onClick={() => {setSearchType("Researcher")}} startIcon={<Person />} disabled={(searchType === "Researcher")}>Researcher Search</Button>
-                    <Button onClick={() => setSearchType("Research")} startIcon={<Book />} disabled={(searchType === "Research")}>Research Search</Button>
+                    <Button onClick={() => {setSearchType("Researcher")}} startIcon={<Person />} sx={{border:(searchType === "Researcher" && "3px solid")}} >Researcher Search</Button>
+                    <Button onClick={() => setSearchType("Research")} startIcon={<Book />} sx={{border:(searchType === "Research" && "3px solid")}}>Research Search</Button>
                 </ButtonGroup>
             </Stack>
 
