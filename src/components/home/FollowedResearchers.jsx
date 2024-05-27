@@ -75,11 +75,11 @@ export default function FollowedResearchers() {
 
   if (!posts || posts.length === 0) {
     return (
-      <Stack alignItems="center" justifyContent="center" height="100%" bgcolor="background.default" p={2} borderRadius={3}>
+      <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" height="100%" bgcolor="background.default" p={3} borderRadius={3}>
         <Icon as={InfoOutlined} sx={{ color: "red" }} fontSize="large" marginRight={1} />
-        <Typography variant="h5" color="error">
+        <Typography variant="h5" alignItems="center" color="error">
 
-          No Publication
+          There are no followed researchers or the followed researchers have no publications.
         </Typography>
       </Stack>
     );

@@ -6,7 +6,7 @@ import FollowButton from '../button/FollowButton';
 import PdfPreViewerImage from './PdfPreViewerImage';
 import FriendComponent from '../view/FriendComponent';
 import BackdropImage from '../view/BackdropImage';
-import { BookOnline, Download, Image, LinkOff, LinkOutlined, Paid, PictureAsPdf, PictureAsPdfOutlined, ShoppingCart, Timelapse, Today } from '@mui/icons-material';
+import { BookOnline, Download, Image, LinkOff, LinkOutlined, Paid, PictureAsPdf, PictureAsPdfOutlined, Repeat, Replay, Reply, ShoppingCart, Timelapse, Today } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ChipIconComponent from '../view/ChipIconComponent';
@@ -28,17 +28,18 @@ function getFirst50Words(text) {
 const Spacer = () => <div style={{ flexGrow: 1 }} />;
 
 export default function DataPost({ data }) {
+
   const baseUrl = process.env.REACT_APP_BASE_URL
   const fullText = data.comment;
-  console.log("image: " + data.profileImage)
+  console.log("data: " + data.addOnly)
   const summaryText = getFirst50Words(fullText)
   const [isActive, setIsActive] = useState(false);
   const [text, setText] = useState(summaryText);
   const [isToggle, setIsToggle] = useState(false)
   const [imageList, setImageList] = useState([])
   const [selectImageSrc, setSelectImageSrc] = useState("");
-  const {token} = useUserContext()
-
+  const { token, user } = useUserContext()
+  console.log("data: ", data)
   const handleDownload = (publicationId, name) => {
     axios.get(`${baseUrl}/api/v1/files/pdf/${publicationId}`, {
       responseType: 'blob',
@@ -105,21 +106,24 @@ export default function DataPost({ data }) {
 
           >
 
-            <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${data.shareProfileImage}`} />
-            <Stack >
+            {data.shareUserId && <Chip icon={<Repeat color="background.default" />} size='small' sx={{ bgcolor: "primary.main", color: "white", }} label="Re-shared by" />}
+
+            <Stack direction="row" alignItems="center" spacing={0.5} ml={10}>
+              <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${data.shareProfileImage}`} />
               <Stack>
                 <Link to={`/users/${data.shareUniqueName}`}><Typography variant="subtitle1">{buyukHarfleYazdir(data.shareFullName)}</Typography></Link>
-
+                <Typography color="gray">{data.creationTime}</Typography>
               </Stack>
-
-              <Typography color="gray">{data.creationTime}</Typography>
             </Stack>
+
+
+
           </Stack>
 
           <Spacer />
           <Icon icon="mdi:ellipsis-vertical" style={{ fontSize: '20px' }} />
         </Stack>}
-        {data.shareUserId && <Typography variant='h6' mb={2}>Re-shared by</Typography>}
+
         <Stack spacing={2} direction="column" borderRadius={2} p={1} boxShadow={data.shareUserId && " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"}>
 
           <Stack direction="row" alignItems="center" spacing={2} justifyContent="center" justifyItems="center" >
@@ -179,10 +183,17 @@ export default function DataPost({ data }) {
 
           <Stack direction="row" spacing={1}>
             <Chip icon={<ChipIconComponent publicationType={data.publicationType} />} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={data.publicationType} />
-            
-            {data.url && <Chip icon={<LinkOutlined color='white'/>} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={<Link target='_blank' to={data.url} style={{color:"white"}}>Link of the paper</Link>}/>}
-            {data.year && <Chip  sx={{ bgcolor: "primary.main", color:"white", p: 1 }} label={`${data.year}`}/>}
-            <Stack spacing={1} direction="row" sx={{width:"100%"}} justifyContent="flex-end" alignItems="flex-end"> <Button size='small' variant='outlined' color='success' startIcon={<BookOnline/>}>Request full-text</Button> <Link replace={false} to={`/publications/${data.id}`}><Button size='small' variant='outlined' startIcon={<ShoppingCart/>}>Purchase Data</Button></Link></Stack>
+            {data.year && <Chip sx={{ bgcolor: "primary.main", color: "white", p: 1 }} label={`${data.year}`} />}
+            {data.url && <Chip icon={<LinkOutlined color='white' />} sx={{ color: "white", bgcolor: "primary.main", p: 1 }} label={<Link target='_blank' to={data.url} style={{ color: "white" }}>Link of the paper</Link>} />}
+
+            {(((user.id !== data.userId) && user.id != data.shareUserId) || (user.id != data.userId)) && (
+              <Stack spacing={1} direction="row" sx={{ width: "100%" }} justifyContent="flex-end" alignItems="flex-end">
+                <Button size='small' variant='outlined' color='success' startIcon={<BookOnline />}>Request full-text</Button>
+                <Link replace={false} to={`/publications/${data.id}`}>
+                  <Button size='small' variant='outlined' startIcon={<ShoppingCart />}>Purchase Data</Button>
+                </Link>
+              </Stack>
+            )}
           </Stack>
           <Stack direction="row">
             <Stack direction="row" justifyContent="space-between">
@@ -224,7 +235,7 @@ export default function DataPost({ data }) {
                               ]);
                             }}
                           >
-                            <Box boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px" component="img" width={40} height={40} src={`${baseUrl}/api/v1/auth/previewImage/${rawdata.previewImageUrl}`}/>
+                            <Box boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px" component="img" width={40} height={40} src={`${baseUrl}/api/v1/auth/previewImage/${rawdata.previewImageUrl}`} />
                           </IconButton>
                         </Tooltip>
 
@@ -235,7 +246,7 @@ export default function DataPost({ data }) {
                       }} />
                     </Stack>
                   ))}
-                  {item.rawDatas.length > 2 && <Typography  variant='body2' mx={2} color="primary.main" borderRadius={3} p={0.5} textAlign="center">More Raw Data ({item.rawDatas.length - 2})</Typography>}
+                  {item.rawDatas.length > 2 && <Link replace={false} to={`/publications/${data.id}`}> <Button size='small'> More Raw Data ({item.rawDatas.length - 2})</Button></Link>}
                 </Stack>
               ))}
             </Stack>
@@ -253,7 +264,7 @@ export default function DataPost({ data }) {
                     key={index}
                     imageUrl={author.profileImageName}
                     fullname={`${author.firstName} ${author.lastName}`}
-                    uniqueName = {author.uniqueName}
+                    uniqueName={author.uniqueName}
                   /> : null
               ))
             ) : (
@@ -263,14 +274,14 @@ export default function DataPost({ data }) {
             <Stack>
               {data.authors ? (
                 data.authors.map((author, index) => (
-                  index === 2 ?
+                  index === 3 ?
                     (<Stack key={index} direction="row" spacing={-1}>
                       <FriendComponent
                         key={author.id}
                         imageUrl={author.profileImageName}
                       />
                       <Avatar sx={{ width: "25px", height: "25px", bgcolor: "primary.main" }}>
-                        {`+${data.authors.length - 3}`}
+                        {`+${data.authors.length - 4}`}
                       </Avatar>
                     </Stack>
                     ) : null

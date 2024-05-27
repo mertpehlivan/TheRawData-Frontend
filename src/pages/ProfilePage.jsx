@@ -4,14 +4,15 @@ import UserComponent from '../components/home/UserComponent'
 import SearchSimple from '../components/input/SearchSimple'
 import DataPost from '../components/home/DataPost'
 import FilterButton from '../components/button/FilterButton'
-import { Outlet, useParams } from 'react-router-dom'
+import { Link, Outlet, useParams } from 'react-router-dom'
 import ProfileUserView from '../components/view/ProfileUserView'
-import { Edit, Search } from '@mui/icons-material'
+import { Edit, Home, Person, Search } from '@mui/icons-material'
 import { getProfilePost } from '../services/post/postService'
 import { useUserContext } from '../hooks/AuthProvider'
 import AllView from '../components/view/PublicationsView/AllView'
 import '../styles/ProfilePage.css'
 import Affiliation from '../components/view/Affiliation'
+import { getUser } from '../services/userService'
 
 export default function ProfilePage() {
     const { username } = useParams();
@@ -21,8 +22,22 @@ export default function ProfilePage() {
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(true);
     const [load, setLoad] = useState(false); // setLoad'un başlangıç değeri false olarak ayarlanmalı
-    const [noMore,setNoMore] = useState(false)
-    const [userStatus, setUserStatus] = useState({ 
+    const [noMore, setNoMore] = useState(true)
+    const [loadUser, setLoadUser] = useState(false)
+    const [notUser, setNotUser] = useState(false)
+    useEffect(() => {
+        const fetch = async () => {
+            setLoadUser(true)
+            const response = await getUser(token, username)
+            setLoadUser(false)
+            if (!response.data) {
+                setNotUser(true)
+            }
+        }
+        fetch()
+    }, []);
+
+    const [userStatus, setUserStatus] = useState({
         id: null,
         status: false
     });
@@ -33,6 +48,22 @@ export default function ProfilePage() {
         }
     }, [userStatus]);
 
+
+    if (notUser) {
+        return (
+            <Container sx={{mt:15}} >
+                <Stack bgcolor="background.default"  alignItems="center" justifyContent="center" p={3} borderRadius={3}>
+                    <Person sx={{ width: 100, height: 100, color: "primary.main" }} />
+                    <Typography color="primary.main" textAlign="center" variant='h4'>User not found</Typography>
+                   <Link to="/home"><Button variant='contained' startIcon={<Home />}>Home page</Button></Link> 
+                </Stack>
+            </Container>
+
+        )
+    }
+
+
+
     return (
         <div>
             <Container maxWidth="lg">
@@ -42,7 +73,7 @@ export default function ProfilePage() {
                             <ProfileUserView setUserStatus={setUserStatus} />
                         </Stack>
                     </Grid>
-                    <Grid item xs={3} mt={1}>
+                    <Grid item xs={3} mt={2}>
                         <Stack spacing={1}>
                             <FilterButton username={username} />
                             {load && <Affiliation userStatus={userStatus} />}
@@ -51,7 +82,7 @@ export default function ProfilePage() {
                     <Grid item xs={9} p={1}>
                         <Stack spacing={1}>
                             <AllView setNoMore={setNoMore} setPage={setPage} page={page} loading={loading} setLoading={setLoading} />
-                           {noMore && <Button onClick={() => setPage(prev => prev + 1)}>See More</Button>}
+                            {noMore && <Button onClick={() => setPage(prev => prev + 1)}>See More</Button>}
                         </Stack>
                     </Grid>
                 </Grid>

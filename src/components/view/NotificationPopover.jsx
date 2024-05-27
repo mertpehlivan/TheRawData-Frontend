@@ -145,7 +145,7 @@ const NotificationPopover = ({ click, notification, setNotification, anchorEl, s
             {
               messages.map((msg, index) => (
                 <ListItem key={index} divider>
-                  <Stack>
+                  <Stack spacing={1}>
 
                     {msg.type === "publication" && msg && (
                       <Stack direction="row" spacing={1} alignItems="center">
@@ -168,20 +168,22 @@ const NotificationPopover = ({ click, notification, setNotification, anchorEl, s
               ))
             }{
               endMessages.map((msg, index) => (
-                <ListItem key={index} divider sx={{ height: 60 }}>
+                <ListItem key={index} divider>
+                  <Stack spacing={1}>
                   {msg.type === "publication" && msg && (
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Stack direction="row" spacing={1}>
                       <Try sx={{ color: "primary.main" }} />
                       <Typography fontSize={12}>{`${msg.content}`} {msg.publicationTitle && <Link to={msg.publicationLink}> {msg.publicationTitle}</Link>} {` by `} <Link to={`/users${msg.userLink}`}>{msg.fullName}</Link></Typography>
                     </Stack>
                   )}
 
                   {msg.type === "follow" && msg && (
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Stack direction="row" spacing={1}>
                       <PersonAdd sx={{ color: "primary.main" }} />
                       <Typography fontSize={12}> <Link to={`/users${msg.userLink}`}>{msg.fullName}</Link> {`   ${msg.content}`} </Typography>
                     </Stack>
                   )}
+                  </Stack>
                 </ListItem>
               ))
             }

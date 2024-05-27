@@ -77,7 +77,9 @@ function SearchInputV2({ role = "Author", setAuthorIds, authors, handleRole }) {
             dataType == "Research Project" || role == "Research Project" && handleRole(selectedAuthor)
             const authorIds = selectedAuthor.map(author => author.user.id);
             setAuthorIds(authorIds);
+            console.log(authorIds)
         }
+        
         fetch()
     }, [selectedAuthor]);
 

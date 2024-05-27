@@ -155,7 +155,7 @@ export default function PublicationPage() {
   return (
     <Container sx={{ mt: "100px" }} maxWidth="lg">
       <WhatIs handleClickOpen={handleClickOpen} handleClose={handleClose} open={open} deletePost={postDelete}/>
-      {!loading && <>{user.id == publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Publcation</Button>}</>}
+      {!loading && <>{user.id == publication.userId && <Button onClick={() => setEditMode(prev => !prev)} variant='contained' endIcon={editMode ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}>Edit Publication</Button>}</>}
       <BasketAcordion requestCounter={requestCounter} counterRequest={counterRequest} />
       <Stack bgcolor="background.default" p={2} spacing={1} borderRadius={3}>
         <FormDialog type={`${publication.publicationType}`} handleFormDialog={handlerFormDialog} setFormDialog={setFormDialog} formDialog={formDialog}/>
@@ -166,8 +166,9 @@ export default function PublicationPage() {
                 <Stack spacing={1}>
                   <Stack justifyContent="space-between" spacing={1}>
                     <Stack direction="row" spacing={1}>
+                    {editMode && <Button onClick={handlerFormDialogOpen} variant='outlined' startIcon={<Edit />}>Edit Publication info</Button>}
                       {editMode && <Button onClick={handleClickOpen} variant='outlined' color='error' startIcon={deleteLoading ? <CircularProgress sx={{ color: "red", width: 14, height: 14 }} /> : <Delete />}>Delete Publication</Button>}
-                      {editMode && <Button onClick={handlerFormDialogOpen} variant='outlined' startIcon={<Edit />}>Edit</Button>}
+                      
                     </Stack>
 
                     <Typography variant="h4">{publication.title}</Typography>
@@ -182,13 +183,13 @@ export default function PublicationPage() {
                   </Stack>
                 </Stack>
 
-                <Stack width={60} height={100} alignItems="center" m={2} borderRadius={3} border="1px solid" p={2}>
+               {publication.addOnly && <Stack width={60} height={100} alignItems="center" m={2} borderRadius={3} border="1px solid" p={2}>
                   <Icon icon="ri:file-pdf-2-line" style={{ color: "#091582" }} width="100%" />
                   <Button variant='contained' onClick={() => handleDownload(publication.id, publication.pdfFileName)} style={{ color: "#091582" }}>
                     <Download sx={{ color: "white" }} />
                   </Button>
 
-                </Stack>
+                </Stack>}
               </Stack>
             </Stack>
             <Typography variant="h5">Shared by</Typography>

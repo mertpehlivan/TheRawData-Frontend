@@ -283,7 +283,7 @@ export default function UpdateRawDataBackdrop({ handleOpen, handleClose, open, s
                         color="success"
                         fullWidth
                         onClick={() => handleSave()}
-                        disabled={(name == "" || comment == "" || priceSuggestion == "" || (name === simpleData.title && comment === simpleData.comment && priceSuggestion == simpleData.price && rawData == null && previewImage == null))}
+                        
                       >
                         <Update sx={{ color: "white" }} />
                         Update

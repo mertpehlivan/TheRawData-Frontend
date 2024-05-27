@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -15,6 +15,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@thednp/dommatrix": "^2.0.6",
+    "add": "^2.0.6",
     "axios": "^1.6.1",
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^3.6.0",
@@ -22,6 +23,7 @@
     "dotenv": "^16.3.1",
     "file-icons-js": "^1.1.0",
     "formik": "^2.4.5",
+    "global": "^4.4.0",
     "react": "^18.2.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
@@ -35,6 +37,7 @@
     "react-toastify": "^9.1.3",
     "react-use-websocket": "^4.5.0",
     "react-verification-input": "^4.1.0",
+    "serve": "^14.2.3",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.5.2",
     "stompjs": "^2.3.3",

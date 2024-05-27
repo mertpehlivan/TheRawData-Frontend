@@ -77,7 +77,7 @@ export default function ResearchProjectFormEdit() {
     grantNumber,
     authorsAndRole,
     companyOrUnvierstiy,
-    endDate: endDate.toDate() == null ? null : endDate.toDate()
+    endDate: endDate.toDate() == null ? "" : endDate.toDate()
   };
   const update = async () => {
     setLoading(true)
@@ -165,6 +165,7 @@ export default function ResearchProjectFormEdit() {
           onChange={(e) => setCompanyOrUnvierstiy(e.target.value)}
         />
         <TextField
+          label="Grant number"
           size='small'
           fullWidth
           value={grantNumber}

@@ -13,7 +13,7 @@ const ResearcherComponent = ({ data }) => {
     const { user } = useUserContext()
     return (
         <Stack bgcolor="white" borderRadius={2}>
-            <Link to={`/users/${data.uniqueName}`} style={{ textDecoration: "none" }}>
+            <Link target='_blank' to={`/users/${data.uniqueName}`} style={{ textDecoration: "none" }}>
                 <Stack direction="row" spacing={1} p={1}>
                     <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${data.profileImageName}`} sx={{ width: "45px", height: "45px" }} />
 

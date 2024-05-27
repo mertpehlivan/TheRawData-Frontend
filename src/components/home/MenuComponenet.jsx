@@ -39,7 +39,7 @@ export default function MenuComponenet({ activeItem, setActiveItem }) {
             <ListItemIcon>
               <AssignmentIndIcon />
             </ListItemIcon>
-            <ListItemText primary="Followed Researchers" />
+            <ListItemText primary="Publications of the followed resarchers" />
           </ListItemButton>
         </ListItem>
       </Link>

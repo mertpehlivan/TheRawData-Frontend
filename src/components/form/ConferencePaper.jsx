@@ -100,7 +100,7 @@ export default function ConferencePaper() {
         <TextField
           size='small'
           fullWidth
-          label="Location"
+          label="City/Country"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         />

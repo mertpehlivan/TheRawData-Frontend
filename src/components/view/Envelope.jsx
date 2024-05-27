@@ -27,10 +27,11 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
 
   const { token, user } = useUserContext()
 
-  const acceptHandler = (publicationPostId,invitationId) => {
+  const acceptHandler = (publicationPostId, invitationId) => {
     console.log(publicationPostId)
-    addAuthorPost(token, publicationPostId,invitationId).then((res) => {
-      setRefresh(prev=>!prev)
+    addAuthorPost(token, publicationPostId, invitationId).then((res) => {
+      setRefresh(prev => !prev)
+      window.location.reload()
       console.log(res.data)
     }).catch(e => console.error(e))
   }
@@ -105,7 +106,7 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
       };
     }
   }, [userTrigger]);
-  
+
 
 
   return (
@@ -124,7 +125,7 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
       }}
     >
       <Stack bgcolor="white" width={300} borderRadius={3}>
-        <Typography m={2} variant="h6" color="primary.main">Notification</Typography>
+        <Typography m={2} variant="h6" color="primary.main">Mail box</Typography>
         <Divider />
         <div
           ref={scrollRef}
@@ -140,10 +141,10 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
               messages.map((msg, index) => (
                 <ListItem key={index} divider>
                   <Stack>
-                    <Stack direction="row">
+                    <Stack spacing={2}>
                       <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(0, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)} confirm your authorship.</Typography>
-                      <Stack alignItems="center" >
-                        <Button onClick={() => acceptHandler(msg.publicationId)} variant="contained" color="success">Confirm</Button>
+                      <Stack spacing={1} alignItems="center" justifyContent="center" direction="row">
+                        <Button onClick={() => acceptHandler(msg.publicationId, msg.id)} variant="contained" color="success">Confirm</Button>
                         <Button color="error">Reject</Button>
                       </Stack>
                     </Stack>
@@ -156,10 +157,10 @@ const UserPopover = ({ click, notification, setNotification, anchorEl, setAnchor
                 msg && msg.fullName && msg.contant && msg.publicationUrl && msg.title && (
                   <ListItem key={index} divider>
                     <Stack>
-                      <Stack direction="row">
+                      <Stack spacing={2}>
                         <Typography fontSize={12}><Link to={msg.userUrl}>{msg.fullName}</Link> {msg.contant.slice(0, 62)} <Link to={msg.publicationUrl}>{msg.title}</Link> {msg.contant.slice(90)} confirm your authorship.</Typography>
-                        <Stack alignItems="center" >
-                          <Button onClick={() => acceptHandler(msg.publicationId,msg.id)} variant="contained" color="success">Cofirm</Button>
+                        <Stack spacing={1} alignItems="center" justifyContent="center" direction="row">
+                          <Button onClick={() => acceptHandler(msg.publicationId, msg.id)} variant="contained" color="success">Confirm</Button>
                           <Button color="error">Reject</Button>
                         </Stack>
                       </Stack>

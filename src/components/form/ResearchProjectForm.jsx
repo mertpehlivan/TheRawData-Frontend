@@ -40,6 +40,7 @@ export default function ResearchProjectForm() {
   })
   const [fileUrl, setFileUrl] = useState(null)
   const [fileEx, setFileEx] = useState("")
+
   const handleRole = (role) => {
     setAuthorsAndRole(role)
   }
@@ -138,6 +139,7 @@ export default function ResearchProjectForm() {
           onChange={(e) => setCompanyOrUnvierstiy(e.target.value)}
         />
         <TextField
+          label = "Grant number"
           size='small'
           fullWidth
           value={grantNumber}
@@ -153,7 +155,7 @@ export default function ResearchProjectForm() {
           rows={4}
           onChange={(e) => setComment(e.target.value)}
         />
-        <SearchInputV2 setAuthorIds={setAuthorIds} handleRole={handleRole} />
+         <SearchInputV2 role="Research Project" setAuthorIds={setAuthorIds} handleRole={handleRole} />
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
       </Stack>
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>

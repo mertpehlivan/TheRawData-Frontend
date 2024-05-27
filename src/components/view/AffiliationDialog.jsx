@@ -8,13 +8,17 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Box, ButtonGroup, Checkbox, Divider, FormControl, FormLabel, InputLabel, Menu, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { Add, Cancel, CheckBox, Edit, Save, Update } from '@mui/icons-material';
+import { Box, ButtonGroup, Checkbox, CircularProgress, Divider, FormControl, FormLabel, Input, InputLabel, Menu, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { AccountBalance, Add, Cancel, CheckBox, Edit, Remove, Save, Update } from '@mui/icons-material';
 import { useState } from 'react';
 import UniversitySearch from '../UniversitySearch';
 import SearchDepartment from '../SearchDepartment';
-import { createAffiliation, updateAffiliation } from '../../services/newData/affiliationService';
+import { createAffiliation, deleteAffiliation, updateAffiliation } from '../../services/newData/affiliationService';
 import { useUserContext } from '../../hooks/AuthProvider';
+import { setDate } from 'date-fns';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -31,14 +35,14 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
     const [edit, setEdit] = useState(false)
     const [add, setAdd] = useState(false)
     const [university, setUniversity] = useState("")
-    const [startDate, setStartDate] = useState(null)
-    const [endDate, setEndDate] = useState(null)
+    const [startDate, setStartDate] = useState(dayjs(""))
+    const [endDate, setEndDate] = useState(dayjs(""))
     const [check, setCheck] = useState(false)
     const [depeartment, setDepeartment] = useState("Computer Engineering");
     const [location, setLocation] = useState("")
     const [position, setPosition] = useState("")
     const [saveLoading, setSaveLoading] = useState(false)
-
+    const [removeLoading, setRemoveLoading] = useState(false)
     const { token } = useUserContext()
     const handleAddOpen = () => {
         setAdd(true)
@@ -47,6 +51,19 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
         setAdd(false)
         clearState()
     }
+
+    const removeFetch = async (id) => {
+        setRemoveLoading(true)
+        try {
+            const response = await deleteAffiliation(token, id);
+        } catch (error) {
+            console.error(error)
+        }
+
+        setRemoveLoading(false)
+        refresh()
+    }
+
     const clearState = () => {
         setUniversity("")
         setStartDate("")
@@ -95,14 +112,15 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
     }) => {
         setAdd(true)
         setUniversity(university)
-        setStartDate(startDate)
-        setEndDate(endDate)
+        setStartDate(dayjs(startDate))
+        setEndDate(dayjs(endDate))
         setCheck(endDate == null || endDate == "" ? true : false)
         setDepeartment(department)
         setLocation(location)
         setPosition(position)
         setId(id)
         setEdit(true)
+
     }
     const fetchUpdate = async (id) => {
         setEdit(true)
@@ -148,12 +166,15 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                 </IconButton>
                 <DialogContent sx={{ width: 700 }} dividers>
                     {affiliation.map((data, index) => (
+
                         <Stack p={1} spacing={1} key={index}>
-                            <Stack justifyContent="end" alignItems="end">
+
+                            <Stack direction="row" justifyContent="end" alignItems="end">
+                                <Button onClick={() => removeFetch(data.id)} startIcon={(removeLoading ? <CircularProgress size="14" /> : <Remove />)}>Remove</Button>
                                 <Button onClick={() => editClick(data)} startIcon={<Edit />}>Edit</Button>
                             </Stack>
                             <Stack direction="row" spacing={1}>
-                                <Box component="img" width={60} height={60} src="https://logo.clearbit.com/https://ebyu.edu.tr/" />
+                                <AccountBalance sx={{ color: "primary.main", width: 40, height: 40 }} />
                                 <Stack>
                                     <Typography>{data.university}</Typography>
                                     <Typography fontStyle="italic" variant='body2' color="gray">{dateChange(data.startDate)} - {dateChange(data.endDate)}</Typography>
@@ -179,20 +200,41 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                     <Stack sx={{ width: "100%" }} spacing={1} p={2} border="1px solid" borderColor="primary.main" borderRadius={3}>
                         <UniversitySearch selected={university} setSelected={setUniversity} />
                         <Stack direction="row" spacing={1}>
-                            <TextField value={startDate} onChange={(e) => setStartDate(e.target.value)} size='small' fullWidth focused label="Start date" type='date' />
-                            <TextField value={endDate} onChange={(e) => setEndDate(e.target.value)} size='small' fullWidth focused label="End date" type='date' />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+
+                                    value={startDate}
+                                    onChange={(newValue) => setStartDate(dayjs(newValue))} // Convert to Day.js object
+                                    label="Date"
+                                    sx={{ width: "100%" }}
+                                    slotProps={{
+                                        textField: { size: 'small' }
+                                    }}
+                                />
+                            </LocalizationProvider>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    value={endDate}
+                                    onChange={(newValue) => setEndDate(dayjs(newValue))} // Convert to Day.js object
+                                    label="Date"
+                                    sx={{ width: "100%" }}
+                                    slotProps={{
+                                        textField: { size: 'small' },
+                                    }}
+                                />
+                            </LocalizationProvider>
                         </Stack>
                         <Stack direction="row" alignItems="center">
-                            <Checkbox value={check} onChange={(e) => setCheck(e.target.value)} />
+                            <Checkbox checked={check} onChange={(e) => setCheck(e.target.checked)} />
                             <Typography>I currently work here</Typography>
                         </Stack>
 
-                        <TextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" size='small' />
+                        <TextField value={location} onChange={(e) => setLocation(e.target.value)} label="Country" size='small' />
                         <SearchDepartment department={depeartment} setDepartment={setDepeartment} />
                         <FormLabel>Position</FormLabel>
-                        <Select  size='small' value={position} onChange={(e) => setPosition(e.target.value)}>
+                        <Select size='small' value={position} onChange={(e) => setPosition(e.target.value)}>
                             <MenuItem value={"Doctor"} >Doctor</MenuItem>
-                            <MenuItem value={"Master’s Student"}>Master’s Student</MenuItem>
+                            <MenuItem value={"Master Student"}>Master’s Student</MenuItem>
                             <MenuItem value={"PhD Student"}>PhD Student</MenuItem>
                             <MenuItem value={"Post Doctorate"}>Post Doctorate</MenuItem>
                             <MenuItem value={"Professor (Assistant)"}>Professor (Assistant)</MenuItem>
@@ -203,8 +245,10 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                             <MenuItem value={"Academic Staff"}>Academic Staff</MenuItem>
                             <MenuItem value={"Faculty Member"}>Faculty Member</MenuItem>
                             <MenuItem value={"Professor (Full)"}>Professor (Full)</MenuItem>
+                            <MenuItem value={"Emeritus Professor"}>Emeritus Professor</MenuItem>
+                            <MenuItem value={"Distinguished Professor"}>Distinguished Professor</MenuItem>
                         </Select>
-                       
+
                     </Stack>
 
                 </DialogActions>}

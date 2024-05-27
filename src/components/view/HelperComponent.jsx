@@ -43,7 +43,7 @@ export default function HelperComponent() {
                             <Check /> <b>If it is a questionary survey</b>, upload all the forms as a merged pdf file.
                         </Typography>
                         <Typography variant='h6'>
-                            <Check />  If it is a software modelling upload it as zip file.
+                            <Check />  If it is a software modelling upload it as a zip file.
                         </Typography>
                         <Button variant='contained' startIcon={<Download />}>Download Excel File</Button>
 

@@ -37,7 +37,7 @@ const FollowButton = ({ followingId }) => {
 
         if (success) {
           setIsFollowing(true);
-          setAlertMessage('İstek Başarıyla gönderildi');
+          setAlertMessage('Request sent successfully');
           setOpenSnackbar(true);
         }
       } else {

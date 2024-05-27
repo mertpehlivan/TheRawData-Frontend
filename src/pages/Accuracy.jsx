@@ -54,7 +54,7 @@ const Accuracy = () => {
                             If the necessary correction cannot be provided within 7 business days, the researcher who purchased the data will be contacted to proceed with the refund.
                         </Typography>
                         <Typography>
-                            Contact with<Link>
+                            Contact with <Link>
                                 us
                             </Link>
                         </Typography>

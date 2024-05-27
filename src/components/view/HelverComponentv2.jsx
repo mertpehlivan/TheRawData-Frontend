@@ -35,10 +35,10 @@ export default function HelperComponentV2() {
                         </Stack>
                         <Typography variant='h5' color="primary.main"></Typography>
                         <Typography variant='h6'>
-                            <Check /> Preview images for raw data are needed to be uploaded by authors and the preview of the data is presented in jpg format under the section. Authors can use provided excel format prepared by RDL.
+                            <Check /> Preview images for raw data are needed to be uploaded by authors and the preview of the data is presented in jpg format under the section. Authors can use provided excel format prepared by RDL. Data owners are free to use their own excel formats, taking into account the important points mentioned in the paper titled as “How to prepare and upload your own data”. 
                         </Typography>
                         <Typography variant='h6'>
-                            <Check /> <b>Preview images of finite element and other simulations </b>"Select preview image" are needed to be uploaded by the authors. It would be useful to upload an image that gives an idea of what other researchers will have if the corresponding data or model are purchased. <Link to={"#"}>Click to see an example from previous uploaded raw data.</Link>
+                            <Check /> It would be useful to upload an image that gives an idea of what other researchers will have if the corresponding data or model are purchased. <Link to={"#"}>Click to see an example from previous uploaded raw data.</Link> The images to be uploaded can sometimes be a graphic image, sometimes an image of software code on a computer, and sometimes an image showing a single page of an entire survey.
                         </Typography>
                         <Typography variant='h6'>
                             <Check /> For questionary survey, upload the first page of the survey form as a jpg image.

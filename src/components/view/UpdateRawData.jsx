@@ -31,7 +31,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
   const [uploud, setUploud] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const isSaveDisabled = !name || !comment || !priceSuggestion || !rawDataUrl || !previewUrl;
+  const isSaveDisabled = !name || !priceSuggestion || !rawDataUrl || !previewUrl;
 
   const uplodRawData = (data) => {
     setRawData(data)
@@ -66,8 +66,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
     }).then(async (response) => {
       handleData(response.data)
     
-      handleClose()
-      refreshHandler()
+      handleClose(); refreshHandler()
     }).catch(e=>{
       console.error(e);
     })
@@ -90,7 +89,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
         <LinearProgress variant="determinate" value={uploadProgress} />
         {
           uploadProgress === 100 && <Stack>
-            <Typography>Download complete</Typography>
+            <Typography>Uploud completed</Typography>
             <Typography>Raw data : {name}</Typography>
             <Typography>{comment}</Typography>
             <Button startIcon={<Add/>} variant='outlined' onClick={() => { handleClose(); refreshHandler()}}>Now Add Raw Data</Button>
@@ -116,7 +115,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
               color="success"
               size="small"
               onClick={() => handleSave()}
-              disabled={name == "" || comment == "" || priceSuggestion == "" || previewImage == null || rawData == null}
+              disabled={name == ""  || priceSuggestion == "" || previewImage == null || rawData == null}
             >
               <UploadOutlined sx={{ color: "white" }} />
             </Button>

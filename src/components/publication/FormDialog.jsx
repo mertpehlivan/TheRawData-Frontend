@@ -60,7 +60,7 @@ export default function FormDialog({ handlerFormDialog, setFormDialog, formDialo
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
+        <DialogContent sx={{width:1000}} dividers>
           <DataTypeFormEdit dataType={type} />
         </DialogContent>
         <DialogActions>

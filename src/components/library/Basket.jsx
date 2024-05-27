@@ -4,6 +4,7 @@ import { getBasket } from '../../services/newData/basketService';
 import BasketItem from './BasketItem';
 import { Public, SentimentDissatisfied } from '@mui/icons-material';
 import { useRefreshPrice } from '../../hooks/RefreshPrice';
+import { Link } from 'react-router-dom';
 
 
 export default function Basket() {
@@ -48,7 +49,7 @@ export default function Basket() {
         bgcolor="white"
         borderRadius={3}
       >
-       <CircularProgress/>
+        <CircularProgress />
       </Stack>
     );
   }
@@ -66,9 +67,12 @@ export default function Basket() {
       >
         <SentimentDissatisfied sx={{ width: 90, height: 90, color: "primary.main" }} />
         <Typography variant="h6">Your basket is empty.</Typography>
-        <Button href='/explore' startIcon={<Public />} variant='contained'>
-          Keep exploring
-        </Button>
+        <Link to='/home'>
+          <Button  startIcon={<Public />} variant='contained'>
+            Keep exploring
+          </Button>
+        </Link>
+
       </Stack>
     );
   }

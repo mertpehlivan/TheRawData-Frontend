@@ -262,86 +262,63 @@ function MainPage() {
 
             </Container>
             <Container maxWidth>
-                <Stack >
-                    <Grid container sx={{ opacity: 1, boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }} bgcolor="white" borderRadius={3}  >
-                        <Grid item sm={12} md={5}>
-                            <Stack height="100%">
-                                <Box borderRadius={3} component="img" src={Prem} width="100%" height="100%" sx={{ objectFit: 'cover' }} />
-                            </Stack>
-
-                        </Grid>
-                        <Grid item sm={12} md={7}>
-
-                            <Stack spacing={3} p={10} bgcolor="white" >
-                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h3'>Premium Membership</Typography>
-
-                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h4'>Advantages of premium membership</Typography>
-
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Premium members can download raw data which is offered as free of a charge by other researchers.
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Premium members can use the RDL DATA TRANSFER software.
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h4'>What is RDL data transfer? </Typography>
-
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    In scientific studies and in a multi-author article, the raw data may not be under the control of all authors. Most of the time it is stored on the computer of one of the authors.
-                                </Typography>
-
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    As time passes, it becomes difficult to remember and interpret raw data that has not been cleaned and classified
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Sample names that change during the publication process or during the research may cause confusion during the subsequent use of the obtained raw data.
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    "Wherever you go, your data and flash memory are now with you."
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Thanks to the special software provided, premium members can transfer all their own RDL information to any flash memory or a computer.
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Premium members can download all portfolio information, articles and corresponding raw data files by accessing them on any computer in a classified format without internet.
-
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    All of your studies with cleaned data are now is with you.
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Free premium membership is given by RDL company to researchers who have more than 500 raw data or whose H-index is over 30.                                 </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    Premium Members receive their INCOME within the WEEK their data are sold.
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    The storage capacity of premium members is unlimited.
-
-
-                                </Typography>
-                                <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                                    <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
-                                    The latest studies of the 5 premium members with the highest H-index score is permanently displayed on the public research page of RDL
-                                </Typography>
-
-                            </Stack>
-
-                        </Grid>
+            <Stack>
+                <Grid container sx={{ opacity: 1, boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }} bgcolor="white" borderRadius={3}>
+                    <Grid item sm={12} md={5}>
+                        <Stack height="100%">
+                            <Box borderRadius={3} component="img" src={Prem} width="100%" height="100%" sx={{ objectFit: 'cover' }} />
+                        </Stack>
                     </Grid>
-                </Stack>
-
-            </Container>
+                    <Grid item sm={12} md={7}>
+                        <Stack spacing={3} p={10} bgcolor="white">
+                            <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h3'>Premium Membership</Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h4'>Advantages of Premium Membership</Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                Premium members can download raw data offered for free by other researchers.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                Premium members receive their income within the week their data is sold.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                Premium members have unlimited storage capacity.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                The latest studies of the 5 premium members with the highest H-index score are permanently displayed on RDL's public research page.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                Premium members can use the RDL Data Transfer software.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" color="primary.main" variant='h4'>What is RDL Data Transfer?</Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                In scientific studies and multi-author articles, raw data may not be under the control of all authors and can be difficult to access over time.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                RDL Data Transfer allows premium members to transfer their RDL information to any flash memory or computer, ensuring accessibility and ease of use.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                Premium members can download all portfolio information, articles, and corresponding raw data files in a classified format without internet access.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                All studies with cleaned data are readily available to premium members.
+                            </Typography>
+                            <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                                <FiberManualRecord sx={{ mr: 1, color: "primary.main" }} />
+                                Researchers with more than 500 raw data or an H-index over 30 receive free premium membership from RDL.
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </Stack>
+        </Container>
             <Container maxWidth>
 
             </Container>

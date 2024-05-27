@@ -54,3 +54,19 @@ export const updateAffiliation = async (token, userEducationData) => {
         return null;
     }
 };
+export const deleteAffiliation = async (token, id) => {
+    try {
+        const res = await axios.get(
+            `${baseUrl}/api/v1/affiliation/delete/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};

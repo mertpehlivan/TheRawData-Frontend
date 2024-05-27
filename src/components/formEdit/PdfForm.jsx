@@ -1,9 +1,9 @@
-import { ErrorOutline, PictureAsPdf, Visibility, VisibilityOff } from '@mui/icons-material'
+import { ErrorOutline, Lock, LockOpen, PictureAsPdf, Visibility, VisibilityOff } from '@mui/icons-material'
 import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup, Stack, Switch, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import UploadInput from '../input/UploadInput'
 
-function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
+function PdfForm({setChange,only, pdf, setPdf, setFileUrl, setFileEx }) {
     const [ex, setEx] = useState()
     const [errorMessage, setErrorMessage] = useState("")
     const handleChangePdf = (event) => {
@@ -12,13 +12,16 @@ function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
                 pdfStatus: event.target.checked,
                 addOnly: true,
             })
+            setChange(true)
         } else if (event.target.name === "addOnly") {
             setPdf({
                 ...pdf,
                 [event.target.name]: event.target.value
             })
+            
         }
     }
+   ;
     useEffect(() => {
         setFileEx(ex)
         if (ex === "pdf") {
@@ -35,11 +38,11 @@ function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
                 />
                 <Typography>Do you want to upload a pdf?</Typography>
             </Stack>
-            {pdf.pdfStatus &&
+            {pdf.pdfStatus  &&
                 <Stack>
                     <Stack direction="row" justifyContent="space-around" spacing={2} m={1} boxShadow="rgba(0, 0, 0, 0.24) 0px 3px 8px" p={2}>
                         <Stack direction="row">
-                            <UploadInput icon={'fa6-regular:file-pdf'} text="Uploud Pdf" setPreviewUrl={setFileUrl} setPreviewEx={setEx} />
+                            <UploadInput setChange={setChange} only={only} icon={'fa6-regular:file-pdf'} text="Uploud Pdf" setPreviewUrl={setFileUrl} setPreviewEx={setEx} />
                         </Stack>
 
                         <Stack>
@@ -53,18 +56,18 @@ function PdfForm({ pdf, setPdf, setFileUrl, setFileEx }) {
                                     <Stack justifyContent="center">
                                         <FormControlLabel name='addOnly' sx={{ mt: 1, border: "1px solid", borderRadius: 3, borderColor: "primary.main" }} onChange={handleChangePdf} value={true} control={<Radio defaultChecked />} label={<Stack>
                                             <Stack direction="row" spacing={1}>
-                                                <Visibility sx={{ color: "primary.main" }} />
+                                                <LockOpen sx={{ color: "primary.main" }} />
                                                 <Typography sx={{ color: "primary.main" }}>Add only a public file</Typography>
                                             </Stack>
-                                            <Typography variant='body2'>Upload a public file which everyone can access and read.</Typography>
+                                            <Typography variant='body2'>Upload as a public file which everyone can download.</Typography>
 
                                         </Stack>} />
                                         <FormControlLabel name='addOnly' sx={{ mt: 1, border: "1px solid", borderRadius: 3, borderColor: "primary.main" }} onChange={handleChangePdf} value={false} control={<Radio />} label={<Stack>
                                             <Stack direction="row" spacing={1}>
-                                                <VisibilityOff sx={{ color: "primary.main" }} />
+                                                <Lock sx={{ color: "primary.main" }} />
                                                 <Typography sx={{ color: "primary.main" }}>Add only a private file</Typography>
                                             </Stack>
-                                            <Typography variant='body2'>Save a private file as back up which only you and the co-authors can access</Typography>
+                                            <Typography variant='body2'>Upload as a private file which only you and the co-auhtors can download.</Typography>
 
                                         </Stack>} />
                                     </Stack>

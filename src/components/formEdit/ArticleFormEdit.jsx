@@ -15,6 +15,7 @@ import SearchInputV2 from '../input/SearchInputV2';
 import { Save } from '@mui/icons-material';
 import { update } from '../../store/userSlice';
 import { Icon } from '@iconify/react';
+import PdfForm from './PdfForm';
 
 
 export default function ArticleFormEdit() {
@@ -32,6 +33,17 @@ export default function ArticleFormEdit() {
     const [year, setYear] = useState()
     const [url, setUrl] = useState('');
     const [errorUrl, setErrorUrl] = useState('');
+    const [data,setData]=useState()
+    const [change,setChange] = useState(false)
+    const [only,setOnly] = useState(false)
+
+    const [pdf, setPdf] = useState({
+        pdfStatus: true,
+        addOnly: true,
+    })
+    const [fileUrl, setFileUrl] = useState(null)
+    const [fileEx, setFileEx] = useState("")
+
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -39,6 +51,7 @@ export default function ArticleFormEdit() {
                 setLoading(true)
                 const response = await getArticle(token, publicationId)
                 const data = response.data;
+                setData(data)
                 console.log(data)
                 setLoading(false)
                 setTitle(data.title)
@@ -50,6 +63,9 @@ export default function ArticleFormEdit() {
                 setDoi(data.doi)
                 setUrl(data.url)
                 setYear(data.year)
+                setOnly(data.only)
+              
+               
 
             } catch (error) {
                 console.log(error)
@@ -88,11 +104,16 @@ export default function ArticleFormEdit() {
                 authors,
                 comment,
                 year,
-                url
+                url,
+                pdf,
+                fileEx,
+                fileUrl,
+                change
 
             }
             const response = await updateArticle(data, token, publicationId)
             window.location.href = window.location.href;
+           
         } catch (error) {
             console.log(error)
         }
@@ -112,7 +133,7 @@ export default function ArticleFormEdit() {
     return (
         <Stack borderRadius={5} spacing={2} p={3}>
             <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
-            <Icon icon="material-symbols:article" color='#091582' width={50} height={50} />
+                <Icon icon="material-symbols:article" color='#091582' width={50} height={50} />
                 <Typography color="primary.main" variant='h3'>Article</Typography>
             </Stack>
             <Stack mx={4} spacing={5} mt={2} direction='row'>
@@ -198,7 +219,7 @@ export default function ArticleFormEdit() {
                 onChange={(e) => setComment(e.target.value)}
             />
             <SearchInputV2 setAuthorIds={setAuthorIds} />
-
+            <PdfForm setChange={setChange} only={only} pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
             <Button disabled={!(title.trim() !== '' &&
                 journalName.trim() !== '' &&
 
