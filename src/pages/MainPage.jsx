@@ -53,7 +53,7 @@ function MainPage() {
             <Box position="fixed" sx={{ opacity: 0.2 }} zIndex={-10}>
 
                 <video autoPlay loop muted style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'fixed', top: 0, left: 0, zIndex: -1 }}>
-                    <source src={BackgroundVideo} type="video/mp4" />
+                    <source src="../assets/video.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
 
