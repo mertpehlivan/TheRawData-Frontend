@@ -4,7 +4,6 @@ import Logo from '../assets/logo.svg';
 import BackgroundVideo from '../assets/video.mp4'; // Video dosyasının yolunu buraya ekleyin
 import { useTheme } from '@emotion/react';
 import Researcher from '../assets/Academic Research Incentive.jpg';
-import Academia from '../assets/academia.jpg';
 import { FiberManualRecord } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -50,10 +49,11 @@ function MainPage() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <Stack spacing={3}>
+            {process.env.PUBLIC_URL.toString()}
             <Box position="fixed" sx={{ opacity: 0.2 }} zIndex={-10}>
 
                 <video autoPlay loop muted style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'fixed', top: 0, left: 0, zIndex: -1 }}>
-                    <source src={BackgroundVideo} type="video/mp4" />
+                    <source src={"../assets/video.mp4"} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
 
