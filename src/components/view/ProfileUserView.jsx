@@ -43,7 +43,7 @@ export default function ProfileUserView({setUserStatus}) {
                     department: res.data.department
                 });
                 setUserStatus({
-                    id:prop.user.id,
+                    id:res.data.id,
                     status: prop.user.uniqueName == username
                 })
             })

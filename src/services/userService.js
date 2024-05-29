@@ -31,7 +31,7 @@ export const searchUser = async (token, fullName,newPage) => {
         const response = await axios.get(`${baseUrl}/api/v1/user/search?searchTerm=${fullName}`, {
             params: {
                 page:newPage,
-                size:2,
+                size:5,
             },
             headers: {
                 Authorization: `Bearer ${token}`,

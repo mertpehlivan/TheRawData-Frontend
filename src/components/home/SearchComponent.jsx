@@ -70,11 +70,9 @@ function SearchComponent() {
     const [noSearchData, setNoSearchData] = useState("")
     const [loading, setLoading] = useState(false)
     const [page,setPage] = useState(0);
-
-
+  
     useEffect(() => {
         const handleSearch = debounce(async () => {
-            setPage(0)
             try {
 
                 if (searchType == "Researcher" && searchData != "") {
@@ -100,11 +98,11 @@ function SearchComponent() {
                         }
                     } else {
                         setLoading(true)
-                        const response = await searchUser(token, searchData)
+                        const response = await searchUser(token, searchData, page)
                         console.log(response.data)
                         console.log(searchData)
                         if (response.data) {
-                            setData(prev => (page === 0 ? response.data : [...prev, ...response.data]));
+                            setData(prev => ((page === 0) ? response.data : [...prev, ...response.data]));
                         }
                         setLoading(false)
                     }
@@ -163,7 +161,7 @@ function SearchComponent() {
                         }
                     } else {
                         setLoading(true)
-                        const response = await searchUser(token, searchData)
+                        const response = await searchUser(token, searchData, page)
                         console.log(response.data)
                         console.log(searchData)
                         if (response.data) {

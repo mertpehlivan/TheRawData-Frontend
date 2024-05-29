@@ -3,15 +3,16 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
-import { CircularProgress } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
+import { Add } from '@mui/icons-material';
 
 const UniversitySearch = ({ setSelected,selected }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUniversity, setSelectedUniversity] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [open,setOpen] = useState(false)
   useEffect(() => {
     if (selected) {
       setSelectedUniversity(selected)
@@ -41,10 +42,17 @@ const UniversitySearch = ({ setSelected,selected }) => {
     setSelectedUniversity(value);
     setSelected(value);
   };
-
+  const addUnivesity = (name)=> {
+    setSelectedUniversity(name)
+    setOpen(false)
+  }
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Autocomplete
+        open={open}
+        onFocus={()=>setOpen(true)}
+        onBlur={()=>setOpen(false)}
+        noOptionsText={<Button variant='contained' fullWidth startIcon={<Add/>} onClick={()=>addUnivesity(searchQuery)} sx={{textTransform:"capitalize"}}>Add University: {searchQuery}</Button>}
         size='small'
         id="university-search"
         options={searchResults.map((option) => option.name)}

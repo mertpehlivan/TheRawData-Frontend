@@ -1,8 +1,11 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Popover, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
-
+import Popover from '@mui/material/Popover';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { Autocomplete, Button, Stack } from '@mui/material';
+import { Add } from '@mui/icons-material';
 const departments = [
   "Architecture",
   "Arts and Sciences",
@@ -304,45 +307,62 @@ const departments = [
   "Water Resources Engineering"
 ]
 
+const SearchDepartment = ({searchText, setSearchText}) => {
+  const [options, setOptions] = useState(departments); // Tüm departmanlar
+  const [filteredOptions, setFilteredOptions] = useState(departments); // Filtrelenmiş departmanlar
+  const [openDialog, setOpenDialog] = useState(false);
+  const [open, setOpen] = useState(false);
+  // Arama yapılacak fonksiyon
+  const search = (searchQuery) => {
+    const filteredOptions = options.filter(cumle =>
+      cumle.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-
-const SearchDepartment = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setFilteredOptions(filteredOptions);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  // Yeni departman eklemek için dialogu aç
+  const handleAddDepartment = () => {
+    setOpenDialog(true);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  // Dialog kapatma işlemi
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   return (
-    <Stack spacing={2}>
-      <TextField
-        aria-describedby={id}
-        onFocus={handleClick}
-        label="Search"
-        variant="outlined"
-      />
-      <Popover
-        id={id}
+    <Stack spacing={2} sx={{ width: '100%' }}>
+      <Autocomplete
+        size='small'
+        style={{width:"100%"}}
+        disableClearable
         open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        onBlur={handleClose} // Yeni eklenen onBlur olayı
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+        onFocus={(e)=>setOpen(true)}
+        onBlur={(e)=>setOpen(false)}
+        noOptionsText={<Button onClick={()=>{setOpen(false)}} fullWidth startIcon={<Add/>} variant="contained" style={{textTransform:"none"}}>Add department:{searchText}</Button>}
+        options={filteredOptions} // Filtrelenmiş seçenekler buraya geçirildi
+        value={searchText}
+        onChange={(event, newValue) => {
+          setSearchText(newValue);
+          search(newValue);
         }}
-      >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
-      </Popover>
+        renderInput={(params) => (
+          <TextField
+            size='small'
+            {...params}
+            label="Department"
+            style={{width:"100%"}}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+              search(e.target.value); // Burada arama işlemi tetikleniyor
+            }}
+           
+          />
+        )}
+      />
+     
     </Stack>
   );
 };
-
 export default SearchDepartment;

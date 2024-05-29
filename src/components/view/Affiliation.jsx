@@ -5,6 +5,7 @@ import AffiliationDialog from './AffiliationDialog'
 import { getAffiliation } from '../../services/newData/affiliationService'
 import { useUserContext } from '../../hooks/AuthProvider'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 const Affiliation = ({ userStatus }) => {
     const [affilation, setAffilation] = useState([])
@@ -13,6 +14,7 @@ const Affiliation = ({ userStatus }) => {
     const [refre, setRefre] = useState(0)
     const { token } = useUserContext()
     const [imageLoading, setImageLoading] = useState(false)
+    const {username} = useParams()
     useEffect(() => {
         const getFetch = async () => {
             setLoading(true)

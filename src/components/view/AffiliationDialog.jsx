@@ -202,7 +202,7 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                         <Stack direction="row" spacing={1}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
-
+                                    format='DD-MM-YYYY'
                                     value={startDate}
                                     onChange={(newValue) => setStartDate(dayjs(newValue))} // Convert to Day.js object
                                     label="Date"
@@ -214,6 +214,8 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                             </LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
+                                    disabled={check}
+                                    format='DD-MM-YYYY'
                                     value={endDate}
                                     onChange={(newValue) => setEndDate(dayjs(newValue))} // Convert to Day.js object
                                     label="Date"
@@ -230,7 +232,7 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                         </Stack>
 
                         <TextField value={location} onChange={(e) => setLocation(e.target.value)} label="Country" size='small' />
-                        <SearchDepartment department={depeartment} setDepartment={setDepeartment} />
+                        <SearchDepartment searchText={depeartment} setSearchText={setDepeartment} />
                         <FormLabel>Position</FormLabel>
                         <Select size='small' value={position} onChange={(e) => setPosition(e.target.value)}>
                             <MenuItem value={"Doctor"} >Doctor</MenuItem>
