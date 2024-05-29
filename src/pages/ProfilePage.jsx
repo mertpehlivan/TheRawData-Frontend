@@ -22,7 +22,7 @@ export default function ProfilePage() {
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(true);
     const [load, setLoad] = useState(false); // setLoad'un başlangıç değeri false olarak ayarlanmalı
-    const [noMore, setNoMore] = useState(true)
+    const [noMore, setNoMore] = useState(false)
     const [loadUser, setLoadUser] = useState(false)
     const [notUser, setNotUser] = useState(false)
     useEffect(() => {
@@ -81,8 +81,8 @@ export default function ProfilePage() {
                     </Grid>
                     <Grid item xs={9} p={1}>
                         <Stack spacing={1}>
-                            <AllView setNoMore={setNoMore} setPage={setPage} page={page} loading={loading} setLoading={setLoading} />
-                            {noMore && <Button onClick={() => setPage(prev => prev + 1)}>See More</Button>}
+                            <AllView loading={loading} setLoading={setLoading} />
+                            
                         </Stack>
                     </Grid>
                 </Grid>

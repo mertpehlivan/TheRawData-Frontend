@@ -74,7 +74,7 @@ function SearchInputV2({ role = "Author", setAuthorIds, authors, handleRole }) {
     useEffect(() => {
         const fetch = async () => {
 
-            dataType == "Research Project" || role == "Research Project" && handleRole(selectedAuthor)
+            (dataType == "Research Project" || role == "Research Project") && handleRole(selectedAuthor)
             const authorIds = selectedAuthor.map(author => author.user.id);
             setAuthorIds(authorIds);
             console.log(authorIds)

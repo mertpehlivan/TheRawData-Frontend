@@ -12,15 +12,9 @@ export default function SkaletonDataPost() {
         <Skeleton variant="circular" width={40} height={40} animation="wave" />
         <Skeleton width={100} height={20} animation="wave" />
         <Skeleton width={80} height={20} animation="wave" />
-        <Icon icon="mdi:ellipsis-vertical" style={{}} />
+    
       </Stack>
-      <Link to="/publications">
-        <Skeleton width={200} height={30} animation="wave">
-          <Typography variant="h6">
-            
-          </Typography>
-        </Skeleton>
-      </Link>
+     
       <Stack spacing={1} direction="row" justifyContent="flex-start">
         <Skeleton variant="rectangular" width={150} height={25} animation="wave">
           <Chip label="New" sx={{ backgroundColor: "primary.main", color: "white" }} />

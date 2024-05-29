@@ -43,6 +43,7 @@ export default function ResearchProjectForm() {
 
   const handleRole = (role) => {
     setAuthorsAndRole(role)
+    console.log("authorRole:",authorsAndRole)
   }
   const dispatch = useDispatch();
   const handlerCancel = () => {
@@ -51,25 +52,27 @@ export default function ResearchProjectForm() {
     dispatch(clearType())
     dispatch(clearRawData())
   }
-  const data = {
-    title,
-    date: date.toDate() == null ? null : date.toDate(),
-    comment,
-    grantNumber,
-    companyOrUnvierstiy,
-    authorsAndRole,
-    endDate: endDate.toDate() == null ? null : endDate.toDate(),
-    pdf,
-    fileEx,
-    fileUrl
-  };
+ 
 
   const isFormValid = () => {
     return title.trim() !== '' &&
       (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
-
+ 
   const handleNext = () => {
+    const data = {
+      title,
+      date: date.toDate() == null ? null : date.toDate(),
+      comment,
+      grantNumber,
+      companyOrUnvierstiy,
+      authorsAndRole,
+      endDate: endDate.toDate() == null ? null : endDate.toDate(),
+      pdf,
+      fileEx,
+      fileUrl
+    };
+    console.log("data",data)
     if (isFormValid()) {
       dispatch(addData(data));
       dispatch(increase());
@@ -98,6 +101,7 @@ export default function ResearchProjectForm() {
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            format='DD-MM-YYYY'
             value={date}
             onChange={(newValue) => setDate(dayjs(newValue))} // Convert to Day.js object
             label="Beginning date"
@@ -109,6 +113,7 @@ export default function ResearchProjectForm() {
         <Stack width="100%">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
+              format='DD-MM-YYYY'
               value={endDate}
               onChange={(newValue) => setEndDate(dayjs(newValue))} // Convert to Day.js object
               label="Completed date "
@@ -139,7 +144,7 @@ export default function ResearchProjectForm() {
           onChange={(e) => setCompanyOrUnvierstiy(e.target.value)}
         />
         <TextField
-          label = "Grant number"
+          label="Grant number"
           size='small'
           fullWidth
           value={grantNumber}
@@ -155,7 +160,7 @@ export default function ResearchProjectForm() {
           rows={4}
           onChange={(e) => setComment(e.target.value)}
         />
-         <SearchInputV2 role="Research Project" setAuthorIds={setAuthorIds} handleRole={handleRole} />
+        <SearchInputV2 role="Research Project" setAuthorIds={setAuthorIds} handleRole={handleRole} />
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
       </Stack>
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>

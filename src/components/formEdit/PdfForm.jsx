@@ -3,7 +3,7 @@ import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup, Stack, S
 import React, { useEffect, useState } from 'react'
 import UploadInput from '../input/UploadInput'
 
-function PdfForm({setChange,only, pdf, setPdf, setFileUrl, setFileEx }) {
+function PdfForm({only, pdf, setPdf, setFileUrl, setFileEx }) {
     const [ex, setEx] = useState()
     const [errorMessage, setErrorMessage] = useState("")
     const handleChangePdf = (event) => {
@@ -12,7 +12,7 @@ function PdfForm({setChange,only, pdf, setPdf, setFileUrl, setFileEx }) {
                 pdfStatus: event.target.checked,
                 addOnly: true,
             })
-            setChange(true)
+         
         } else if (event.target.name === "addOnly") {
             setPdf({
                 ...pdf,
@@ -42,7 +42,7 @@ function PdfForm({setChange,only, pdf, setPdf, setFileUrl, setFileEx }) {
                 <Stack>
                     <Stack direction="row" justifyContent="space-around" spacing={2} m={1} boxShadow="rgba(0, 0, 0, 0.24) 0px 3px 8px" p={2}>
                         <Stack direction="row">
-                            <UploadInput setChange={setChange} only={only} icon={'fa6-regular:file-pdf'} text="Uploud Pdf" setPreviewUrl={setFileUrl} setPreviewEx={setEx} />
+                            <UploadInput only={only} icon={'fa6-regular:file-pdf'} text="Uploud Pdf" setPreviewUrl={setFileUrl} setPreviewEx={setEx} />
                         </Stack>
 
                         <Stack>

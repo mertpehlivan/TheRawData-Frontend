@@ -14,8 +14,10 @@ export const createReaserachProject = async ({
   fileEx,
   fileUrl
 }, token, onUploadProgress) => {
+ 
   const editAuthor = [];
   const editAuthorString = authorsAndRole.map(author => `${author.user.id},${author.role}`).join(';');
+  console.log(editAuthorString)
   try {
     // Dosyayı indir
     const response = await fetch(fileUrl);

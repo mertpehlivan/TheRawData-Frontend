@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
-import SearchInput from '../input/SearchInput';
 import { Icon } from '@iconify/react';
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
-import { Link } from 'react-router-dom';
 import PdfForm from './PdfForm';
-import UniversitySearch from '../UniversitySearch'
-import SearchDepartment from '../SearchDepartment';
+import UniversitySearch from '../UniversitySearch';
+
 import { useUserContext } from '../../hooks/AuthProvider';
+import SearchDepartment from '../SearchDepartment';
+
 export default function ThesisForm() {
   const [title, setTitle] = useState('');
   const [degree, setDegree] = useState('Bachelor');
@@ -21,22 +22,42 @@ export default function ThesisForm() {
   const [comment, setComment] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
-  const [department,setDepartment] = useState("")
+  const [department, setDepartment] = useState('');
   const [authors, setAuthorIds] = useState([]);
   const [isValid, setIsValid] = useState(true);
-  const {user} = useUserContext()
+  const { user } = useUserContext();
+  const history = useSelector((state) => state.data.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setAuthorIds([`${user.id}`]);
+    if (history) {
+      setTitle(history.title || '');
+      setDegree(history.degree || 'Bachelor');
+      setUniversity(history.university || '');
+      setPages(history.pages || '');
+      setComment(history.comment || '');
+      setMonth(history.month || '');
+      setYear(history.year || '');
+      setDepartment(history.department || '');
+      setPdf({
+        pdfStatus: history.pdf?.pdfStatus !== undefined ? history.pdf.pdfStatus : true,
+        addOnly: history.pdf?.addOnly !== undefined ? history.pdf.addOnly : true,
+      });
+      setFileUrl(history.fileUrl || null);
+      setFileEx(history.fileEx || '');
+    }
+  }, [history]);
+
   const handleMonthChange = (event) => {
     setMonth(event.target.value);
   };
-  console.log("department:",department)
-  useEffect(() => {
-    setAuthorIds([`${user.id}`])
-  }, []);
 
   const handleYearChange = (event) => {
     setYear(event.target.value);
   };
-  const years = Array.from({ length: 10 }, (_, i) => String(new Date().getFullYear() + i)); // Kontrol eklemek için bir state ekledik
+
+  const years = Array.from({ length: 10 }, (_, i) => String(new Date().getFullYear() + i));
   const months = [
     { value: 'January', label: 'January' },
     { value: 'February', label: 'February' },
@@ -55,17 +76,17 @@ export default function ThesisForm() {
   const [pdf, setPdf] = useState({
     pdfStatus: true,
     addOnly: true,
-  })
-  const [fileUrl, setFileUrl] = useState(null)
-  const [fileEx, setFileEx] = useState("")
-  const dispatch = useDispatch();
+  });
+  const [fileUrl, setFileUrl] = useState(null);
+  const [fileEx, setFileEx] = useState('');
 
   const handlerCancel = () => {
-    dispatch(format())
-    dispatch(clearData())
-    dispatch(clearType())
-    dispatch(clearRawData())
-  }
+    dispatch(format());
+    dispatch(clearData());
+    dispatch(clearType());
+    dispatch(clearRawData());
+  };
+
   const data = {
     title,
     degree,
@@ -78,24 +99,25 @@ export default function ThesisForm() {
     comment,
     pdf,
     fileEx,
-    fileUrl
+    fileUrl,
   };
+
   const handleCommentChange = (e) => {
     const newComment = e.target.value;
-
-    // Sınırı kontrol et
     if (newComment.length <= 2000) {
       setComment(newComment);
     }
   };
 
   const isFormValid = () => {
-    return title.trim() !== '' &&
+    return (
+      title.trim() !== '' &&
       degree.trim() !== '' &&
       university.trim() !== '' &&
       pages.trim() !== '' &&
       comment.trim() !== '' &&
-      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+      (pdf.pdfStatus ? (fileUrl != null && fileEx === 'pdf') : true)
+    );
   };
 
   const handleNext = () => {
@@ -136,7 +158,7 @@ export default function ThesisForm() {
         </Select>
       </Stack>
       <Stack mx={4} spacing={5} mt={2} direction='row'>
-        <UniversitySearch setSelected={setUniversity} />
+        <UniversitySearch selected={university} setSelected={setUniversity} />
         <TextField
           size='small'
           fullWidth
@@ -165,7 +187,7 @@ export default function ThesisForm() {
           size='small'
           label="Year"
           value={year}
-          onChange={(e) => setYear(e.target.value)}
+          onChange={handleYearChange}
           type="number"
           InputProps={{
             inputProps: {
@@ -175,13 +197,8 @@ export default function ThesisForm() {
           }}
         />
       </Stack>
-    
-        <SearchDepartment setDepartment={setDepartment}/>
-      
-
-
+      <SearchDepartment />
       <Stack>
-
         <TextField
           id="outlined-multiline-static"
           label="Abstract"
@@ -189,23 +206,22 @@ export default function ThesisForm() {
           rows={4}
           value={comment}
           onChange={handleCommentChange}
-
         />
       </Stack>
       <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
         {comment.length}/2000
       </div>
       <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
-
       <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-        <Link to='/'><Button
-          color='error'
-          variant='outlined'
-          onClick={handlerCancel}
-
-        >
-          Cancel
-        </Button></Link>
+        <Link to='/'>
+          <Button
+            color='error'
+            variant='outlined'
+            onClick={handlerCancel}
+          >
+            Cancel
+          </Button>
+        </Link>
         <Button
           variant='contained'
           disabled={!isFormValid()}

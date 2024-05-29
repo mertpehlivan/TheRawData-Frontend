@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import SearchInput from '../input/SearchInput';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Stack,
   Typography,
   TextField,
   Button,
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { Icon } from '@iconify/react';
 import { addData, clearData } from '../../store/dataSlice';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearType } from '../../store/newDataTypeSlice';
 import { clearRawData } from '../../store/rawDataSlice';
-import { Link } from 'react-router-dom';
 import PdfForm from './PdfForm';
 import SearchInputV2 from '../input/SearchInputV2';
-import { Icon } from '@iconify/react';
 
 export default function ChapterInABook() {
   const [title, setTitle] = useState('');
@@ -32,17 +31,41 @@ export default function ChapterInABook() {
   const [pdf, setPdf] = useState({
     pdfStatus: true,
     addOnly: true,
-  })
-  const [fileUrl, setFileUrl] = useState(null)
-  const [fileEx, setFileEx] = useState("")
+  });
+  const [fileUrl, setFileUrl] = useState(null);
+  const [fileEx, setFileEx] = useState('');
 
-  const dispatch = useDispatch()
+  const history = useSelector((state) => state.data.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (history) {
+      setTitle(history.title || '');
+      setChapterNumber(history.chapterNumber || '');
+      setBookTitle(history.bookTitle || '');
+      setYear(history.year || '');
+      setPages(history.pages || '');
+      setDoi(history.doi || '');
+      setPublisher(history.publisher || '');
+      setIsbn(history.isbn || '');
+      setEditor(history.editor || '');
+      setComment(history.comment || '');
+      setPdf({
+        pdfStatus: history.pdfStatus !== undefined ? history.pdfStatus : true,
+        addOnly: history.addOnly !== undefined ? history.addOnly : true
+      });
+      setFileUrl(history.fileUrl || null);
+      setFileEx(history.fileEx || '');
+    }
+  }, [history]);
+
   const handlerCancel = () => {
-    dispatch(format())
-    dispatch(clearData())
-    dispatch(clearType())
-    dispatch(clearRawData())
-  }
+    dispatch(format());
+    dispatch(clearData());
+    dispatch(clearType());
+    dispatch(clearRawData());
+  };
+
   const data = {
     title,
     chapterNumber,
@@ -58,7 +81,8 @@ export default function ChapterInABook() {
     pdf,
     fileEx,
     fileUrl
-  }
+  };
+
   const isFormValid = () => {
     return title.trim() !== '' &&
       chapterNumber.trim() !== '' &&
@@ -68,9 +92,9 @@ export default function ChapterInABook() {
       publisher.trim() !== '' &&
       editor.trim() !== '' &&
       comment.trim() !== '' &&
-      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
-
+      (pdf.pdfStatus ? (fileUrl != null && fileEx === 'pdf') : true);
   };
+
   const handleDelete = (authorId) => {
     setAuthorIds(authors.filter((id) => id !== authorId));
   };
@@ -78,7 +102,7 @@ export default function ChapterInABook() {
   return (
     <Stack borderRadius={5}>
       <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
-        <Icon icon="material-symbols:article"  color='#091582' width={50} height={50} />
+        <Icon icon="material-symbols:article" color='#091582' width={50} height={50} />
         <Typography color="primary.main" variant='h3'>Chapter in a Book</Typography>
       </Stack>
       <Stack mx={4} spacing={5} mt={2} direction='row'>
@@ -160,13 +184,13 @@ export default function ChapterInABook() {
           onChange={(e) => setEditor(e.target.value)}
         />
       </Stack>
-
       <Stack mx={4} my={2}>
         <TextField
           id="outlined-multiline-static"
           label="Abstract"
           multiline
           rows={4}
+          value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
         <Stack mt={3}>
@@ -174,23 +198,23 @@ export default function ChapterInABook() {
         </Stack>
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-          <Link to='/'><Button
-            color='error'
-            variant='outlined'
-            onClick={handlerCancel}
-
-          >
-            Cancel
-          </Button></Link>
+          <Link to='/'>
+            <Button
+              color='error'
+              variant='outlined'
+              onClick={handlerCancel}
+            >
+              Cancel
+            </Button>
+          </Link>
           <Button
             variant='contained'
-            disabled={!isFormValid()} // Butonu devre dışı bırak
+            disabled={!isFormValid()}
             onClick={() => {
               if (isFormValid()) {
                 dispatch(addData(data));
                 dispatch(increase());
               } else {
-                // Form geçerli değilse bir uyarı göster veya istediğiniz bir işlemi gerçekleştirin
                 console.log('Lütfen tüm alanları doldurun.');
               }
             }}

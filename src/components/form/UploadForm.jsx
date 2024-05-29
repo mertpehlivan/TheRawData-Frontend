@@ -32,7 +32,7 @@ export default function UploadForm() {
     const rawData = useSelector((state) => state.rawData);
     const dispatch = useDispatch();
     const { token } = useUserContext();
-    const location = useLocation();
+
     const status = useSelector(state => state.rawDataStatus.value)
     const [rawDataCounter, setRawDataCounter] = useState(rawData.lenght)
     const uploadRawData = useState([
@@ -187,35 +187,34 @@ export default function UploadForm() {
 
     const LoadRawData = async () => {
         if (publicationId) {
-            const promises = rawData.map(async (data) => {
-                setLoadingInfoText(`${data.header} file is being created...`)
+            for (const dataItem of rawData) {
+                setLoadingInfoText(`${dataItem.header} file is being created...`)
                 try {
-                    const res = await createRawDataFile(data.header, publicationId, token, (progressEvent) => {
+                    const res = await createRawDataFile(dataItem.header, publicationId, token, (progressEvent) => {
                         loadingCalculator(progressEvent);
                     });
                     console.log(res);
                     if (res) {
-                        await Promise.all(data.rawData.map(async (group) => {
+                        for (const group of dataItem.rawData) {
                             console.log("response:", res)
                             if (group && group.name && group.name.trim() !== "") {
                                 console.log(group.name)
                                 const files = await convertForm(group);
-                                setLoadingInfoText(`Raw data named ${data.header}-${group.name} is being loaded...`)
+                                setLoadingInfoText(`Raw data named ${dataItem.header}-${group.name} is being loaded...`)
                                 await createRawData(group, files, res, token, (progressEvent) => {
                                     loadingCalculator(progressEvent);
                                 });
                             } else {
                                 console.log('Error: "name" is empty or undefined in rawdata');
                             }
-                        }));
+                        }
                     } else {
                         console.log('Error: Response or response data is undefined');
                     }
                 } catch (e) {
                     console.log(e);
                 }
-            });
-            await Promise.all(promises);
+            }
             setIsFinish(true);
         } else {
             console.log("publication id yok.")
@@ -231,7 +230,7 @@ export default function UploadForm() {
     useEffect(() => {
         if (publicationId !== null && status) {
             LoadRawData(); // Call LoadRawData when publicationId is set
-        }else if(!status){
+        } else if (!status) {
             setIsFinish(true)
         }
     }, [publicationId]);

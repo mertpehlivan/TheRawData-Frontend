@@ -1,42 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+import { Popover, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
-
-export default function SearchDepartment({department,setDepartment}) {
-  const [selectedDepartment, setSelectedDepartment] = useState(department == ""|| !department ?  "" : department);
-
-  return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
-      <Autocomplete
-        fullWidth
-        size='small'
-        id="free-solo-2-demo"
-        disableClearable
-        options={departments.map((department) => department)}
-        value={selectedDepartment}
-        onChange={(event, newValue) => {
-          setSelectedDepartment(newValue);
-          setDepartment(newValue);
-        }}
-        renderInput={(params) => (
-          <TextField
-            
-            fullWidth
-            {...params}
-            label="Department"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
-    </Stack>
-  );
-}
-
 
 const departments = [
   "Architecture",
@@ -338,3 +303,46 @@ const departments = [
   "Transportation Engineering",
   "Water Resources Engineering"
 ]
+
+
+
+const SearchDepartment = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  return (
+    <Stack spacing={2}>
+      <TextField
+        aria-describedby={id}
+        onFocus={handleClick}
+        label="Search"
+        variant="outlined"
+      />
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        onBlur={handleClose} // Yeni eklenen onBlur olayı
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+      </Popover>
+    </Stack>
+  );
+};
+
+export default SearchDepartment;

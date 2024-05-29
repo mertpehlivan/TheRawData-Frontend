@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Button, Checkbox, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 import UploadInput from '../input/UploadInput';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,9 +24,15 @@ export default function UploadBox({ boxKey, headerIndex }) {
   const [rawDataEx, setRawDataEx] = useState('');
   const [previewEx, setPreviewEx] = useState('');
   const [isSave, setIsSave] = useState(false)
-
+  const [checkFree, setCheckFree] = useState(false)
   const isSaveDisabled = !name || !priceSuggestion || !rawDataUrl || !previewUrl;
   const rawdata = useSelector((state) => state.rawData)
+  const handleCheck = (e) => {
+    setCheckFree(e.target.checked)
+    if (e.target.checked) {
+      setPriceSuggestion(0)
+    }
+  }
   const handleSave = async () => {
     dispatch(addRawData({
       name,
@@ -130,11 +136,11 @@ export default function UploadBox({ boxKey, headerIndex }) {
             />
             <Stack direction="row">
               <RawDataInput setRawDataUrl={setRawDataUrl} setRawDataEx={setRawDataEx} />
-              <HelperComponent/>
+              <HelperComponent />
             </Stack>
             <Stack direction="row">
               <UploadInput icon={'mdi:image-outline'} text="Select Preview Image" setPreviewUrl={setPreviewUrl} setPreviewEx={setPreviewEx} />
-              <HelperComponentV2/>
+              <HelperComponentV2 />
             </Stack>
             <TextField
               color="success"
@@ -147,6 +153,7 @@ export default function UploadBox({ boxKey, headerIndex }) {
               }}
             />
             <TextField
+              disabled={checkFree}
               type='number'
               label="Price Suggestion"
               size="small"
@@ -157,11 +164,17 @@ export default function UploadBox({ boxKey, headerIndex }) {
               onChange={(e) => {
                 setPriceSuggestion(e.target.value);
               }}
+
             />
+
+
           </Stack>
 
       }
-
+      <Stack direction="row" alignItems="center" justifyContent="flex-start">
+        <Checkbox checked={checkFree} onChange={handleCheck} />
+        <Typography>Free data</Typography>
+      </Stack>
 
     </Stack>
 

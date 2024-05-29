@@ -38,8 +38,6 @@ export default function ResearchProjectFormEdit() {
       const response = await getResearchProject(token, publicationId)
       const data = response.data;
       setLoading(false)
-
-
       setTitle(data.title)
       setDate(dayjs(data.date))
       setDate(dayjs(data.endDate))

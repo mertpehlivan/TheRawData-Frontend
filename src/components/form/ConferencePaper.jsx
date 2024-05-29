@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack, Typography, TextField, Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { addData, clearData } from '../../store/dataSlice';
-import { format, increase } from '../../store/pageNumberSlice';
-import SearchInput from '../input/SearchInput';
-import { clearType } from '../../store/newDataTypeSlice';
-import { clearRawData } from '../../store/rawDataSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PdfForm from './PdfForm';
-import SearchInputV2 from '../input/SearchInputV2';
 import { Icon } from '@iconify/react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { addData, clearData } from '../../store/dataSlice';
+import { format, increase } from '../../store/pageNumberSlice';
+import { clearType } from '../../store/newDataTypeSlice';
+import { clearRawData } from '../../store/rawDataSlice';
+import PdfForm from './PdfForm';
+import SearchInputV2 from '../input/SearchInputV2';
 
 export default function ConferencePaper() {
   const [title, setTitle] = useState('');
@@ -28,20 +27,42 @@ export default function ConferencePaper() {
   const [pdf, setPdf] = useState({
     pdfStatus: true,
     addOnly: true,
-  })
-  const [fileUrl, setFileUrl] = useState(null)
-  const [fileEx, setFileEx] = useState("")
+  });
+  const [fileUrl, setFileUrl] = useState(null);
+  const [fileEx, setFileEx] = useState('');
+
+  const history = useSelector((state) => state.data.value);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (history) {
+      setTitle(history.title || '');
+      setDate(history.date ? dayjs(history.date) : dayjs(''));
+      setConferenceName(history.conferenceName || '');
+      setLocation(history.location || '');
+      setPages(history.pages || '');
+      setIsbn(history.isbn || '');
+      setComment(history.comment || '');
+      setAuthorIds(history.authors || []);
+      setPdf({
+        pdfStatus: history.pdf?.pdfStatus !== undefined ? history.pdf.pdfStatus : true,
+        addOnly: history.pdf?.addOnly !== undefined ? history.pdf.addOnly : true,
+      });
+      setFileUrl(history.fileUrl || null);
+      setFileEx(history.fileEx || '');
+    }
+  }, [history]);
+
   const handlerCancel = () => {
-    dispatch(format())
-    dispatch(clearData())
-    dispatch(clearType())
-    dispatch(clearRawData())
-  }
+    dispatch(format());
+    dispatch(clearData());
+    dispatch(clearType());
+    dispatch(clearRawData());
+  };
+
   const data = {
     title,
-    date:date.toDate() == null ? null : date.toDate(),
+    date: date.toDate() == null ? null : date.toDate(),
     conferenceName,
     location,
     pages,
@@ -50,7 +71,7 @@ export default function ConferencePaper() {
     comment,
     pdf,
     fileEx,
-    fileUrl
+    fileUrl,
   };
 
   const isFormValid = () => {
@@ -60,10 +81,10 @@ export default function ConferencePaper() {
       location.trim() !== '' &&
       pages.trim() !== '' &&
       comment.trim() !== '' &&
-      (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
+      (pdf.pdfStatus ? (fileUrl != null && fileEx === 'pdf') : true)
     );
   };
-  console.log(date.toDate() )
+
   return (
     <Stack borderRadius={5}>
       <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
@@ -80,6 +101,7 @@ export default function ConferencePaper() {
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            format='DD-MM-YYYY'
             value={date}
             onChange={(newValue) => setDate(dayjs(newValue))} // Convert to Day.js object
             label="Date"
@@ -127,6 +149,7 @@ export default function ConferencePaper() {
           label="Abstract"
           multiline
           rows={4}
+          value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
         <Stack mt={3}>
@@ -135,20 +158,21 @@ export default function ConferencePaper() {
 
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
         <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
-          <Link to='/'><Button
-            color='error'
-            variant='outlined'
-            onClick={handlerCancel}
-
-          >
-            Cancel
-          </Button></Link>
+          <Link to='/'>
+            <Button
+              color='error'
+              variant='outlined'
+              onClick={handlerCancel}
+            >
+              Cancel
+            </Button>
+          </Link>
           <Button
             variant='contained'
             disabled={!isFormValid()}
             onClick={() => {
               if (isFormValid()) {
-                console.log(data)
+                console.log(data);
                 dispatch(addData(data));
                 dispatch(increase());
               } else {

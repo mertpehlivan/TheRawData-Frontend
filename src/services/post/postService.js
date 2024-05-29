@@ -29,7 +29,7 @@ export const getProfilePost = async (token, page, size, uniqueName) => {
       },
 
       params: {
-        page: 0,
+        page: page,
         size: 5
       }
     })
@@ -167,6 +167,17 @@ export const getByType = async (token, type, uniqueName, page) => {
       }
       break;
     default:
+      const res = await axios.get(
+        `${baseUrl}/api/v1/publicationPost/${uniqueName}/getAll`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            size: 5,
+            page: page,
+          },
+        })
       break;
   }
 

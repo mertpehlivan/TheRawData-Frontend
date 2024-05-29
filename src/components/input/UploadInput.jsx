@@ -18,7 +18,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function UploadInput({setChange,only, icon, text, helpText, setPreviewUrl, setPreviewEx, fileId }) {
+export default function UploadInput({only, icon, text, helpText, setPreviewUrl, setPreviewEx, fileId }) {
   const [selectedFile, setSelectedFile] = React.useState(only);
 
   const handleFileChange = (event) => {
@@ -27,7 +27,7 @@ export default function UploadInput({setChange,only, icon, text, helpText, setPr
       setSelectedFile(file);
       const fileUrl = URL.createObjectURL(file);
       setPreviewUrl(fileUrl);
-      setChange(true)
+      
       // Dosya uzantısını alma  
       const fileExtension = file.name.split('.').pop();
       setPreviewEx(fileExtension)
@@ -38,7 +38,7 @@ export default function UploadInput({setChange,only, icon, text, helpText, setPr
   const handleClearFile = () => {
     setSelectedFile(null);
     setPreviewUrl(null);
-    setChange(true)
+   
   };
 
   return (

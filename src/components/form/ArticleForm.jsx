@@ -26,32 +26,46 @@ export default function ArticleForm() {
     const [doi, setDoi] = useState('');
     const [authors, setAuthorIds] = useState([]);
     const [comment, setComment] = useState('');
-    const [year, setYear] = useState()
+    const [year, setYear] = useState('');
     const [url, setUrl] = useState('');
     const [errorUrl, setErrorUrl] = useState('');
-
-
-
-
-
+    const history = useSelector((state) => state.data.value);
     const [pdf, setPdf] = useState({
         pdfStatus: true,
         addOnly: true,
-    })
-    const [fileUrl, setFileUrl] = useState(null)
-    const [fileEx, setFileEx] = useState("")
+    });
+    const [fileUrl, setFileUrl] = useState(null);
+    const [fileEx, setFileEx] = useState("");
 
     useEffect(() => {
-        console.log("dosya ke ", fileEx)
-    }, [fileEx]);
+        if (history) {
+            setTitle(history.title || '');
+            setJournalName(history.journalName || '');
+            setVolume(history.volume || '');
+            setIssue(history.issue || '');
+            setPages(history.pages || '');
+            setDoi(history.doi || '');
+            setComment(history.comment || '');
+            setYear(history.year || '');
+            setUrl(history.url || '');
+            setPdf({
+                pdfStatus: history.pdfStatus !== undefined ? history.pdfStatus : true,
+                addOnly: history.addOnly !== undefined ? history.addOnly : true
+            });
+            setFileUrl(history.fileUrl || null);
+            setFileEx(history.fileEx || "");
+        }
+    }, [history]);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    
     const handlerCancel = () => {
-        dispatch(format())
-        dispatch(clearData())
-        dispatch(clearType())
-        dispatch(clearRawData())
-    }
+        dispatch(format());
+        dispatch(clearData());
+        dispatch(clearType());
+        dispatch(clearRawData());
+    };
+
     const data = {
         title,
         journalName,
@@ -66,16 +80,14 @@ export default function ArticleForm() {
         pdf,
         fileEx,
         fileUrl
-    }
+    };
+
     const isFormValid = () => {
         return title.trim() !== '' &&
             journalName.trim() !== '' &&
-            
             pages.trim() !== '' &&
-            
             comment.trim() !== '' &&
-            (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
-
+            (pdf.pdfStatus ? (fileUrl != null && fileEx === 'pdf') : true);
     };
 
     function validateUrl(url) {
@@ -88,7 +100,7 @@ export default function ArticleForm() {
             '(\\#[-a-z\\d_]*)?$',
             'i'
         );
-        return urlRegex.test(url)
+        return urlRegex.test(url);
     }
 
     const handleUrlChange = (e) => {
@@ -99,17 +111,16 @@ export default function ArticleForm() {
     const handleDelete = (authorId) => {
         setAuthorIds(authors.filter((id) => id !== authorId));
     };
-    const handleNext = () => {
-        // Kontrol edilecek durumlar buraya eklenebilir
-        if (!title || !journalName || !volume || !issue || !pages || !doi || authors.length === 0) {
-            // Stateler boşsa bir uyarı göster veya bir işlem gerçekleştirme
 
-        } else {
-            // Stateler doluysa veriyi ekleyip sayacı arttır
+    const handleNext = () => {
+        if (isFormValid()) {
             dispatch(addData(data));
             dispatch(increase());
+        } else {
+            console.log('Lütfen tüm alanları doldurun.');
         }
     };
+
     return (
         <Stack borderRadius={5} spacing={2} p={3}>
             <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
@@ -188,47 +199,35 @@ export default function ArticleForm() {
                     error={!!errorUrl}
                     helperText={errorUrl}
                 />
-
             </Stack>
             <TextField
+                value={comment}
                 id="outlined-multiline-static"
                 label="Abstract"
                 multiline
                 rows={4}
                 onChange={(e) => setComment(e.target.value)}
             />
-
-            <SearchInputV2 setAuthorIds={setAuthorIds}/>
-            
+            <SearchInputV2 setAuthorIds={setAuthorIds} />
             <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
-
             <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>
                 <Link to='/'>
                     <Button
                         color='error'
                         variant='outlined'
                         onClick={handlerCancel}
-
                     >
                         Cancel
-                    </Button></Link>
+                    </Button>
+                </Link>
                 <Button
                     variant='contained'
-                    disabled={!isFormValid()} // Butonu devre dışı bırak
-                    onClick={() => {
-                        if (isFormValid()) {
-                            dispatch(addData(data));
-                            dispatch(increase());
-                        } else {
-                            // Form geçerli değilse bir uyarı göster veya istediğiniz bir işlemi gerçekleştirin
-                            console.log('Lütfen tüm alanları doldurun.');
-                        }
-                    }}
+                    disabled={!isFormValid()}
+                    onClick={handleNext}
                 >
                     Next
                 </Button>
             </Stack>
-
         </Stack>
     );
 }

@@ -26,9 +26,13 @@ export const getUserBox = async (token) => {
         console.error("User not found")
     }
 }
-export const searchUser = async (token, fullName) => {
+export const searchUser = async (token, fullName,newPage) => {
     try {
         const response = await axios.get(`${baseUrl}/api/v1/user/search?searchTerm=${fullName}`, {
+            params: {
+                page:newPage,
+                size:2,
+            },
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -38,9 +42,14 @@ export const searchUser = async (token, fullName) => {
         console.error("User not found")
     }
 }
-export const searchUserByUniqueName = async (token, uniqueName) => {
+export const searchUserByUniqueName = async (token, uniqueName,newPage) => {
     try {
         const response = await axios.get(`${baseUrl}/api/v1/user/searchByUniqueName?uniqueName=${uniqueName}`, {
+            params: {
+                uniqueName,
+                page:newPage,
+                size:5,
+            },
             headers: {
                 Authorization: `Bearer ${token}`,
             },
