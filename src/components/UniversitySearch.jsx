@@ -49,6 +49,7 @@ const UniversitySearch = ({ setSelected,selected }) => {
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Autocomplete
+        loading={loading}
         open={open}
         onFocus={()=>setOpen(true)}
         onBlur={()=>setOpen(false)}

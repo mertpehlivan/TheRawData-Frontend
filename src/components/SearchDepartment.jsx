@@ -343,6 +343,7 @@ const SearchDepartment = ({searchText, setSearchText}) => {
         noOptionsText={<Button onClick={()=>{setOpen(false)}} fullWidth startIcon={<Add/>} variant="contained" style={{textTransform:"none"}}>Add department:{searchText}</Button>}
         options={filteredOptions} // Filtrelenmiş seçenekler buraya geçirildi
         value={searchText}
+        onSelect={()=>setOpen(false)}
         onChange={(event, newValue) => {
           setSearchText(newValue);
           search(newValue);
