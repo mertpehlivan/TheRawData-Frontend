@@ -36,7 +36,7 @@ export default function BackdropComponent({ handleClose, setImage }) {
           const response = await uploadProfileImage(token, accepted[0]);
           setLoading(false);
           setHelperText("Profile photo uploaded successfully");
-          window.location.reload()
+         
         } catch (error) {
           console.error('Error uploading file:', error);
           setHelperText('Error uploading file. Please try again.');
