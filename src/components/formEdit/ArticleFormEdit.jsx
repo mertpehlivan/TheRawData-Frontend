@@ -33,9 +33,9 @@ export default function ArticleFormEdit() {
     const [year, setYear] = useState()
     const [url, setUrl] = useState('');
     const [errorUrl, setErrorUrl] = useState('');
-    const [data,setData]=useState()
-    const [change,setChange] = useState(false)
-    const [only,setOnly] = useState(false)
+    const [data, setData] = useState()
+    const [change, setChange] = useState(false)
+    const [only, setOnly] = useState(false)
 
     const [pdf, setPdf] = useState({
         pdfStatus: true,
@@ -64,8 +64,8 @@ export default function ArticleFormEdit() {
                 setUrl(data.url)
                 setYear(data.year)
                 setOnly(data.only)
-              
-               
+
+
 
             } catch (error) {
                 console.log(error)
@@ -113,7 +113,7 @@ export default function ArticleFormEdit() {
             }
             const response = await updateArticle(data, token, publicationId)
             window.location.href = window.location.href;
-           
+
         } catch (error) {
             console.log(error)
         }
@@ -121,7 +121,14 @@ export default function ArticleFormEdit() {
     }
 
 
-
+    const handleCommentChange = (e) => {
+        const newComment = e.target.value;
+    
+        // Sınırı kontrol et
+        if (newComment.length <= 2000) {
+          setComment(newComment);
+        }
+      };
 
     const handleDelete = (authorId) => {
         setAuthorIds(authors.filter((id) => id !== authorId));
@@ -210,14 +217,19 @@ export default function ArticleFormEdit() {
                 />
 
             </Stack>
-            <TextField
-                id="outlined-multiline-static"
-                label="Abstract"
-                multiline
-                rows={4}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-            />
+            <Stack>
+                <TextField
+                    id="outlined-multiline-static"
+                    label="Abstract"
+                    multiline
+                    rows={4}
+                    value={comment}
+                    onChange={handleCommentChange}
+                />
+            </Stack>
+            <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+                {comment.length}/2000
+            </div>
             <SearchInputV2 setAuthorIds={setAuthorIds} />
             <PdfForm setChange={setChange} only={only} pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
             <Button disabled={!(title.trim() !== '' &&

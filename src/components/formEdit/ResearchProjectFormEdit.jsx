@@ -86,7 +86,14 @@ export default function ResearchProjectFormEdit() {
   const isFormValid = () => {
     return title.trim() !== '' && date.trim() !== ''
   };
+  const handleCommentChange = (e) => {
+    const newComment = e.target.value;
 
+    // Sınırı kontrol et
+    if (newComment.length <= 2000) {
+      setComment(newComment);
+    }
+  };
   const handleNext = () => {
     if (isFormValid()) {
       dispatch(addData(data));
@@ -97,9 +104,9 @@ export default function ResearchProjectFormEdit() {
     }
   };
   if (loading) {
-    return(
+    return (
       <Stack justifyContent="center" alignItems="center">
-        <CircularProgress/>
+        <CircularProgress />
       </Stack>
     )
   }
@@ -171,18 +178,23 @@ export default function ResearchProjectFormEdit() {
         />
       </Stack>
       <Stack mx={4} my={2}>
-        <TextField
-          value={comment}
-          id="outlined-multiline-static"
-          label="Abstract"
-          multiline
-          rows={4}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        <Stack>
+          <TextField
+            id="outlined-multiline-static"
+            label="Abstract"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+          />
+        </Stack>
+        <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+          {comment.length}/2000
+        </div>
         <SearchInputV2 role="Research Project" setAuthorIds={setAuthorIds} handleRole={handleRole} />
 
       </Stack>
-      <Button startIcon={<Save />} variant='contained' onClick={ update}>Save</Button>
+      <Button startIcon={<Save />} variant='contained' onClick={update}>Save</Button>
     </Stack>
   );
 }

@@ -58,7 +58,7 @@ export default function ArticleForm() {
     }, [history]);
 
     const dispatch = useDispatch();
-    
+
     const handlerCancel = () => {
         dispatch(format());
         dispatch(clearData());
@@ -102,7 +102,12 @@ export default function ArticleForm() {
         );
         return urlRegex.test(url);
     }
-
+    const handleCommentChange = (e) => {
+        const newComment = e.target.value;
+        if (newComment.length <= 2000) {
+          setComment(newComment);
+        }
+      };
     const handleUrlChange = (e) => {
         setUrl(e.target.value);
         setErrorUrl(validateUrl(e.target.value) ? null : 'Please enter a valid URL');
@@ -200,14 +205,19 @@ export default function ArticleForm() {
                     helperText={errorUrl}
                 />
             </Stack>
-            <TextField
-                value={comment}
-                id="outlined-multiline-static"
-                label="Abstract"
-                multiline
-                rows={4}
-                onChange={(e) => setComment(e.target.value)}
-            />
+            <Stack>
+                <TextField
+                    id="outlined-multiline-static"
+                    label="Abstract"
+                    multiline
+                    rows={4}
+                    value={comment}
+                    onChange={handleCommentChange}
+                />
+            </Stack>
+            <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+                {comment.length}/2000
+            </div>
             <SearchInputV2 setAuthorIds={setAuthorIds} />
             <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
             <Stack height={"100%"} direction="row" justifyContent="end" alignItems="end" spacing={2}>

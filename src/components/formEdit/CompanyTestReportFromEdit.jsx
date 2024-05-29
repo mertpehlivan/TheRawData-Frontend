@@ -22,7 +22,7 @@ export default function CompanyTestReportFromEdit() {
   const [comment, setComment] = useState('');
   const [authors, setAuthorIds] = useState([]);
 
-  
+
   const dispatch = useDispatch();
   const handlerCancel = () => {
     dispatch(format())
@@ -30,6 +30,14 @@ export default function CompanyTestReportFromEdit() {
     dispatch(clearType())
     dispatch(clearRawData())
   }
+  const handleCommentChange = (e) => {
+    const newComment = e.target.value;
+
+    // Sınırı kontrol et
+    if (newComment.length <= 2000) {
+      setComment(newComment);
+    }
+  };
   const data = {
     title,
     date,
@@ -40,7 +48,7 @@ export default function CompanyTestReportFromEdit() {
   };
 
   const isFormValid = () => {
-    return title.trim() !== '' && date.trim() !== '' && companyName.trim() !== '' && comment.trim() !== '' 
+    return title.trim() !== '' && date.trim() !== '' && companyName.trim() !== '' && comment.trim() !== ''
   };
 
   return (
@@ -77,13 +85,19 @@ export default function CompanyTestReportFromEdit() {
       </Stack>
 
       <Stack mx={4} my={2}>
-        <TextField
-          id="outlined-multiline-static"
-          label="Abstract"
-          multiline
-          rows={4}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        <Stack>
+          <TextField
+            id="outlined-multiline-static"
+            label="Abstract"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+          />
+        </Stack>
+        <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+          {comment.length}/2000
+        </div>
         <SearchInput setAuthorIds={setAuthorIds} authorIds={authors} />
 
       </Stack>

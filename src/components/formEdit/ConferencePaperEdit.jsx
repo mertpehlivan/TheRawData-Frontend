@@ -29,7 +29,7 @@ export default function ConferencePaperEdit() {
   const { publicationId } = useParams();
   const [loading, setLoading] = useState(false)
   const { token } = useUserContext()
-  const [author,setAuthor] = useState([])
+  const [author, setAuthor] = useState([])
   useEffect(() => {
     const fetch = async () => {
       setLoading(true)
@@ -50,10 +50,10 @@ export default function ConferencePaperEdit() {
   }, []);
 
   const dispatch = useDispatch();
-  const handelSave = async () =>{
-    const response = updateConferencePaper(data,token,publicationId)
+  const handelSave = async () => {
+    const response = updateConferencePaper(data, token, publicationId)
     window.location.href = window.location.href;
-  } 
+  }
   const handlerCancel = () => {
     dispatch(format())
     dispatch(clearData())
@@ -89,7 +89,14 @@ export default function ConferencePaperEdit() {
     </Stack>)
   }
 
+  const handleCommentChange = (e) => {
+    const newComment = e.target.value;
 
+    // Sınırı kontrol et
+    if (newComment.length <= 2000) {
+      setComment(newComment);
+    }
+  };
   return (
     <Stack borderRadius={5}>
       <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
@@ -148,20 +155,26 @@ export default function ConferencePaperEdit() {
         />
       </Stack>
       <Stack mx={4} my={2}>
-        <TextField
-          id="outlined-multiline-static"
-          label="Abstract"
-          multiline
-          rows={4}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        <Stack>
+          <TextField
+            id="outlined-multiline-static"
+            label="Abstract"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+          />
+        </Stack>
+        <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+          {comment.length}/2000
+        </div>
         <Stack mt={3}>
-          <SearchInputV2 setAuthorIds={setAuthorIds}/>
+          <SearchInputV2 setAuthorIds={setAuthorIds} />
         </Stack>
 
 
       </Stack>
-      <Button variant='contained' onClick={handelSave} startIcon={<Save/>} >Save</Button>
+      <Button variant='contained' onClick={handelSave} startIcon={<Save />} >Save</Button>
     </Stack>
   );
 }

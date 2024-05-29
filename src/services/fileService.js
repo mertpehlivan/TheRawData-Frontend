@@ -19,6 +19,6 @@ export const uploadProfileImage = async (token, file) => {
 
         return response.data
     } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error('Error uploading file:', error.response);
     }
 }

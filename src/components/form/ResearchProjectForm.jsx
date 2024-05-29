@@ -58,7 +58,12 @@ export default function ResearchProjectForm() {
     return title.trim() !== '' &&
       (pdf.pdfStatus == true ? (fileUrl != null ? (fileEx === "pdf" ? true : false) : false) : true)
   };
- 
+  const handleCommentChange = (e) => {
+    const newComment = e.target.value;
+    if (newComment.length <= 2000) {
+      setComment(newComment);
+    }
+  };
   const handleNext = () => {
     const data = {
       title,
@@ -152,14 +157,19 @@ export default function ResearchProjectForm() {
         />
       </Stack>
       <Stack mx={4} my={2}>
-        <TextField
-          value={comment}
-          id="outlined-multiline-static"
-          label="Abstract"
-          multiline
-          rows={4}
-          onChange={(e) => setComment(e.target.value)}
-        />
+      <Stack>
+          <TextField
+            id="outlined-multiline-static"
+            label="Abstract"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+          />
+        </Stack>
+        <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+          {comment.length}/2000
+        </div>
         <SearchInputV2 role="Research Project" setAuthorIds={setAuthorIds} handleRole={handleRole} />
         <PdfForm pdf={pdf} setFileEx={setFileEx} setFileUrl={setFileUrl} setPdf={setPdf} />
       </Stack>

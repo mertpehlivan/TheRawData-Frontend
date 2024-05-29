@@ -30,7 +30,7 @@ export default function ChapterInABookEdit() {
   const [isbn, setIsbn] = useState('');
   const [editor, setEditor] = useState('');
   const [comment, setComment] = useState('');
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [authors, setAuthorIds] = useState([]);
 
   const { token } = useUserContext()
@@ -55,7 +55,14 @@ export default function ChapterInABookEdit() {
     }
     fetchPublication()
   }, []);
+  const handleCommentChange = (e) => {
+    const newComment = e.target.value;
 
+    // Sınırı kontrol et
+    if (newComment.length <= 2000) {
+      setComment(newComment);
+    }
+  };
   const dispatch = useDispatch()
   const handlerCancel = () => {
     dispatch(format())
@@ -90,22 +97,22 @@ export default function ChapterInABookEdit() {
       comment.trim() !== ''
 
   };
-  const updatePublication = async () =>{
-    const response = await updateChapterInABook(data,token,publicationId)
+  const updatePublication = async () => {
+    const response = await updateChapterInABook(data, token, publicationId)
     window.location.href = window.location.href;
   }
   const handleDelete = (authorId) => {
     setAuthorIds(authors.filter((id) => id !== authorId));
   };
-  if(loading){
-    return(<Stack>
+  if (loading) {
+    return (<Stack>
       <Typography>Loading</Typography>
     </Stack>)
   }
   return (
     <Stack borderRadius={5}>
       <Stack direction='row' alignItems='center' justifyContent='center' mt={2}>
-      <Icon icon="material-symbols:article"  color='#091582' width={50} height={50} />
+        <Icon icon="material-symbols:article" color='#091582' width={50} height={50} />
         <Typography color="primary.main" variant='h3'>Chapter in a Book</Typography>
       </Stack>
       <Stack mx={4} spacing={5} mt={2} direction='row'>
@@ -189,13 +196,19 @@ export default function ChapterInABookEdit() {
       </Stack>
 
       <Stack mx={4} my={2}>
-        <TextField
-          id="outlined-multiline-static"
-          label="Abstract"
-          multiline
-          rows={4}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        <Stack>
+          <TextField
+            id="outlined-multiline-static"
+            label="Abstract"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+          />
+        </Stack>
+        <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+          {comment.length}/2000
+        </div>
         <Stack mt={3}>
           <SearchInputV2 setAuthorIds={setAuthorIds} />
         </Stack>
@@ -203,7 +216,7 @@ export default function ChapterInABookEdit() {
 
 
       </Stack>
-      <Button onClick={updatePublication} startIcon={<Save/>} variant='contained'>Save</Button>
+      <Button onClick={updatePublication} startIcon={<Save />} variant='contained'>Save</Button>
     </Stack>
   );
 }

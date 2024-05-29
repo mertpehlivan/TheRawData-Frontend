@@ -82,7 +82,12 @@ export default function ChapterInABook() {
     fileEx,
     fileUrl
   };
-
+  const handleCommentChange = (e) => {
+    const newComment = e.target.value;
+    if (newComment.length <= 2000) {
+      setComment(newComment);
+    }
+  };
   const isFormValid = () => {
     return title.trim() !== '' &&
       chapterNumber.trim() !== '' &&
@@ -185,14 +190,19 @@ export default function ChapterInABook() {
         />
       </Stack>
       <Stack mx={4} my={2}>
-        <TextField
-          id="outlined-multiline-static"
-          label="Abstract"
-          multiline
-          rows={4}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        <Stack>
+          <TextField
+            id="outlined-multiline-static"
+            label="Abstract"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+          />
+        </Stack>
+        <div style={{ textAlign: 'right', color: comment.length > 2000 ? 'red' : 'inherit' }}>
+          {comment.length}/2000
+        </div>
         <Stack mt={3}>
           <SearchInputV2 setAuthorIds={setAuthorIds} />
         </Stack>
