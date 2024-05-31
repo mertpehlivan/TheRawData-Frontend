@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, IconButton, InputAdornment, LinearProgress, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Button, Checkbox, IconButton, InputAdornment, LinearProgress, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 import UpdatePreviewImage from '../input/UpdatePreviewImage';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,8 +30,8 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
   const { token } = useUserContext()
   const [uploud, setUploud] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0);
-
-  const isSaveDisabled = !name || !priceSuggestion || !rawDataUrl || !previewUrl;
+  const [checkFree, setCheckFree] = useState(false)
+  const isSaveDisabled = !name || (!checkFree && priceSuggestion == 0) || !rawDataUrl || !previewUrl;
 
   const uplodRawData = (data) => {
     setRawData(data)
@@ -41,7 +41,12 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
   }
 
 
-
+  const handleCheck = (e) => {
+    setCheckFree(e.target.checked)
+    if (e.target.checked) {
+      setPriceSuggestion(0)
+    }
+  }
 
   const handleSave = async () => {
 
@@ -65,9 +70,9 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
 
     }).then(async (response) => {
       handleData(response.data)
-    
+
       handleClose(); refreshHandler()
-    }).catch(e=>{
+    }).catch(e => {
       console.error(e);
     })
 
@@ -92,7 +97,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
             <Typography>Uploud completed</Typography>
             <Typography>Raw data : {name}</Typography>
             <Typography>{comment}</Typography>
-            <Button startIcon={<Add/>} variant='outlined' onClick={() => { handleClose(); refreshHandler()}}>Now Add Raw Data</Button>
+            <Button startIcon={<Add />} variant='outlined' onClick={() => { handleClose(); refreshHandler() }}>Now Add Raw Data</Button>
           </Stack>
 
         }
@@ -115,7 +120,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
               color="success"
               size="small"
               onClick={() => handleSave()}
-              disabled={name == ""  || priceSuggestion == "" || previewImage == null || rawData == null}
+              disabled={isSaveDisabled}
             >
               <UploadOutlined sx={{ color: "white" }} />
             </Button>
@@ -201,6 +206,7 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
                 }}
               />
               <TextField
+                disabled={checkFree}
                 label="Price Suggestion"
                 size="small"
                 InputProps={{
@@ -211,6 +217,10 @@ export default function UpdateRawData({ boxKey, headerIndex, handleClose, fileId
                   setPriceSuggestion(e.target.value);
                 }}
               />
+              <Stack direction="row" alignItems="center" justifyContent="flex-start">
+                <Checkbox checked={checkFree} onChange={handleCheck} />
+                <Typography>Free data</Typography>
+              </Stack>
             </Stack>
 
         }

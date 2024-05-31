@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@thednp/dommatrix": "^2.0.6",
     "add": "^2.0.6",
+    "autosuggest-highlight": "^3.3.4",
     "axios": "^1.6.1",
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^3.6.0",

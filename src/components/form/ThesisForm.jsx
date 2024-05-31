@@ -197,7 +197,7 @@ export default function ThesisForm() {
           }}
         />
       </Stack>
-      <SearchDepartment />
+      <SearchDepartment searchText={department} setSearchText={setDepartment}/>
       <Stack>
         <TextField
           id="outlined-multiline-static"

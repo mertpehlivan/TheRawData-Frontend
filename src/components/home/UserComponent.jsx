@@ -12,7 +12,17 @@ export default function UserComponent() {
 
   const { token, user } = useUserContext();
   const dispatch = useDispatch()
-
+  const sliceTre = (string) => {
+    if (string) {
+      const str = ""
+      let index = string.split("-"); // " - " ifadesinin bitiş konumu
+      let result = index[1]
+      console.log(result)
+      return result
+    } else {
+      return ""
+    }
+  }
   return (
     <Stack direction="row" spacing={2} bgcolor="background.default" borderRadius={3} p={2}>
       {loading ? (
@@ -32,9 +42,18 @@ export default function UserComponent() {
           </Typography>
         </Stack>
 
-        <Stack direction="row">
-          <Icon icon="mdi:location" />
+        <Stack direction="row" alignItems="center" spacing={1}>
+
+          {loading ? <Skeleton width={15} /> : <img
+            loading="lazy"
+            width="20"
+            height="15"
+            srcSet={`https://flagcdn.com/w40/${sliceTre(user.country).toLowerCase()}.png 2x`}
+            src={`https://flagcdn.com/w20/${sliceTre(user.country).toLowerCase()}.png`}
+            alt=""
+          />}
           <Typography color="gray">
+
             {loading ? <Skeleton width={100} /> : user.country}
           </Typography>
         </Stack>

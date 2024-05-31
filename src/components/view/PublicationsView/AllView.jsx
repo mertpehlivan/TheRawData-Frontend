@@ -28,7 +28,7 @@ export default function AllView({ setLoading, loading }) {
         setDatas((prev) => page === 0 ? response.data : [...prev, ...response.data]);
 
       }
-      if (response.length < size) {
+      if (response.data.length < size || response.length < size) {
         setNoMore(true);
       } else {
         setNoMore(false);

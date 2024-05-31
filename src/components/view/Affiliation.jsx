@@ -14,7 +14,21 @@ const Affiliation = ({ userStatus }) => {
     const [refre, setRefre] = useState(0)
     const { token } = useUserContext()
     const [imageLoading, setImageLoading] = useState(false)
-    const {username} = useParams()
+    const { username } = useParams()
+
+    const sliceTre = (string) => {
+        if (string) {
+            const str = ""
+            let index = string.split("-"); // " - " ifadesinin bitiş konumu
+            let result = index[1]
+            console.log(result)
+            return result
+        } else {
+            return ""
+        }
+    }
+
+
     useEffect(() => {
         const getFetch = async () => {
             setLoading(true)
@@ -31,25 +45,6 @@ const Affiliation = ({ userStatus }) => {
     const refresh = () => {
         setRefre(prev => prev + 1)
     }
-    // const imageGenerator = async (imageName) => {
-    //     setImageLoading(true);
-    //     try {
-    //         const response = await axios.get(`http://universities.hipolabs.com/search?name=${imageName}`);
-    //         console.log(response.data)
-    //         // console.log("Response:", response); // Ekleyin
-    //         // if (response.data && response.data.web_pages && response.data.web_pages.length > 0) {
-    //         //     setImageLoading(false);
-    //         //     console.log(response.data.web_pages[0])
-    //         //     return `https://logo.clearbit.com/${response.web_pages[0]}`;
-    //         // } else {
-    //         //     throw new Error("Invalid response data or missing web pages.");
-    //         // }
-    //     } catch (error) {
-    //         console.error("Error fetching image:", error);
-    //         setImageLoading(false);
-    //         return null;
-    //     }
-    // };
 
 
     const addAffilation = (data) => {
@@ -127,16 +122,38 @@ const Affiliation = ({ userStatus }) => {
             {affilation.map((data, index) => (
                 <Stack p={1} spacing={1} key={index}>
                     <Stack direction="row" spacing={1}>
-                         <AccountBalance sx={{color:"primary.main", width:40,height:40}} />
+                        <AccountBalance sx={{ color: "primary.main", width: 40, height: 40 }} />
                         <Stack>
                             <Typography>{data.university}</Typography>
                             <Typography fontStyle="italic" variant='body2' color="gray">{dateChange(data.startDate)} - {dateChange(data.endDate)}</Typography>
+
+
                             <Stack>
-                                <Typography>Location</Typography>
-                                <Typography fontStyle="italic" variant='body2' color="gray">{data.location}</Typography>
+                                <Typography>
+                                    Location
+
+                                </Typography>
+                                <Stack direction="row" spacing={1} alignItems="center">
+
+                                    <Typography fontStyle="italic" variant='body2' color="gray">{data.location}</Typography>
+                                    <img
+                                        loading="lazy"
+                                        width="15"
+                                        height="10"
+                                        srcSet={`https://flagcdn.com/w40/${sliceTre(data.location).toLowerCase()}.png 2x`}
+                                        src={`https://flagcdn.com/w20/${sliceTre(data.location).toLowerCase()}.png`}
+                                        alt=""
+                                    />
+                                </Stack>
+
+
                             </Stack>
+
                             <Stack>
-                                <Typography>Department</Typography>
+                                <Stack>
+                                    <Typography>Department  </Typography>
+                                </Stack>
+
                                 <Typography fontStyle="italic" variant='body2' color="gray">{data.department == null || data.department == "" ? "-" : data.department}</Typography>
                             </Stack>
                             <Stack>

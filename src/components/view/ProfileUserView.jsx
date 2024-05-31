@@ -6,9 +6,9 @@ import { useUserContext } from '../../hooks/AuthProvider';
 import { useParams } from 'react-router-dom';
 import FollowButton from '../button/FollowButton';
 
-export default function ProfileUserView({setUserStatus}) {
-    const baseUrl = process.env.REACT_APP_BASE_URL
-    const prop = useUserContext()
+export default function ProfileUserView({ setUserStatus }) {
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+    const prop = useUserContext();
     const [user, setUser] = useState({
         id: null,
         firstname: "",
@@ -16,18 +16,18 @@ export default function ProfileUserView({setUserStatus}) {
         email: "",
         country: "",
         followers: "",
-        following: ""
+        following: "",
+        publications: ""
     });
-  
-    const { username } = useParams();
     const [loading, setLoading] = useState(true);
 
-    const { token} = useUserContext();
+    const { username } = useParams();
+    const { token } = useUserContext();
 
     useEffect(() => {
+        setLoading(true); // İstek başlatıldığında loading durumunu true olarak ayarla
         getUser(token, username)
             .then((res) => {
-                console.log(res);
                 setUser({
                     firstname: res.data.firstname,
                     lastname: res.data.lastname,
@@ -39,27 +39,37 @@ export default function ProfileUserView({setUserStatus}) {
                     image: res.data.profileImageUrl,
                     publications: res.data.publications,
                     academicDegree: res.data.academicDegree,
-                    university : res.data.university,
+                    university: res.data.university,
                     department: res.data.department
                 });
                 setUserStatus({
-                    id:res.data.id,
-                    status: prop.user.uniqueName == username
-                })
+                    id: res.data.id,
+                    status: prop.user.uniqueName === username
+                });
             })
             .catch(() => { })
             .finally(() => {
-                setLoading(false);
+                setLoading(false); // İstek tamamlandığında loading durumunu false olarak ayarla
             });
-    }, [token,username]);
-
+    }, [token, username]);
+    const sliceTre = (string) => {
+        if (string) {
+            const str = ""
+            let index = string.split("-"); // " - " ifadesinin bitiş konumu
+            let result = index[1]
+            console.log(result)
+            return result
+        } else {
+            return ""
+        }
+    }
     return (
         <Stack direction="row" spacing={2} bgcolor="background.default" borderRadius={3} p={2} justifyContent="space-between">
             <Stack direction="row" spacing={2}>
                 {loading ? (
                     <Skeleton variant="circular" width={50} height={50} />
                 ) : (
-                    <Avatar  src={`${baseUrl}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '100px', height: '100px' }} />
+                    <Avatar src={`${baseUrl}/api/v1/auth/profileImage/${user.image}`} sx={{ width: '100px', height: '100px' }} />
                 )}
 
                 <Stack>
@@ -67,51 +77,56 @@ export default function ProfileUserView({setUserStatus}) {
                         {loading ? <Skeleton width={100} /> : `${user.firstname} ${user.lastname}`}
                     </Typography>
                     <Typography color="gray">
-                        {loading ? <Skeleton width={200} /> : user.department && user.academicDegree  && `in ${user.department} ${user.academicDegree}`}
+                        {loading ? <Skeleton width={200} /> : user.department && user.academicDegree && `in ${user.department} ${user.academicDegree}`}
                     </Typography>
                     <Typography color="gray">
-                        {loading ? <Skeleton width={250} /> : user.university  && `at ${user.university}`}
+                        {loading ? <Skeleton width={250} /> : user.university && `at ${user.university}`}
                     </Typography>
                     <Stack direction="row">
-                        <Icon icon="mdi:location" />
-                        <Typography color="gray">
-                            {loading ? <Skeleton width={100} /> : user.country && user.country}
-                        </Typography>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                           {loading ? <Skeleton width={15} /> : <img
+                                loading="lazy"
+                                width="20"
+                                height="15"
+                                srcSet={`https://flagcdn.com/w40/${sliceTre(user.country).toLowerCase()}.png 2x`}
+                                src={`https://flagcdn.com/w20/${sliceTre(user.country).toLowerCase()}.png`}
+                                alt=""
+                            />}
+                            {loading ? <Skeleton width={100} /> : user.country && <Typography> {user.country}</Typography>}
+                        </Stack>
                     </Stack>
                 </Stack>
             </Stack>
             <Stack>
-
-            </Stack>
-            <Stack justifyContent="center" alignItems="center" spacing={2}>
-                <Stack alignItems="center" direction="row" p={2} spacing={1} border="1px solid" borderRadius={2} borderColor="primary.main">
-                    <Stack alignItems="center">
-                        <Typography>
-                            Followers
-                        </Typography>
-                        <Typography>
-                            {user.followers}
-                        </Typography>
+                <Stack justifyContent="center" alignItems="center" spacing={2}>
+                    <Stack alignItems="center" direction="row" p={2} spacing={1} border="1px solid" borderRadius={2} borderColor="primary.main">
+                        <Stack alignItems="center">
+                            <Typography>
+                                Followers
+                            </Typography>
+                            <Typography>
+                                {loading ? <Skeleton width={50} /> : user.followers}
+                            </Typography>
+                        </Stack>
+                        <Stack alignItems="center">
+                            <Typography>
+                                Following
+                            </Typography>
+                            <Typography>
+                                {loading ? <Skeleton width={50} /> : user.following}
+                            </Typography>
+                        </Stack>
+                        <Stack alignItems="center">
+                            <Typography>
+                                Publications
+                            </Typography>
+                            <Typography>
+                                {loading ? <Skeleton width={50} /> : user.publications}
+                            </Typography>
+                        </Stack>
                     </Stack>
-                    <Stack alignItems="center">
-                        <Typography>
-                            Following
-                        </Typography>
-                        <Typography>
-                            {user.following}
-                        </Typography>
-                    </Stack>
-                    <Stack alignItems="center">
-                        <Typography>
-                            Publications
-                        </Typography>
-                        <Typography>
-                            {user.publications}
-                        </Typography>
-                    </Stack>
-
+                    {(prop.user.uniqueName !== username && !loading) && <FollowButton followingId={user.id} />}
                 </Stack>
-                {prop.user.uniqueName != username && <FollowButton followingId={user.id} />}
             </Stack>
 
         </Stack>

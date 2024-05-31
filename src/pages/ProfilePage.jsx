@@ -62,8 +62,6 @@ export default function ProfilePage() {
         )
     }
 
-
-
     return (
         <div>
             <Container maxWidth="lg">

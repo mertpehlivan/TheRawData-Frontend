@@ -8,6 +8,7 @@ import AlertDialog from '../view/AlertDialog';
 import { format, increase } from '../../store/pageNumberSlice';
 import { clearData } from '../../store/dataSlice';
 import { clearRawData } from '../../store/rawDataSlice';
+import { DeveloperMode } from '@mui/icons-material';
 
 export default function () {
     const dataType = useSelector((state) => state.newDataType.value)
@@ -86,6 +87,7 @@ export default function () {
                             Research Project
                         </Button>
                         <Button
+                            disabled={true}
                             startIcon={<Icon icon="octicon:report-24" />}
                             variant="outlined"
                             onClick={() => handleButtonClick("Company Test Report")}
@@ -94,6 +96,13 @@ export default function () {
                             }}
                         >
                             Company Test Report
+                            <Stack direction="row" alignItems="center">
+                                <DeveloperMode sx={{color:"gray"}}/>
+                                <Typography color="gray" sx={{ textDecorationLine: "underline", textDecorationStyle: "dashed", textTransform: "lowercase" }}>
+                                    Planned
+                                </Typography>
+                            </Stack>
+
                         </Button>
                         <Stack direction="row" justifyContent="end" spacing={1}>
                             <Link to='/home'><Button
@@ -113,7 +122,7 @@ export default function () {
                             </Button>
                         </Stack>
 
-                            
+
                     </Stack>
                 </Grid>
             </Grid>

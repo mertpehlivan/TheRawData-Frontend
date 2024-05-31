@@ -200,7 +200,7 @@ export default function ThesisFormEdit() {
         />
       </Stack>
 
-      <SearchDepartment setDepartment={setDepartment} />
+      <SearchDepartment searchText={department}  setSearchText={setDepartment} />
 
 
 

@@ -11,6 +11,7 @@ import { signUp } from '../services/userAuthentication'
 import { ArrowBack, BackHand, Dangerous, ForkLeftOutlined, SwipeLeftAlt } from '@mui/icons-material'
 import { useUserContext } from '../hooks/AuthProvider'
 import Footer from '../components/Footer'
+import CountrySelect from '../components/myaccount/CountrySelect'
 
 const validationSchema = yup.object({
   firstname: yup
@@ -22,9 +23,6 @@ const validationSchema = yup.object({
   uniqueName: yup
     .string("Enter your Username")
     .required("Username is required"),
-  country: yup
-    .string("Enter your country")
-    .required("Country is required"),
   email: yup
     .string('Enter your email')
     .email('Enter a valid email')
@@ -56,7 +54,7 @@ export default function SignUpPage() {
       setIsLoading(true);
       signUp(values)
         .then((res) => {
-          
+
           navigate("/login")
 
         }).catch((e) => {
@@ -120,9 +118,10 @@ export default function SignUpPage() {
                 error={formik.touched.uniqueName && Boolean(formik.errors.uniqueName)}
                 helperText={formik.touched.uniqueName && formik.errors.uniqueName}
               />
-              <Select
+              {/* <Select
+                
                 name='country'
-                sx={{ mt: 3 }}
+                sx={{ mt: 3 , overflow:"none"}}
                 size='small'
                 placeholder='country'
                 value={formik.values.country}
@@ -136,7 +135,11 @@ export default function SignUpPage() {
                     {country}
                   </MenuItem>
                 ))}
-              </Select>
+              </Select> */}
+              <CountrySelect
+                select={formik.values.country} // Seçili ülke değerini props olarak geçirin
+                setSelect={(value) => formik.setFieldValue('country', value)} // Seçili ülke değerini formik state'ine kaydedin
+              />
               <TextField
                 name='email'
                 type='email'

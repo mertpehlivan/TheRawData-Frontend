@@ -18,14 +18,14 @@ export default function UploadBox({ boxKey, headerIndex }) {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [comment, setComment] = useState('');
-  const [priceSuggestion, setPriceSuggestion] = useState('');
+  const [comment, setComment] = useState("");
+  const [priceSuggestion, setPriceSuggestion] = useState(0);
   const [rawDataUrl, setRawDataUrl] = useState('');
   const [rawDataEx, setRawDataEx] = useState('');
   const [previewEx, setPreviewEx] = useState('');
   const [isSave, setIsSave] = useState(false)
   const [checkFree, setCheckFree] = useState(false)
-  const isSaveDisabled = !name || !priceSuggestion || !rawDataUrl || !previewUrl;
+  const isSaveDisabled = !name || (!checkFree && priceSuggestion == 0) || !rawDataUrl || !previewUrl;
   const rawdata = useSelector((state) => state.rawData)
   const handleCheck = (e) => {
     setCheckFree(e.target.checked)

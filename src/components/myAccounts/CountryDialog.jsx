@@ -12,6 +12,7 @@ import { Button, CircularProgress, MenuItem, Select, Stack } from '@mui/material
 import axios from 'axios';
 import { changeCountry } from '../../services/userService';
 import { useNavigate } from 'react-router-dom';
+import CountrySelect from '../myaccount/CountrySelect';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -46,9 +47,7 @@ export default function CountryDialog({ handleClickCountryChange, handleCloseCou
 
     return (
         <React.Fragment>
-            <Button variant="outlined" onClick={handleCloseCountryChange}>
-                Open dialog
-            </Button>
+
             <BootstrapDialog
                 onClose={handleCloseCountryChange}
                 aria-labelledby="customized-dialog-title"
@@ -71,21 +70,7 @@ export default function CountryDialog({ handleClickCountryChange, handleCloseCou
                 </IconButton>
                 <DialogContent dividers>
                     <Stack width={300} spacing={1}>
-                        <Select
-                            name='country'
-                            size='small'
-                            placeholder='Country'
-                            defaultValue='Select Country'
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
-                            fullWidth
-                        >
-                            {countries.map((country, index) => (
-                                <MenuItem key={index} value={country}>
-                                    {country}
-                                </MenuItem>
-                            ))}
-                        </Select>
+                        <CountrySelect select={country} setSelect={setCountry} />
                         <Button
                             disabled={country === ""}
                             onClick={countryChangeFetch}

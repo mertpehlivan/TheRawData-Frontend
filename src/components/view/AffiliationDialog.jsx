@@ -19,6 +19,7 @@ import { setDate } from 'date-fns';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import CountrySelect from '../myaccount/CountrySelect';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -38,7 +39,7 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
     const [startDate, setStartDate] = useState(dayjs(""))
     const [endDate, setEndDate] = useState(dayjs(""))
     const [check, setCheck] = useState(false)
-    const [depeartment, setDepeartment] = useState("Computer Engineering");
+    const [depeartment, setDepeartment] = useState("");
     const [location, setLocation] = useState("")
     const [position, setPosition] = useState("")
     const [saveLoading, setSaveLoading] = useState(false)
@@ -231,7 +232,7 @@ export default function AffiliationDialog({ refresh, affiliation, setAffiliation
                             <Typography>I currently work here</Typography>
                         </Stack>
 
-                        <TextField value={location} onChange={(e) => setLocation(e.target.value)} label="Country" size='small' />
+                        <CountrySelect select={location} setSelect={setLocation}/>
                         <SearchDepartment searchText={depeartment} setSearchText={setDepeartment} />
                         <FormLabel>Position</FormLabel>
                         <Select size='small' value={position} onChange={(e) => setPosition(e.target.value)}>

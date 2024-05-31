@@ -16,7 +16,7 @@ export default function FilterButton({ username, title }) {
       setLoading(false)
     }
     counFetch()
-  }, []);
+  }, [username]);
   return (
     <Stack
       bgcolor="background.default"
