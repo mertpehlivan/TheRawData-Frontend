@@ -54,14 +54,14 @@ export default function ProfileUserView({ setUserStatus }) {
     }, [token, username]);
     const sliceTre = (string) => {
         if (string) {
-            const str = ""
-            let index = string.split("-"); // " - " ifadesinin bitiş konumu
-            let result = index[1]
-            console.log(result)
-            return result
-        } else {
-            return ""
+            const parts = string.split("-");
+            if (parts.length > 1) {
+                const result = parts[1].toLowerCase();
+                console.log(result);
+                return result;
+            }
         }
+        return "";
     }
     return (
         <Stack direction="row" spacing={2} bgcolor="background.default" borderRadius={3} p={2} justifyContent="space-between">
@@ -84,7 +84,7 @@ export default function ProfileUserView({ setUserStatus }) {
                     </Typography>
                     <Stack direction="row">
                         <Stack direction="row" spacing={1} alignItems="center">
-                           {loading ? <Skeleton width={15} /> : <img
+                            {loading ? <Skeleton width={15} /> : <img
                                 loading="lazy"
                                 width="20"
                                 height="15"

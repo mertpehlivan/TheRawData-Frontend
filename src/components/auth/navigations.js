@@ -14,7 +14,7 @@ import AllView from "../view/PublicationsView/AllView";
 import MyAccountPage from "../../pages/MyAccountPage";
 import LibraryBox from "../view/LibraryBox";
 import SearchComponent from "../home/SearchComponent";
-
+import DisgnPage from'../../pages/DisgnPage'
 import PaymentPage from "../../pages/PaymentPage";
 import ForgetPasswordPage from "../../pages/ForgetPasswordPage";
 import AboutUs from "../../pages/AboutUs";
@@ -159,6 +159,20 @@ export const nav = [
         element: <NewDataPage />,
         isMenu: true,
         isPrivate: true,
+        children: []
+    },
+    {
+        path: "/disgn",
+        element: <DisgnPage />,
+        isMenu: false,
+        isPrivate: true,
+        children: []
+    },
+    {
+        path: "/disgn",
+        element: <DisgnPage />,
+        isMenu: false,
+        isPrivate: false,
         children: []
     },
     {

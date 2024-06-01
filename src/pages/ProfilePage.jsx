@@ -25,6 +25,7 @@ export default function ProfilePage() {
     const [noMore, setNoMore] = useState(false)
     const [loadUser, setLoadUser] = useState(false)
     const [notUser, setNotUser] = useState(false)
+    
     useEffect(() => {
         const fetch = async () => {
             setLoadUser(true)

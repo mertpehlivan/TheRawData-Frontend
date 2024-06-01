@@ -5,7 +5,7 @@ import { Box, CircularProgress, Container, Stack, Typography } from '@mui/materi
 import { Book } from '@mui/icons-material';
 import { AuthRoutes } from '../components/auth/AuthRoutes';
 import Navbar from '../components/Navbar'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 const UserContext = createContext();
 export const useUserContext = () => useContext(UserContext);
@@ -18,12 +18,13 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
-
+  const location = useLocation()
+  
 
   useEffect(() => {
     const checkAuth = async () => {
       setIsLoading(true);
-
+      console.log("location",location.pathname)
       try {
         const authToken = localStorage.getItem("access-token");
 
@@ -71,7 +72,7 @@ const AuthProvider = ({ children }) => {
       value={{ isLoading, user, userId, setUserId, token, setToken, authenticated, setAuthenticated }}
     >
       <>
-        {authenticated && <Navbar />}
+        {authenticated && location.pathname != "/disgn" && <Navbar />}
         {user.emailVerfiactionStatus === false && authenticated && <Navigate to="/email-verification" />}
         <AuthRoutes />
         
