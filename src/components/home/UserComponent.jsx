@@ -1,14 +1,20 @@
 import { Icon } from '@iconify/react';
-import { Avatar, Skeleton, Stack, Typography } from '@mui/material';
+import { Avatar, Button, CircularProgress, Skeleton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getUserBox } from '../../services/userService';
 import { useUserContext } from '../../hooks/AuthProvider';
 import { useDispatch } from 'react-redux';
 import { update } from '../../store/userSlice';
+import { createUniversity } from '../../services/universityService';
+import axios from 'axios';
 
 export default function UserComponent() {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const [loading, setLoading] = useState(false);
+  const [universityLoading,setUniversityLoading] =useState(false)
+
+  
+
 
   const { token, user } = useUserContext();
   const dispatch = useDispatch()
@@ -33,6 +39,7 @@ export default function UserComponent() {
 
       <Stack spacing={1}>
         <Stack>
+          
           <Typography variant="h6">
             {loading ? <Skeleton width={100} /> : `${user.firstname} ${user.lastname}`}
 

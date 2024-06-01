@@ -8,8 +8,10 @@ import Typography from '@mui/material/Typography';
 import parse from 'autosuggest-highlight/parse';
 import { debounce } from '@mui/material/utils';
 import { useEffect } from 'react';
-
-const API_URL = 'http://universities.hipolabs.com/search';
+import axios from 'axios';
+import { useUserContext } from '../hooks/AuthProvider';
+const baseUrl = process.env.REACT_APP_BASE_URL;
+const API_URL = `${baseUrl}/api/v1/university/search`;
 const filter = createFilterOptions();
 
 const capitalize = (str) => {
@@ -21,7 +23,7 @@ export default function UniversitySearch({ selected, setSelected }) {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-
+  const {token} = useUserContext()
   React.useEffect(() => {
    if(value){ setSelected(value.name);}
   }, [value, setSelected]);
@@ -37,8 +39,12 @@ export default function UniversitySearch({ selected, setSelected }) {
       debounce(async (input, callback) => {
         try {
           setLoading(true);
-          const response = await fetch(`${API_URL}?name=${input}`);
-          const universities = await response.json();
+          const response = await axios.get(`${API_URL}?name=${input}`,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const universities = await response.data;
           const type = universities.map((university,index)=>({name:university.name,id:index}))
           setLoading(false);
           callback(type);
