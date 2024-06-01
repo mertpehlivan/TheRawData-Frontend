@@ -22,7 +22,7 @@ const fadeIn = keyframes`
 `;
 
 const DisgnPage = () => {
-  const [videoLoaded, setVideoLoaded] = useState(true);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
