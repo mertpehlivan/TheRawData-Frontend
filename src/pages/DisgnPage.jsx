@@ -10,6 +10,20 @@ import Paid from '../assets/Paid idea.gif'
 import Bussine from '../assets/Business support.gif'
 import { Check, FiberManualRecord } from '@mui/icons-material';
 import UploadImage from '../assets/Image upload-rafiki.svg'
+import ImageOne from '../assets/1.gif'
+import ImageTwo from '../assets/2.gif'
+import ImageThree from '../assets/4.gif'
+import ImageFour from '../assets/3.gif'
+import ImageFive from '../assets/5.gif'
+import ImageSix from '../assets/6.gif'
+import ImageSeven from '../assets/7.gif'
+import ImageEight from '../assets/8.gif'
+import ImageNine from '../assets/9.gif'
+import ImageTen from '../assets/10.gif'
+import Graph from '../assets/Animation - 1717458408510.json'
+import Footer from '../components/Footer';
+
+import Lottie from 'lottie-react';
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const fadeIn = keyframes`
@@ -22,50 +36,17 @@ const fadeIn = keyframes`
 `;
 
 const DisgnPage = () => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(true);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleVideoLoad = () => {
-    setVideoLoaded(true);
+  const handleVideoLoad = (e) => {
+    setVideoLoaded(false);
   };
 
   return (
     <Stack spacing={2}>
-      {!videoLoaded && (
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            width: '100vw',
-            height: '100vh',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            backgroundColor: 'white',
-            zIndex: 9999,
-          }}
-        >
-          <CircularProgress color="primary" />
-        </Stack>
-      )}
-
-      <Stack spacing={3} sx={{ animation: `${fadeIn} 2s ease-in-out`, display: videoLoaded ? 'block' : 'none' }}>
-        {process.env.PUBLIC_URL.toString()}
-        <Box position="absolute" sx={{ opacity: 0.5, height: "90vh" }} zIndex={-10}>
-          <video
-            autoPlay
-            loop
-            muted
-            style={{ width: '99.45vw', height: '100vh', objectFit: 'fill', position: 'absolute', top: 0, left: 0, zIndex: -1 }}
-            onLoadedData={handleVideoLoad}
-          >
-            <source src={`${baseUrl}/api/v1/auth/publicImage/3141210-sd_960_540_25fps.mp4`} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-        </Box>
-
+      <Stack spacing={3}>
         <Container maxWidth>
           <div id="back-to-top-anchor" />
           <Box position="static" width="100%" style={{}}>
@@ -114,27 +95,39 @@ const DisgnPage = () => {
           </Box>
           <Grid container height="80vh" mb={10}>
             <Grid item xs={12}>
-              <Stack
-                sx={{
-                  justifyContent: isSmallScreen ? 'center' : 'flex-start',
-                  alignItems: isSmallScreen ? 'center' : 'flex-start',
-                }}
-              >
-                <Box
-                  component="img"
-                  src={Logo}
-                  width={isSmallScreen ? 300 : 400}
-                  sx={{ animation: `${fadeIn} 2s ease-in-out` }}
-                />
-                <Typography fontFamily="Times New Roman,sans-serif" variant={isSmallScreen ? 'h4' : 'h3'}>
-                  ACADEMIC RESEARCH INCENTIVE
-                </Typography>
-              </Stack>
+              <Stack direction="row">
+                <Stack>
 
-              <Stack alignItems="flex-end">
-                <Typography fontFamily="Times New Roman,sans-serif" p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 700}>
-                  Academic incentives are provided to researchers who upload their raw or processed data to the RDL platform and they are paid according to the number of downloads of their data through the Raw Data Library company
-                </Typography>
+                  <Stack
+                    sx={{
+                      justifyContent: isSmallScreen ? 'center' : 'flex-start',
+                      alignItems: isSmallScreen ? 'center' : 'flex-start',
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={Logo}
+                      width={isSmallScreen ? 300 : 400}
+
+                    />
+                    <Typography fontFamily="Times New Roman,sans-serif" variant={isSmallScreen ? 'h4' : 'h3'}>
+                      ACADEMIC RESEARCH INCENTIVE
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row">
+                    <Typography fontFamily="Times New Roman,sans-serif" p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 700}>
+                      Academic incentives are provided to researchers who upload their raw or processed data to the RDL platform and they are paid according to the number of downloads of their data through the Raw Data Library company
+                    </Typography>
+
+
+                  </Stack>
+                </Stack>
+                <Stack width="100%" alignItems="center">
+                  <Stack width={500} height={300}>
+                    <Lottie animationData={Graph} loop={true} style={{color:"#091582"}} color='#091582'/>
+                  </Stack>
+                </Stack>
               </Stack>
             </Grid>
             <Grid item xs={12} mb={3}>
@@ -166,14 +159,14 @@ const DisgnPage = () => {
               <Grid container spacing={2} p={3}>
                 <Grid item xs={3} >
                   <img src={Disc} width={240} />
-                  <Typography color="primary" variant='h5'> <b>Presentation and Discussion of Multiple Outputs</b></Typography>
+                  <Typography color="primary" variant='h5' mb={2}> <b>Presentation and Discussion of Multiple Outputs</b></Typography>
                   <Typography variant='h6'>
                     More than one output is obtained from an academic study. In published articles, generally some of them can be presented and discussed. In some of the related publications, outputs are only mentioned, but no data are presented.
                   </Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <img src={Usablity} width={240} />
-                  <Typography color="primary" variant='h5'><b>Presentation and Reusability of Data</b></Typography>
+                  <Typography color="primary" variant='h5' mb={2}><b>Presentation and Reusability of Data</b></Typography>
                   <Typography variant='h6'>
 
                     In the published articles, the data are presented as a summarized table or graphically. This makes it difficult to reuse the data by other researchers.
@@ -181,15 +174,15 @@ const DisgnPage = () => {
                 </Grid>
                 <Grid item xs={3} >
                   <img src={Aricle} width={240} />
-                  <Typography color="primary" variant='h5'> <b>Page Limitations and Presentation of Outputs</b></Typography>
-                  <Typography variant='h6'>
+                  <Typography color="primary" variant='h5' mb={2}> <b>Page Limitations and Presentation of Outputs</b></Typography>
+                  <Typography variant='h6' >
 
                     Many of the outputs mentioned in the relevant articles (for example: graphical representations) cannot be presented due to the page limit. It may not be possible to present survey data or provide graphs of all the results.
                   </Typography>
                 </Grid>
                 <Grid item xs={3} >
                   <img src={Paid} width={240} />
-                  <Typography color="primary" variant='h5'> <b>Establishment Purpose of RDL Platform</b></Typography>
+                  <Typography color="primary" variant='h5' mb={2}> <b>Establishment Purpose of RDL Platform</b></Typography>
                   <Typography variant='h6'>
                     RDL platform was established to ensure that the data in the studies can be easily discovered and accessed and to offer academic incentives to researchers.
                   </Typography>
@@ -242,7 +235,76 @@ const DisgnPage = () => {
           </Paper>
         </Container>
       </Stack>
+      <Stack>
+        <Container>
 
+          <Typography color="primary" variant='h5'><b>Thanks to Access to Raw Data Library</b></Typography>
+          <Grid container spacing={2} p={2}>
+            <Grid item xs={2.4} mb={3}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageOne} width={150} />
+                <Typography variant='h6'> Prevention of repetition of similar experimental test parameters and direct access to analytical modelling using software programs.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4} mb={3}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageTwo} width={150} />
+                <Typography variant='h6'> Experimental studies can be completed with less budget.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4} mb={3}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageThree} width={150} />
+                <Typography variant='h6'>More discussion opportunities and the development of more empirical or analytical models.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4} mb={3}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageFour} width={150} />
+                <Typography variant='h6'>More citation opportunities.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4} mb={3}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageFive} width={150} />
+                <Typography variant='h6'> Easy validations of previous data.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageSix} width={150} />
+                <Typography variant='h6'> Sharing of other data mentioned but not presented in the article.,</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageSeven} width={150} />
+                <Typography variant='h6'>Access to modelling of FEM, ABAQUS, ANSYS, SAP 2000, Solid Works and other computer modelling and documents.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageEight} width={150} />
+                <Typography variant='h6'>Authors can track the number of times their data has been downloaded from their own profile page.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageNine} width={150} />
+                <Typography variant='h6'>Authors can access their data online from anywhere in the world.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={2.4}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <img src={ImageTen} width={150} />
+                <Typography variant='h6'> Payment information is uploaded to the profile page of each data owner and data owners can track their income.</Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+
+        </Container>
+      </Stack>
+      <Footer />
     </Stack>
   );
 };
