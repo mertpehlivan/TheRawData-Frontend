@@ -2,7 +2,7 @@ import { Box, Container, Paper, Stack, Typography } from '@mui/material'
 import React from 'react'
 import Figure from '../assets/A1.png'
 import Figure2 from '../assets/Resim4.png'
-import Figure3 from '../assets/AdobeStock_234491775.jpeg'
+import Figure3 from '../assets/AdobeStock_234491775.png'
 import { Link } from 'react-router-dom'
 const Accuracy = () => {
     return (

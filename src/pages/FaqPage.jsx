@@ -1,8 +1,8 @@
 import { Box, Container, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
-import Figure2 from '../assets/incentive.jpeg'
-import Figure1 from '../assets/faq.jpeg'
-import Figure3 from '../assets/man.jpeg'
+import Figure2 from '../assets/incentive.png'
+import Figure1 from '../assets/faq.png'
+import Figure3 from '../assets/man.png'
 
 const FaqPage = () => {
   return (

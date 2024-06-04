@@ -1,12 +1,13 @@
-import { Box, Container, Stack, Typography, makeStyles } from '@mui/material'
+import { Box, Container, Skeleton, Stack, Typography, makeStyles } from '@mui/material'
 import Photo from '../assets/9.png'
-import Incentive from '../assets/incentive.jpeg'
-import React from 'react'
+import Incentive from '../assets/incentive.png'
+import React, { useState } from 'react'
 import { Toys } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 
 
 const AboutUs = () => {
+  const baseUrl = process.env.REACT_APP_BASE_URL
 
   return (
     <Container>
@@ -121,7 +122,8 @@ const AboutUs = () => {
             </Typography>
           </Stack>
 
-          <Box component="img" src={Incentive} height={300} width={500} />
+          <img src={Incentive} height={300} width={500} />
+          
         </Stack>
 
 
