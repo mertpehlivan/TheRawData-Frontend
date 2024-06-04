@@ -73,6 +73,7 @@
     ]
   },
   "devDependencies": {
-    "@iconify/react": "^4.1.1"
+    "@iconify/react": "^4.1.1",
+    "html-loader": "^5.0.0"
   }
 }

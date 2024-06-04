@@ -20,11 +20,10 @@ import ImageSeven from '../assets/7.gif'
 import ImageEight from '../assets/8.gif'
 import ImageNine from '../assets/9.gif'
 import ImageTen from '../assets/10.gif'
-import Graph from '../assets/Animation - 1717458408510.json'
 import Footer from '../components/Footer';
-
-import Lottie from 'lottie-react';
+import MainImage from '../assets/end2.svg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
+
 
 const fadeIn = keyframes`
   from {
@@ -36,17 +35,50 @@ const fadeIn = keyframes`
 `;
 
 const DisgnPage = () => {
-  const [videoLoaded, setVideoLoaded] = useState(true);
+  // const [videoLoaded, setVideoLoaded] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleVideoLoad = (e) => {
-    setVideoLoaded(false);
-  };
+  // const handleVideoLoad = (e) => {
+  //   setVideoLoaded(true);
+  // };
 
   return (
     <Stack spacing={2}>
-      <Stack spacing={3}>
+      {/* {!videoLoaded && (
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            width: '100vw',
+            height: '100vh',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            backgroundColor: 'white',
+            zIndex: 9999,
+          }}
+        >
+          <CircularProgress color="primary" />
+        </Stack>
+      )} */}
+
+      <Stack spacing={3} sx={{ animation: `${fadeIn} 2s ease-in-out` }}>
+        {process.env.PUBLIC_URL.toString()}
+        {/* <Box position="fixed" sx={{ opacity: 0.05, height: "90vh" }} zIndex={-10}>
+          <video
+            autoPlay
+            loop
+            muted
+            style={{ width: '99.45vw', height: '100vh', objectFit: 'fill', position: 'absolute', top: 0, left: 0, zIndex: -1 }}
+            onLoadedData={handleVideoLoad}
+          >
+            <source src={`${baseUrl}/api/v1/auth/publicImage/video.mp4`} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+        </Box> */}
+
         <Container maxWidth>
           <div id="back-to-top-anchor" />
           <Box position="static" width="100%" style={{}}>
@@ -93,48 +125,44 @@ const DisgnPage = () => {
               </ButtonGroup>
             </Stack>
           </Box>
-          <Grid container height="80vh" mb={10}>
+          <Grid container height="80vh" mb={8}>
             <Grid item xs={12}>
               <Stack direction="row">
-                <Stack>
-
-                  <Stack
-                    sx={{
-                      justifyContent: isSmallScreen ? 'center' : 'flex-start',
-                      alignItems: isSmallScreen ? 'center' : 'flex-start',
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={Logo}
-                      width={isSmallScreen ? 300 : 400}
-
-                    />
-                    <Typography fontFamily="Times New Roman,sans-serif" variant={isSmallScreen ? 'h4' : 'h3'}>
-                      ACADEMIC RESEARCH INCENTIVE
-                    </Typography>
-                  </Stack>
-
-                  <Stack direction="row">
-                    <Typography fontFamily="Times New Roman,sans-serif" p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 700}>
-                      Academic incentives are provided to researchers who upload their raw or processed data to the RDL platform and they are paid according to the number of downloads of their data through the Raw Data Library company
-                    </Typography>
-
-
-                  </Stack>
+                <Stack
+                  sx={{
+                    justifyContent: isSmallScreen ? 'center' : 'flex-start',
+                    alignItems: isSmallScreen ? 'center' : 'flex-start',
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={Logo}
+                    width={isSmallScreen ? 300 : 400}
+                    sx={{ animation: `${fadeIn} 2s ease-in-out` }}
+                  />
+                  <Typography fontFamily="Times New Roman,sans-serif" variant={isSmallScreen ? 'h5' : 'h4'}>
+                    ACADEMIC RESEARCH INCENTIVE
+                  </Typography>
                 </Stack>
-                <Stack width="100%" alignItems="center">
-                  <Stack width={500} height={300}>
-                    <Lottie animationData={Graph} loop={true} style={{color:"#091582"}} color='#091582'/>
-                  </Stack>
+                <Stack zIndex={-100} position="absolute" width="100%" right={0} alignItems="flex-end">
+                  <img src={MainImage} width={1000} />
                 </Stack>
+
+              </Stack>
+
+
+              <Stack alignItems="flex-end">
+
+                {/* <Typography fontFamily="Times New Roman,sans-serif" p={2} borderRadius={3} variant={isSmallScreen ? 'h6' : 'h4'} width={isSmallScreen ? "100%" : 700}>
+                  Academic incentives are provided to researchers who upload their raw or processed data to the RDL platform and they are paid according to the number of downloads of their data through the Raw Data Library company
+                </Typography> */}
               </Stack>
             </Grid>
             <Grid item xs={12} mb={3}>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={12} mt={40}>
               <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                <Stack direction="row" alignItems="center" borderRadius={3} spacing={2}>
+                <Stack direction="row" alignItems="center" borderRadius={3} spacing={2} p={3}>
                   <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
                     The New Face of the Academy
                   </Typography>
