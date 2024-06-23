@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, CircularProgress, Container, Divider, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Button, Checkbox, CircularProgress, Container, Divider, FormControlLabel, Grid, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import Logo from '../assets/logo.svg';
 import Img from '../assets/login-page-img.jpg';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { login } from '../services/userAuthentication';
 import { useUserContext } from '../hooks/AuthProvider';
 import Footer from '../components/Footer';
 import { ArrowBack } from '@mui/icons-material';
+import { useTheme } from '@emotion/react';
 
 const validationSchema = yup.object({
   email: yup
@@ -26,7 +27,9 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errorHandlerText, setErrorHandlerText] = useState('');
-
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+ 
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -59,7 +62,7 @@ export default function LoginPage() {
         p={2}
         boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px"
       >
-        <Grid item xs={6}>
+        <Grid item md={6} >
           <form onSubmit={formik.handleSubmit}>
             <Stack direction="column" px={5}>
               <Stack alignItems="center" mb={5} direction="row">
@@ -124,11 +127,11 @@ export default function LoginPage() {
             </Stack>
           </form>
         </Grid>
-        <Grid item xs={6}>
+        {!isSmallScreen && <Grid item md={6}>
           <Stack borderRadius={2} justifyContent="center">
             <img src={Img} alt="Login Page" height="450px" style={{ borderRadius: '2%' }} />
           </Stack>
-        </Grid>
+        </Grid>}
       </Grid>
       <Footer />
     </Container>
