@@ -139,7 +139,7 @@ const MainPage = () => {
       <Stack width="100%">
         <Container>
           <Stack width="100%">
-            <DataPost data={posts[0]} />
+           {!loading && posts.length >0 && !isSmallScreen && <DataPost data={posts[0]} />}
           </Stack>
           <Paper>
             <Stack width="100%">
