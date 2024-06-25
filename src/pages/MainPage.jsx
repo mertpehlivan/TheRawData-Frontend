@@ -1,6 +1,6 @@
 import { useTheme, keyframes } from '@emotion/react';
 import { Box, Button, ButtonGroup, Container, Grid, Stack, Typography, useMediaQuery, Fade, Slide, CircularProgress, Paper, Zoom } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../assets/logo.svg';
 import { Link } from 'react-router-dom';
 import Disc from '../assets/disc.gif'
@@ -23,6 +23,8 @@ import ImageTen from '../assets/10.gif'
 import Footer from '../components/Footer';
 import MainImage from '../assets/end2.svg'
 import NoAuthBar from '../components/input/AppBar'
+import axios from 'axios';
+import DataPost from '../components/home/DataPost';
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
@@ -40,10 +42,31 @@ const MainPage = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
-  // const handleVideoLoad = (e) => {
-  //   setVideoLoaded(true);
-  // };
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`${baseUrl}/api/v1/auth/public/randPost`);
+        const data = response.data;
+        setPosts(data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+      setLoading(false);
+    };
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <Stack alignItems="center" justifyContent="center" height="100vh">
+        <CircularProgress />
+      </Stack>
+    );
+  }
   return (
     <Stack spacing={2}>
       <NoAuthBar />
@@ -51,50 +74,7 @@ const MainPage = () => {
         {process.env.PUBLIC_URL.toString()}
         <Container maxWidth>
           <div id="back-to-top-anchor" />
-          {/* {!isSmallScreen && <Box position="static" width="100%" style={{}}>
-            <Stack direction="row" justifyContent="space-between" p={1}>
-              <Stack justifyContent="start" direction="row" spacing={1}>
-                <Link to="/aboutUs" target='_blank'>
-                  <Button>
-                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                      About us
-                    </Typography>
-                  </Button>
-                </Link>
-                <Link to="/whatIs" target='_blank'>
-                  <Button>
-                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                      What is a journal page? and Who we are?
-                    </Typography>
-                  </Button>
-                </Link>
-                <Link to="/accuracy" target='_blank'>
-                  <Button>
-                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                      Accuracy of Purchased Data
-                    </Typography>
-                  </Button>
-                </Link>
-              </Stack>
 
-              <ButtonGroup variant='text'>
-                <Link to="/login">
-                  <Button>
-                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                      LOG IN
-                    </Typography>
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button size='large' fontWeight="bold">
-                    <Typography fontFamily="Times New Roman,sans-serif" variant="h6" fontWeight="bold" color="primary.main">
-                      Join for free
-                    </Typography>
-                  </Button>
-                </Link>
-              </ButtonGroup>
-            </Stack>
-          </Box>} */}
           <Grid container height="80vh" mb={8}>
             <Grid item xs={12}>
               <Stack direction="row">
@@ -126,23 +106,22 @@ const MainPage = () => {
 
               </Stack>
             </Grid>
-            <Grid item xs={12} mb={3}>
-            </Grid>
+
             <Grid item xs={12} sm={12} mt={isSmallScreen ? -5 : 40}>
 
               <Stack direction="row" alignItems="center" borderRadius={3} spacing={2} p={3}>
-                <Grid container spacing={1} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen &&"center"}>
+                <Grid container spacing={1} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"}>
                   <Grid item md={4} sm={12} alignItems="center" borderRadius={3} spacing={2} p={3}>
                     <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
                       The New Face of the Academy
                     </Typography>
                   </Grid>
-                  <Grid item md={6} sm={12}  justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen &&"center"} borderRadius={3} spacing={2} p={3}>
+                  <Grid item md={6} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
                     <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
                       Duplication of experiments can be avoided and it is time to access data and financially encourage the data owner of the researchers.
                     </Typography>
                   </Grid>
-                  <Grid item md={2} sm={12}  justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
+                  <Grid item md={2} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
                     <Link to="/signup">
                       <Button sx={{ minWidth: 100 }} variant='contained'>JOIN FOR FREE</Button>
                     </Link>
@@ -159,6 +138,9 @@ const MainPage = () => {
       </Stack>
       <Stack width="100%">
         <Container>
+          <Stack width="100%">
+            <DataPost data={posts[0]} />
+          </Stack>
           <Paper>
             <Stack width="100%">
               <Grid container spacing={2} p={3}>
