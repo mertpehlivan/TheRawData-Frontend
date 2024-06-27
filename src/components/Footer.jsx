@@ -11,12 +11,7 @@ function Footer() {
                     <Link to="/privcy" target='_blank'><Typography>Privacy</Typography></Link>
                     <Link to="/faq" target='_blank'><Typography>Faq</Typography></Link>
                 </Stack>
-                <Box
-                    p={2}
-                    component="img"
-                    src={PayImage}
-                    width="300px"
-                />
+              
             </Stack>
         </Box>
     )
