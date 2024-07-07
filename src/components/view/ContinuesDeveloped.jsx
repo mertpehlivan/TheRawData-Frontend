@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
-import IntegrationInstructions from './IntegrationInstructions'; // Example component, adjust according to your project
+import { IntegrationInstructions } from '@mui/icons-material';
+// Example component, adjust according to your project
 
 export default function ContinuesDeveloped() {
     return (
