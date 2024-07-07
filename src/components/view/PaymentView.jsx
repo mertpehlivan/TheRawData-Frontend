@@ -11,7 +11,7 @@ function PaymentView() {
             <Typography variant='h6' color={"primary.main"} textAlign="center">SUMMARY OF DATA OWNER SAVING PANEL</Typography>
             <Stack direction="row" alignItems="center" justifyContent="center">
                 <BusinessCenterIcon sx={{ width: 35, height: 35, color: "primary.main" }} />
-                <Typography variant='h5' justifyContent="center">50$</Typography>
+                <Typography variant='h5' justifyContent="center">0$</Typography>
                 <InfoButton text="Current Balance"/>
                 <Divider/>
             </Stack>
