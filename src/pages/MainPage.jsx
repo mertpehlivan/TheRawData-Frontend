@@ -8,7 +8,7 @@ import Usablity from '../assets/Usability testing.gif'
 import Aricle from '../assets/Online article.gif'
 import Paid from '../assets/Paid idea.gif'
 import Bussine from '../assets/Business support.gif'
-import { Check, FiberManualRecord } from '@mui/icons-material';
+import { ArrowLeft, ArrowRight, Check, FiberManualRecord, ForkLeft, ForkRight } from '@mui/icons-material';
 import UploadImage from '../assets/Image upload-rafiki.svg'
 import ImageOne from '../assets/1.gif'
 import ImageTwo from '../assets/2.gif'
@@ -25,6 +25,8 @@ import MainImage from '../assets/end2.svg'
 import NoAuthBar from '../components/input/AppBar'
 import axios from 'axios';
 import DataPost from '../components/home/DataPost';
+import Conferences1 from '../assets/Civil Engineering Congress 2025_Call for Abstracts_1350x420.jpg'
+import Conferences2 from '../assets/Civil Engineering Congress 2025_Home Banner1350x420 (1).jpg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
@@ -44,7 +46,7 @@ const MainPage = () => {
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false);
-
+  const [slider, setSlider] = useState(0)
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -139,7 +141,7 @@ const MainPage = () => {
       <Stack width="100%">
         <Container>
           <Stack width="100%">
-           {!loading && posts.length >0 && !isSmallScreen && <DataPost data={posts[0]} />}
+            {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
           </Stack>
           <Paper>
             <Stack width="100%">
@@ -313,6 +315,45 @@ const MainPage = () => {
             </Grid>
           </Grid>
 
+        </Container>
+      </Stack>
+      <Stack>
+        <Container>
+
+          <Typography color="primary" variant='h5'><b>Upcoming conferences</b></Typography>
+          <Grid container spacing={2} p={2} >
+            <Grid item md={12} sm={12} mb={3}>
+              <Paper sx={{ p: 2, height: "100%" }}>
+                <Typography variant='h5' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
+                <Stack >
+                  <Grid container>
+                    <Grid item xs={1}>
+                      <Stack width="100%" justifyContent="center" alignItems="center" height="100%" borderRadius={3}>
+                        <Button onClick={() => setSlider(0)} disabled={slider == 0} startIcon={<ArrowLeft />} variant='contained'></Button>
+                      </Stack>
+                    </Grid>
+
+                    <Grid item xs={10}>
+                      <Link to="https://civilengineeringconference.com/">
+                        {slider == 0 && <Stack width="100%" justifyContent="center" alignItems="center">
+                          <Box component="img" width="100%" src={Conferences1} />
+                        </Stack>}
+                        {slider == 1 && <Stack width="100%" justifyContent="center" alignItems="center">
+                          <Box component="img" width="100%" src={Conferences2} />
+                        </Stack>}
+                      </Link>
+                    </Grid>
+
+                    <Grid item xs={1}>
+                      <Stack width="100%" justifyContent="center" alignItems="center" height="100%" borderRadius={3}>
+                        <Button onClick={() => setSlider(1)} disabled={slider == 1} endIcon={<ArrowRight />} variant='contained' ></Button>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </Paper>
+            </Grid>
+          </Grid>
         </Container>
       </Stack>
       <Footer />
