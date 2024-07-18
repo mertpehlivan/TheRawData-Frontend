@@ -324,8 +324,9 @@ const MainPage = () => {
           <Grid container spacing={2} p={2} >
             <Grid item md={12} sm={12} mb={3}>
               <Paper sx={{ p: 2, height: "100%" }}>
-                <Typography variant='h5' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
-                <Stack >
+                
+                {!isSmallScreen && <Stack >
+                  <Typography variant='h5' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
                   <Grid container>
                     <Grid item xs={1}>
                       <Stack width="100%" justifyContent="center" alignItems="center" height="100%" borderRadius={3}>
@@ -350,7 +351,34 @@ const MainPage = () => {
                       </Stack>
                     </Grid>
                   </Grid>
-                </Stack>
+                </Stack>}
+                {isSmallScreen && <Stack >
+                  <Grid container spacing={1}>
+                    
+
+                    <Grid item xs={12}>
+                    <Typography variant='h6' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
+                      <Link to="https://civilengineeringconference.com/">
+                        {slider == 0 && <Stack width="100%" justifyContent="center" alignItems="center">
+                          <Box component="img" width="100%" src={Conferences1} />
+                        </Stack>}
+                        {slider == 1 && <Stack width="100%" justifyContent="center" alignItems="center">
+                          <Box component="img" width="100%" src={Conferences2} />
+                        </Stack>}
+                      </Link>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Stack width="100%" justifyContent="center" alignItems="center" height="100%" borderRadius={3}>
+                        <Button onClick={() => setSlider(0)} disabled={slider == 0} startIcon={<ArrowLeft />} variant='contained'></Button>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Stack width="100%" justifyContent="center" alignItems="center" height="100%" borderRadius={3}>
+                        <Button onClick={() => setSlider(1)} disabled={slider == 1} endIcon={<ArrowRight />} variant='contained' ></Button>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                </Stack>}
               </Paper>
             </Grid>
           </Grid>
