@@ -164,25 +164,75 @@ const MainPage = () => {
         <Container>
 
           <Stack width="100%" spacing={2} mb={3}>
+            <Paper >
+              <Stack direction={isSmallScreen ? "column" : "row"} spacing={2} p={3}>
+                <Avatar>JM</Avatar>
+                <Typography color="primary.main"><b>Journal Manager</b></Typography>
+                <Divider orientation="vertical" variant="middle" flexItem />
+                <Stack>
+
+                  <Typography>Dear Dr.,</Typography>
+                  <Typography>Thank you for contacting journal of “….” regarding your request.</Typography>
+                  <Typography>I would like to inform you that the raw data of the manuscript remains with the authors of the
+                    manuscript.You can reach out to the corresponding author of the article, Dr. “…..” at
+                    ....@..... to request the data however the decision to share the data remains with the author.</Typography>
+                </Stack>
+
+
+              </Stack>
+            </Paper>
+
+            <Grid container spacing={2}>
+              {feedbacks.map((feedback, index) => (
+                <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '100%',
+                      padding: 3,
+                      minHeight: '300px', // Ensure a minimum height for consistency
+                    }}
+                  >
+                    {index % 2 === 0 ? (
+                      <Stack direction="column" spacing={2} alignItems="center">
+                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
+                        <Typography variant="h6" color="primary.main" align="center">
+                          {feedback.name}
+                          <Typography variant="body2" color="gray">
+                            {feedback.degree}
+                          </Typography>
+                        </Typography>
+                        <Divider sx={{ width: '100%' }} />
+                        <Typography variant="body1" align="center">
+                          {feedback.comment}
+                        </Typography>
+                      </Stack>
+                    ) : (
+                      <Stack direction="column" spacing={2} alignItems="center">
+                        <Typography variant="body1" align="center">
+                          {feedback.comment}
+                        </Typography>
+                        <Divider sx={{ width: '100%' }} />
+                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
+                        <Typography variant="h6" color="primary.main" align="center">
+                          {feedback.name}
+                          <Typography variant="body2" color="gray">
+                            {feedback.degree}
+                          </Typography>
+                        </Typography>
+                      </Stack>
+                    )}
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
             <Grid container >
               <Grid item xs={12}>
-                <Paper >
-                  <Stack direction={isSmallScreen ? "column" : "row"} spacing={2} p={3}>
-                    <Avatar>JM</Avatar>
-                    <Typography color="primary.main"><b>Journal Manager</b></Typography>
-                    <Divider orientation="vertical" variant="middle" flexItem />
-                    <Stack>
 
-                      <Typography>Dear Dr.,</Typography>
-                      <Typography>Thank you for contacting journal of “….” regarding your request.</Typography>
-                      <Typography>I would like to inform you that the raw data of the manuscript remains with the authors of the
-                        manuscript.You can reach out to the corresponding author of the article, Dr. “…..” at
-                        ....@..... to request the data however the decision to share the data remains with the author.</Typography>
-                    </Stack>
-
-
-                  </Stack>
-                </Paper>
               </Grid>
               {feedbacks.map((feedback, index) => (
                 <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
@@ -241,7 +291,7 @@ const MainPage = () => {
       </Stack>
       <Stack width="100%">
         <Container>
-          
+
           <Paper>
             <Stack width="100%">
               <Grid container spacing={2} p={3}>
