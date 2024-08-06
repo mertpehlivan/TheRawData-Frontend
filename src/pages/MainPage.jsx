@@ -182,58 +182,8 @@ const MainPage = () => {
               </Stack>
             </Paper>
 
-            <Grid container spacing={2}>
-              {feedbacks.map((feedback, index) => (
-                <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: '100%',
-                      padding: 3,
-                      minHeight: '300px', // Ensure a minimum height for consistency
-                    }}
-                  >
-                    {index % 2 === 0 ? (
-                      <Stack direction="column" spacing={2} alignItems="center">
-                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
-                        <Typography variant="h6" color="primary.main" align="center">
-                          {feedback.name}
-                          <Typography variant="body2" color="gray">
-                            {feedback.degree}
-                          </Typography>
-                        </Typography>
-                        <Divider sx={{ width: '100%' }} />
-                        <Typography variant="body1" align="center">
-                          {feedback.comment}
-                        </Typography>
-                      </Stack>
-                    ) : (
-                      <Stack direction="column" spacing={2} alignItems="center">
-                        <Typography variant="body1" align="center">
-                          {feedback.comment}
-                        </Typography>
-                        <Divider sx={{ width: '100%' }} />
-                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
-                        <Typography variant="h6" color="primary.main" align="center">
-                          {feedback.name}
-                          <Typography variant="body2" color="gray">
-                            {feedback.degree}
-                          </Typography>
-                        </Typography>
-                      </Stack>
-                    )}
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-            <Grid container >
-              <Grid item xs={12}>
 
-              </Grid>
+            <Grid container >
               {feedbacks.map((feedback, index) => (
                 <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
                   <Paper
