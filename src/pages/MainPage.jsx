@@ -1,5 +1,5 @@
 import { useTheme, keyframes } from '@emotion/react';
-import { Box, Button, ButtonGroup, Container, Grid, Stack, Typography, useMediaQuery, Fade, Slide, CircularProgress, Paper, Zoom } from '@mui/material';
+import { Box, Button, ButtonGroup, Container, Grid, Stack, Typography, useMediaQuery, Fade, Slide, CircularProgress, Paper, Zoom, Divider, Avatar } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Logo from '../assets/logo.svg';
 import { Link } from 'react-router-dom';
@@ -27,6 +27,9 @@ import axios from 'axios';
 import DataPost from '../components/home/DataPost';
 import Conferences1 from '../assets/Civil Engineering Congress 2025_Call for Abstracts_1350x420.jpg'
 import Conferences2 from '../assets/Civil Engineering Congress 2025_Home Banner1350x420 (1).jpg'
+import Razaqpur from '../assets/GhaniRazaqpur.jpg'
+import Hassan from '../assets/Hassan.jpg'
+import Rohani from '../assets/Rohani.jpg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
@@ -38,7 +41,28 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `;
-
+const feedbacks = [
+  {
+    name: "Prof. Dr. A. Ghani RAZAQPUR",
+    degree: "McMaster University",
+    comment: "Having raw data of previous studies and comparisions of them with new studies is the one of the key to increase the chance of publications.",
+    image: Razaqpur,
+  },
+  {
+    name: "Dalieh Hassan DALIEH",
+    degree: "Phd Student ",
+    comment: "By accessing the raw data, I had the opportunity to complete my own thesis with less budget by reducing the number of samples in my own experimental program.",
+    image: Hassan,
+  },
+  {
+    name: "Ronahi Ertaş",
+    degree: "Master Student",
+    comment: "It was not easy to request and receive raw data from others. Thanks to the RDL platform, I had easy access to raw data. ",
+    image: Rohani,
+  },
+  
+  // Add more feedbacks as needed
+];
 const MainPage = () => {
   // const [videoLoaded, setVideoLoaded] = useState(false);
   const theme = useTheme();
@@ -111,44 +135,107 @@ const MainPage = () => {
                 </Grid>
                 <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
                   <Typography alignItems="center" fontFamily="Times New Roman,sans-serif" variant='h5'>
-                    <Circle sx={{ color: "primary.main" }} />Nowadays, journal publishers establish different
+                    Nowadays, journal publishers establish different
                     journals that focus only on the data of articles published
-                    in other journals.
-                  </Typography>
-
-                </Grid>
-                <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
-
-                  <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                    <Circle sx={{ color: "primary.main" }} />Unless the processed data presented in research studies
+                    in other journals. Unless the processed data presented in research studies
                     are presented as raw data in a journal and the author is
                     not paid for their rights, the ownership and legal rights
                     of the raw data belong to the researchers.
                   </Typography>
+
                 </Grid>
-                <Grid item md={2} sm={12} justifyContent={"center"} alignItems={"center"} borderRadius={3} spacing={2} p={3}>
+
+                {!isSmallScreen && <Grid item md={2} sm={12} justifyContent={"center"} alignItems={"center"} borderRadius={3} spacing={2} p={3}>
                   <Stack alignItems="center" justifyContent="center" direction="row">
                     <Link to="/signup">
                       <Button fullWidth sx={{ minWidth: 300 }} variant='contained'>JOIN FOR FREE</Button>
                     </Link>
                   </Stack>
 
-                </Grid>
+                </Grid>}
               </Grid>
             </Grid>
 
-            <Grid item xs={12} sm={12} mt={isSmallScreen ? -5 : 40}>
 
-              <Stack direction="row" alignItems="center" borderRadius={3} spacing={2} p={3}>
-
-
-              </Stack>
-
-            </Grid>
           </Grid>
         </Container>
+      </Stack>
+      <Stack width="100%">
+        <Container>
+          <Stack width="100%">
+            {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
+          </Stack>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Paper >
+                <Stack direction={isSmallScreen ? "column" : "row"} spacing={2} p={3}>
+                  <Avatar>JM</Avatar>
+                  <Typography color="primary.main"><b>Journal Manager</b></Typography>
+                  <Divider orientation="vertical" variant="middle" flexItem />
+                  <Stack>
+
+                    <Typography>Dear Dr.,</Typography>
+                    <Typography>Thank you for contacting journal of “….” regarding your request.</Typography>
+                    <Typography>I would like to inform you that the raw data of the manuscript remains with the authors of the
+                      manuscript.You can reach out to the corresponding author of the article, Dr. “…..” at
+                      ....@..... to request the data however the decision to share the data remains with the author.</Typography>
+                  </Stack>
 
 
+                </Stack>
+              </Paper>
+            </Grid>
+            {feedbacks.map((feedback, index) => (
+              <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    padding: 3,
+                    minHeight: '300px', // Ensure a minimum height for consistency
+                  }}
+                >
+                  {index % 2 === 0 ? (
+                    <Stack direction="column" spacing={2} alignItems="center">
+                      <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
+                      <Typography variant="h6" color="primary.main" align="center">
+                        {feedback.name}
+                        <Typography variant="body2" color="gray">
+                          {feedback.degree}
+                        </Typography>
+                      </Typography>
+                      <Divider sx={{ width: '100%' }} />
+                      <Typography variant="body1" align="center">
+                        {feedback.comment}
+                      </Typography>
+                    </Stack>
+                  ) : (
+                    <Stack direction="column" spacing={2} alignItems="center">
+                      <Typography variant="body1" align="center">
+                        {feedback.comment}
+                      </Typography>
+                      <Divider sx={{ width: '100%' }} />
+                      <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
+                      <Typography variant="h6" color="primary.main" align="center">
+                        {feedback.name}
+                        <Typography variant="body2" color="gray">
+                          {feedback.degree}
+                        </Typography>
+                      </Typography>
+                    </Stack>
+                  )}
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+
+
+        </Container>
       </Stack>
       <Stack width="100%">
         <Container>
