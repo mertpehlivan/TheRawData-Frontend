@@ -164,7 +164,7 @@ const MainPage = () => {
         <Container>
 
           <Stack width="100%" spacing={2} mb={3}>
-            <Grid container spacing={2}>
+            <Grid container >
               <Grid item xs={12}>
                 <Paper >
                   <Stack direction={isSmallScreen ? "column" : "row"} spacing={2} p={3}>
