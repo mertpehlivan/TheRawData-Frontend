@@ -8,7 +8,7 @@ import Usablity from '../assets/Usability testing.gif'
 import Aricle from '../assets/Online article.gif'
 import Paid from '../assets/Paid idea.gif'
 import Bussine from '../assets/Business support.gif'
-import { ArrowLeft, ArrowRight, Check, FiberManualRecord, ForkLeft, ForkRight } from '@mui/icons-material';
+import { ArrowLeft, ArrowRight, Check, Circle, FiberManualRecord, ForkLeft, ForkRight } from '@mui/icons-material';
 import UploadImage from '../assets/Image upload-rafiki.svg'
 import ImageOne from '../assets/1.gif'
 import ImageTwo from '../assets/2.gif'
@@ -94,7 +94,7 @@ const MainPage = () => {
                     sx={{ animation: `${fadeIn} 2s ease-in-out` }}
                   />
                   <Typography fontFamily="Times New Roman,sans-serif" variant={isSmallScreen ? 'h5' : 'h4'}>
-                    ACADEMIC RESEARCH INCENTIVE
+                    THE NEW FACE OF THE ACADEMY
                   </Typography>
                 </Stack>
                 <Stack zIndex={-100} position="absolute" width="100%" right={0} alignItems="flex-end">
@@ -103,32 +103,44 @@ const MainPage = () => {
 
               </Stack>
 
+              <Grid mt={3} maxWidth={500} container spacing={1} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"}>
+                <Grid item md={12} sm={12} alignItems="center" borderRadius={3} spacing={2} p={3}>
+                  <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
+                    Intellectual Property Rights of Raw Data
+                  </Typography>
+                </Grid>
+                <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
+                  <Typography alignItems="center" fontFamily="Times New Roman,sans-serif" variant='h5'>
+                    <Circle sx={{ color: "primary.main" }} />Nowadays, journal publishers establish different
+                    journals that focus only on the data of articles published
+                    in other journals.
+                  </Typography>
 
-              <Stack alignItems="flex-end">
+                </Grid>
+                <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
 
-              </Stack>
+                  <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
+                    <Circle sx={{ color: "primary.main" }} />Unless the processed data presented in research studies
+                    are presented as raw data in a journal and the author is
+                    not paid for their rights, the ownership and legal rights
+                    of the raw data belong to the researchers.
+                  </Typography>
+                </Grid>
+                <Grid item md={2} sm={12} justifyContent={"center"} alignItems={"center"} borderRadius={3} spacing={2} p={3}>
+                  <Stack alignItems="center" justifyContent="center" direction="row">
+                    <Link to="/signup">
+                      <Button fullWidth sx={{ minWidth: 300 }} variant='contained'>JOIN FOR FREE</Button>
+                    </Link>
+                  </Stack>
+
+                </Grid>
+              </Grid>
             </Grid>
 
             <Grid item xs={12} sm={12} mt={isSmallScreen ? -5 : 40}>
 
               <Stack direction="row" alignItems="center" borderRadius={3} spacing={2} p={3}>
-                <Grid container spacing={1} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"}>
-                  <Grid item md={4} sm={12} alignItems="center" borderRadius={3} spacing={2} p={3}>
-                    <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
-                      The New Face of the Academy
-                    </Typography>
-                  </Grid>
-                  <Grid item md={6} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
-                    <Typography fontFamily="Times New Roman,sans-serif" variant='h5'>
-                      Duplication of experiments can be avoided and it is time to access data and financially encourage the data owner of the researchers.
-                    </Typography>
-                  </Grid>
-                  <Grid item md={2} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
-                    <Link to="/signup">
-                      <Button sx={{ minWidth: 100 }} variant='contained'>JOIN FOR FREE</Button>
-                    </Link>
-                  </Grid>
-                </Grid>
+
 
               </Stack>
 
@@ -324,7 +336,7 @@ const MainPage = () => {
           <Grid container spacing={2} p={2} >
             <Grid item md={12} sm={12} mb={3}>
               <Paper sx={{ p: 2, height: "100%" }}>
-                
+
                 {!isSmallScreen && <Stack >
                   <Typography variant='h5' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
                   <Grid container>
@@ -354,10 +366,10 @@ const MainPage = () => {
                 </Stack>}
                 {isSmallScreen && <Stack >
                   <Grid container spacing={1}>
-                    
+
 
                     <Grid item xs={12}>
-                    <Typography variant='h6' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
+                      <Typography variant='h6' mb={2}> World Congress on Civil, Structural, and Environmental Engineering</Typography>
                       <Link to="https://civilengineeringconference.com/">
                         {slider == 0 && <Stack width="100%" justifyContent="center" alignItems="center">
                           <Box component="img" width="100%" src={Conferences1} />
