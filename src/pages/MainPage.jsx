@@ -43,14 +43,14 @@ const fadeIn = keyframes`
 `;
 const feedbacks = [
   {
-    name: "Prof. Dr. A. Ghani RAZAQPUR",
+    name: "Prof. Dr. A. Ghani Razaqpur",
     degree: "McMaster University",
     comment: "Having raw data of previous studies and comparisions of them with new studies is the one of the key to increase the chance of publications.",
     image: Razaqpur,
   },
   {
-    name: "Dalieh Hassan DALIEH",
-    degree: "Phd Student ",
+    name: "Dalieh Hassan Dalieh",
+    degree: "PhD Student ",
     comment: "By accessing the raw data, I had the opportunity to complete my own thesis with less budget by reducing the number of samples in my own experimental program.",
     image: Hassan,
   },
