@@ -28,7 +28,7 @@ import DataPost from '../components/home/DataPost';
 import Conferences1 from '../assets/Civil Engineering Congress 2025_Call for Abstracts_1350x420.jpg'
 import Conferences2 from '../assets/Civil Engineering Congress 2025_Home Banner1350x420 (1).jpg'
 import Razaqpur from '../assets/GhaniRazaqpur.jpg'
-import Hassan from '../assets/Hassan.jpg'
+import Alemdar from '../assets/Alemdar-Bayraktar.png'
 import Rohani from '../assets/Rohani.jpg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -49,15 +49,15 @@ const feedbacks = [
     image: Razaqpur,
   },
   {
-    name: "Dalieh Hassan Dalieh",
-    degree: "PhD Student ",
-    comment: "By accessing the raw data, I had the opportunity to complete my own thesis with less budget by reducing the number of samples in my own experimental program.",
-    image: Hassan,
+    name: "Prof. Dr. Alemdar Bayraktar",
+    degree: "University of British Columbia",
+    comment: "The Raw Data Library offers the opportunity to significantly advance science and benefit humanity by promoting a world where information is both shared and accessible.",
+    image: Alemdar,
   },
   {
     name: "Ronahi Ertaş",
     degree: "Master Student",
-    comment: "It was not easy to request and receive raw data from others. Thanks to the RDL platform, I had easy access to raw data. ",
+    comment: "By accessing the raw data, I had the opportunity to complete my own thesis with less budget by reducing the number of samples in my own experimental program.",
     image: Rohani,
   },
 
