@@ -158,9 +158,9 @@ const MainPage = () => {
       </Stack>
 
       <Stack width="100%">
-      {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
-        <Container>
 
+        <Container>
+          {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
           <Paper>
             <Stack width="100%">
               <Grid container spacing={2} p={3}>
@@ -426,7 +426,7 @@ const MainPage = () => {
                 </Grid>
               ))}
             </Grid>
-            
+
           </Stack>
 
         </Container>
