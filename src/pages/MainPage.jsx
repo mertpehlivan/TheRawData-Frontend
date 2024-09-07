@@ -158,6 +158,7 @@ const MainPage = () => {
       </Stack>
 
       <Stack width="100%">
+      {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
         <Container>
 
           <Paper>
@@ -425,11 +426,8 @@ const MainPage = () => {
                 </Grid>
               ))}
             </Grid>
-            {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
+            
           </Stack>
-
-
-
 
         </Container>
       </Stack>
@@ -507,7 +505,7 @@ const MainPage = () => {
                   <Paper elevation={6} sx={{ p: 3, borderRadius: 3, backgroundColor: '#f9f9f9' }}>
                     <Stack spacing={2} alignItems="center">
                       <Avatar
-                        sx={{ width: 120, height: 120, boxShadow: 3 }}
+                        sx={{ width: 110, height: 110, boxShadow: 3 }}
                         src={CharlesImage}
                         alt="Prof. Dr. Charles M. Lieber"
                       />
