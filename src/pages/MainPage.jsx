@@ -1,5 +1,5 @@
 import { useTheme, keyframes } from '@emotion/react';
-import { Box, Button, ButtonGroup, Container, Grid, Stack, Typography, useMediaQuery, Fade, Slide, CircularProgress, Paper, Zoom, Divider, Avatar } from '@mui/material';
+import { Box, Button, ButtonGroup, Container, Grid, Stack, Typography, useMediaQuery, Fade, Slide, CircularProgress, Paper, Zoom, Divider, Avatar, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Logo from '../assets/logo.svg';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import Usablity from '../assets/Usability testing.gif'
 import Aricle from '../assets/Online article.gif'
 import Paid from '../assets/Paid idea.gif'
 import Bussine from '../assets/Business support.gif'
-import { ArrowLeft, ArrowRight, Check, Circle, FiberManualRecord, ForkLeft, ForkRight } from '@mui/icons-material';
+import { ArrowLeft, ArrowRight, Chat, Check, Circle, FiberManualRecord, ForkLeft, ForkRight, QuestionMark } from '@mui/icons-material';
 import UploadImage from '../assets/Image upload-rafiki.svg'
 import ImageOne from '../assets/1.gif'
 import ImageTwo from '../assets/2.gif'
@@ -30,6 +30,9 @@ import Conferences2 from '../assets/Civil Engineering Congress 2025_Home Banner1
 import Razaqpur from '../assets/GhaniRazaqpur.jpg'
 import Alemdar from '../assets/Alemdar-Bayraktar.png'
 import Rohani from '../assets/Rohani.jpg'
+import LanguageIcon from '@mui/icons-material/Language';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import CharlesImage from '../assets/charles.png'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
@@ -127,20 +130,13 @@ const MainPage = () => {
 
               </Stack>
 
-              <Grid mt={3} maxWidth={500} container spacing={1} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"}>
-                <Grid item md={12} sm={12} alignItems="center" borderRadius={3} spacing={2} p={3}>
-                  <Typography fontFamily="Times New Roman,sans-serif" variant='h2' color="primary.main">
-                    Intellectual Property Rights of Raw Data
-                  </Typography>
-                </Grid>
-                <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} spacing={2} p={3}>
+              <Grid mt={2} maxWidth={600} container spacing={1} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"}>
+
+                <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} p={3}>
                   <Typography alignItems="center" fontFamily="Times New Roman,sans-serif" variant='h5'>
-                    Nowadays, journal publishers establish different
-                    journals that focus only on the data of articles published
-                    in other journals. Unless the processed data presented in research studies
-                    are presented as raw data in a journal and the author is
-                    not paid for their rights, the ownership and legal rights
-                    of the raw data belong to the researchers.
+                    Think about a research project to which you’ve devoted years. You’ve meticulously planned every detail and executed each step with precision. However, to achieve a universal impact, you still need one crucial element: raw data. You have a limited budget and time. This is where Raw Data Library comes into play.
+                    The Raw Data Library aims to significantly advance science and benefit humanity by promoting a world where information is both shared and accessible. By allowing researchers to upload their data and models, this platform offers a unique resource that helps others advance their scientific discoveries. It opens new doors in the scientific world by providing access to raw data and models. The Raw Data Library not only advances individual studies but also propels global science forward.
+                    <b> As knowledge grows through sharing, raw data represents the purest form of this growth.</b>
                   </Typography>
 
                 </Grid>
@@ -160,85 +156,7 @@ const MainPage = () => {
           </Grid>
         </Container>
       </Stack>
-      <Stack width="100%">
-        <Container>
 
-          <Stack width="100%" spacing={2} mb={3}>
-            <Paper >
-              <Stack direction={isSmallScreen ? "column" : "row"} spacing={2} p={3}>
-                <Avatar>JM</Avatar>
-                <Typography color="primary.main"><b>Journal Manager</b></Typography>
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <Stack>
-
-                  <Typography>Dear Dr.,</Typography>
-                  <Typography>Thank you for contacting journal of “….” regarding your request.</Typography>
-                  <Typography>I would like to inform you that the raw data of the manuscript remains with the authors of the
-                    manuscript.You can reach out to the corresponding author of the article, Dr. “…..” at
-                    ....@..... to request the data however the decision to share the data remains with the author.</Typography>
-                </Stack>
-
-
-              </Stack>
-            </Paper>
-
-
-            <Grid container >
-              {feedbacks.map((feedback, index) => (
-                <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: '100%',
-                      padding: 3,
-                      minHeight: '300px', // Ensure a minimum height for consistency
-                    }}
-                  >
-                    {index % 2 === 0 ? (
-                      <Stack direction="column" spacing={2} alignItems="center">
-                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
-                        <Typography variant="h6" color="primary.main" align="center">
-                          {feedback.name}
-                          <Typography variant="body2" color="gray">
-                            {feedback.degree}
-                          </Typography>
-                        </Typography>
-                        <Divider sx={{ width: '100%' }} />
-                        <Typography variant="body1" align="center">
-                          {feedback.comment}
-                        </Typography>
-                      </Stack>
-                    ) : (
-                      <Stack direction="column" spacing={2} alignItems="center">
-                        <Typography variant="body1" align="center">
-                          {feedback.comment}
-                        </Typography>
-                        <Divider sx={{ width: '100%' }} />
-                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
-                        <Typography variant="h6" color="primary.main" align="center">
-                          {feedback.name}
-                          <Typography variant="body2" color="gray">
-                            {feedback.degree}
-                          </Typography>
-                        </Typography>
-                      </Stack>
-                    )}
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-            {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
-          </Stack>
-
-
-
-
-        </Container>
-      </Stack>
       <Stack width="100%">
         <Container>
 
@@ -416,6 +334,229 @@ const MainPage = () => {
 
         </Container>
       </Stack>
+      <Stack width="100%">
+        <Container>
+          <Paper>
+            <Stack p={2}>
+              <Typography variant='h4' color="primary.main">
+                Intellectual Property Rights of Raw Data
+              </Typography>
+              <Typography variant='h6'>
+                Nowadays, journal publishers establish different journals that focus only on the data of articles published in other journals. Unless the processed data presented in
+                research studies are presented as raw data in a journal and the author is not paid for their rights,
+                the ownership and legal rights of the raw data belong to the researchers.
+              </Typography>
+            </Stack>
+          </Paper>
+        </Container>
+      </Stack>
+      <Stack width="100%">
+        <Container>
+
+          <Stack width="100%" spacing={2} mb={3}>
+            <Paper sx={{ p: 2 }}>
+              <Stack direction={isSmallScreen ? "column" : "row"} spacing={2} p={3}>
+                <Avatar><QuestionMark /></Avatar>
+                <Typography color="primary.main"><b>What do journals say about raw data</b></Typography>
+                <Divider orientation="vertical" variant="middle" flexItem />
+                <Stack>
+
+                  <Typography>Dear Dr.,</Typography>
+                  <Typography>Thank you for contacting journal of “….” regarding your request.</Typography>
+                  <Typography>I would like to inform you that the raw data of the manuscript remains with the authors of the
+                    manuscript.You can reach out to the corresponding author of the article, Dr. “…..” at
+                    ....@..... to request the data however the decision to share the data remains with the author.</Typography>
+                </Stack>
+
+
+              </Stack>
+
+              <Stack direction="row" justifyContent="end">
+                <Typography sx={{ color: "primary.main" }}><b>Journal manager</b></Typography>
+              </Stack>
+            </Paper>
+
+            <Typography color="primary" variant='h5'><b>Real Stories</b></Typography>
+            <Grid container >
+              {feedbacks.map((feedback, index) => (
+                <Grid item xs={12} md={6} lg={4} key={index} sx={{ display: 'flex' }}>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '100%',
+                      padding: 3,
+                      minHeight: '300px', // Ensure a minimum height for consistency
+                    }}
+                  >
+                    {index % 2 === 0 ? (
+                      <Stack direction="column" spacing={2} alignItems="center">
+                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
+                        <Typography variant="h6" color="primary.main" align="center">
+                          {feedback.name}
+                          <Typography variant="body2" color="gray">
+                            {feedback.degree}
+                          </Typography>
+                        </Typography>
+                        <Divider sx={{ width: '100%' }} />
+                        <Typography variant="body1" align="center">
+                          {feedback.comment}
+                        </Typography>
+                      </Stack>
+                    ) : (
+                      <Stack direction="column" spacing={2} alignItems="center">
+                        <Typography variant="body1" align="center">
+                          {feedback.comment}
+                        </Typography>
+                        <Divider sx={{ width: '100%' }} />
+                        <Avatar sx={{ width: 100, height: 100 }} alt={feedback.name} src={feedback.image} />
+                        <Typography variant="h6" color="primary.main" align="center">
+                          {feedback.name}
+                          <Typography variant="body2" color="gray">
+                            {feedback.degree}
+                          </Typography>
+                        </Typography>
+                      </Stack>
+                    )}
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+            {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
+          </Stack>
+
+
+
+
+        </Container>
+      </Stack>
+      <Stack width="100%">
+        <Container>
+          <Paper elevation={3} sx={{ p: 4 }}>
+            <Stack spacing={3}>
+              <Typography variant="h4" color="primary.main">
+                Scientific Advisory Board - Scopus’s Top 2%
+              </Typography>
+
+              <Divider />
+
+              <Grid container >
+                <Grid item xs={12} md={6}>
+                  <Stack >
+                    <Typography variant="h6" p={1}>
+                      A Scientific Advisory Board consisting of internationally recognized scientists is formed for each service offered by the Raw Data Library platform. Its main responsibility
+                      is to participate in periodic evaluations of the scientific
+                      performance of the platform and submit reports based on these findings to the chairman of the Scientific Advisory Board.
+                    </Typography>
+
+                    <Divider />
+
+                    <Typography variant="h6" p={1}>
+                      Regular evaluations are made at the end of each year. The opinions and suggestions of the members of the advisory board are taken and compiled by the rapporteur.
+                      The compiled reports are presented to the members of the scientific advisory board. It is requested that the opinions and suggestions submitted to the members of the
+                      Scientific Advisory Board be scored. According to the scoring obtained, decisions are reached for the next priority business plan and scientific needs.
+                    </Typography>
+
+
+                  </Stack>
+                </Grid>
+
+                <Divider orientation="vertical" flexItem />
+
+                <Grid item xs={12} md={5}>
+
+                  <Typography variant="h6" p={1}>
+                    According to the scoring obtained, decisions are reached for the next priority business plan and scientific needs.
+                  </Typography>
+                  <Typography variant="h6" p={1}>
+                    The opinions and recommendations obtained are regularly published on the RDL website as a final report at the end of the year.
+                  </Typography>
+                  <Divider />
+                  <Stack spacing={2} p={1} mt={3}>
+                    <Typography variant="h5" color="primary.main">
+                      Scientific Requirements for Becoming a Member
+                    </Typography>
+                    <Typography variant="h6">
+                      • To be listed at Scopus’s Top 2% Scientists
+                    </Typography>
+                    <Typography variant="h6">
+                      • To have an h-index of over 30.
+                    </Typography>
+                  </Stack>
+                </Grid>
+
+              </Grid>
+            </Stack>
+          </Paper>
+        </Container>
+      </Stack>
+      <Stack width="100%">
+        <Container >
+          <Paper sx={{ p: 4 }}>
+            <Stack p={1}>
+              <Grid container mt={3} spacing={2}>
+                <Stack spacing={1}>
+                  <Typography variant='h4' color="primary.main" textAlign="center">Outstanding Members of the Scientific Advisory Board of Raw Data Library</Typography>
+                  <Typography>The members of the Scientific Advisory Board at the Raw Data Library are internationally recognized scientists working at different universities and research facilities in different countries.  Our current members are as follows: </Typography>
+                </Stack>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Paper elevation={6} sx={{ p: 3, borderRadius: 3, backgroundColor: '#f9f9f9' }}>
+                    <Stack spacing={2} alignItems="center">
+                      <Avatar
+                        sx={{ width: 120, height: 120, boxShadow: 3 }}
+                        src={CharlesImage}
+                        alt="Prof. Dr. Charles M. Lieber"
+                      />
+                      <Typography variant="h5" fontWeight="bold" align="center">
+                        Prof. Dr. Charles M. Lieber
+                      </Typography>
+                      <Typography color="text.secondary" variant="body2" align="center">
+                        The former Chair of Chemistry and Chemical Biology Department - Harvard University, USA
+                      </Typography>
+
+                      <Stack spacing={1} alignItems="center" sx={{ width: '100%' }}>
+                        <IconButton href="https://cmlresearch.org" target="_blank" color="primary">
+                          <LanguageIcon />
+                          <Typography variant="body2" sx={{ ml: 1 }}>Website</Typography>
+                        </IconButton>
+                        <Typography variant="h6" fontWeight="bold" color="primary.main">
+                          Scopus Records
+                        </Typography>
+                      </Stack>
+
+                      <Stack spacing={0.5} sx={{ width: '100%' }}>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2022):</strong> 45
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Number of documents:</strong> 1300
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>h-index:</strong> 198
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Citations:</strong> 181,205
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Scopus ID:</strong> 35482471900
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}></Grid>
+              </Grid>
+            </Stack>
+          </Paper>
+        </Container>
+      </Stack>
+
+
+
       <Stack>
         <Container>
 
