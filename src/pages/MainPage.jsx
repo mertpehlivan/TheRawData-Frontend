@@ -32,7 +32,7 @@ import Alemdar from '../assets/Alemdar-Bayraktar.png'
 import Rohani from '../assets/Rohani.jpg'
 import LanguageIcon from '@mui/icons-material/Language';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import CharlesImage from '../assets/charles.png'
+import CharlesImage from '../assets/charles.jpg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
