@@ -135,7 +135,7 @@ const MainPage = () => {
                 <Grid item md={12} sm={12} justifyContent={!isSmallScreen && "center"} alignItems={!isSmallScreen && "center"} borderRadius={3} p={3}>
                   <Typography alignItems="center" fontFamily="Times New Roman,sans-serif" variant='h5'>
                     Think about a research project to which you’ve devoted years. You’ve meticulously planned every detail and executed each step with precision. However, to achieve a universal impact, you still need one crucial element: raw data. You have a limited budget and time. This is where Raw Data Library comes into play.
-                    The Raw Data Library aims to significantly advance science and benefit humanity by promoting a world where information is both shared and accessible. By allowing researchers to upload their data and models, this platform offers a unique resource that helps others advance their scientific discoveries. It opens new doors in the scientific world by providing access to raw data and models. The Raw Data Library not only advances individual studies but also propels global science forward.
+                    The Raw Data Library aims to significantly advance science and benefit humanity by promoting a world where information is both shared and accessible. By allowing researchers to upload their data and models, this platform offers a unique resource that helps others advance their scientific discoveries.
                     <b> As knowledge grows through sharing, raw data represents the purest form of this growth.</b>
                   </Typography>
 
@@ -160,7 +160,10 @@ const MainPage = () => {
       <Stack width="100%">
 
         <Container>
-          {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
+          <Stack mb={2}>
+            {!loading && posts.length > 0 && !isSmallScreen && <DataPost data={posts[0]} />}
+          </Stack>
+
           <Paper>
             <Stack width="100%">
               <Grid container spacing={2} p={3}>
