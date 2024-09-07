@@ -501,7 +501,7 @@ const MainPage = () => {
               <Grid container mt={3} spacing={2}>
                 <Stack spacing={1}>
                   <Typography variant='h4' color="primary.main" textAlign="center">Outstanding Members of the Scientific Advisory Board of Raw Data Library</Typography>
-                  <Typography>The members of the Scientific Advisory Board at the Raw Data Library are internationally recognized scientists working at different universities and research facilities in different countries.  Our current members are as follows: </Typography>
+                  <Typography variant='h6'>The members of the Scientific Advisory Board at the Raw Data Library are internationally recognized scientists working at different universities and research facilities in different countries.  Our current members are as follows: </Typography>
                 </Stack>
                 <Grid item xs={4}></Grid>
                 <Grid item xs={12} sm={6} md={4}>
