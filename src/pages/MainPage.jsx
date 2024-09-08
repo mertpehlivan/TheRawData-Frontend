@@ -459,7 +459,7 @@ const MainPage = () => {
                     <Typography variant="h6" p={1}>
                       Regular evaluations are made at the end of each year. The opinions and suggestions of the members of the advisory board are taken and compiled by the rapporteur.
                       The compiled reports are presented to the members of the scientific advisory board. It is requested that the opinions and suggestions submitted to the members of the
-                      Scientific Advisory Board be scored. According to the scoring obtained, decisions are reached for the next priority business plan and scientific needs.
+                      Scientific Advisory Board be scored.
                     </Typography>
 
 
