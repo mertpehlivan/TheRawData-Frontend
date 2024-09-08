@@ -33,6 +33,7 @@ import Rohani from '../assets/Rohani.jpg'
 import LanguageIcon from '@mui/icons-material/Language';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import CharlesImage from '../assets/charles.jpg'
+import HamidImage from '../assets/hamid.jpg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
@@ -503,7 +504,52 @@ const MainPage = () => {
                   <Typography variant='h4' color="primary.main" textAlign="center">Outstanding Members of the Scientific Advisory Board of Raw Data Library</Typography>
                   <Typography variant='h6'>The members of the Scientific Advisory Board at the Raw Data Library are internationally recognized scientists working at different universities and research facilities in different countries.  Our current members are as follows: </Typography>
                 </Stack>
-                <Grid item xs={4}></Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Paper elevation={6} sx={{ p: 3, borderRadius: 3, backgroundColor: '#f9f9f9' }}>
+                    <Stack spacing={2} alignItems="center">
+                      <Avatar
+                        sx={{ width: 110, height: 110, boxShadow: 3 }}
+                        src={HamidImage}
+                        alt="Prof. Dr. Hamid Reza Karimi"
+                      />
+                      <Typography variant="h5" fontWeight="bold" align="center">
+                        Prof. Dr. Hamid Reza Karimi
+                      </Typography>
+                      <Typography color="text.secondary" variant="body2" align="center">
+                        Department of Mechanical Engineering-Politecnico di Milano
+                        , IT
+                      </Typography>
+
+                      <Stack spacing={1} alignItems="center" sx={{ width: '100%' }}>
+                        <IconButton href="https://mecc.polimi.it/en/research/faculty/prof-hamid-reza-karimi " target="_blank" color="primary">
+                          <LanguageIcon />
+                          <Typography variant="body2" sx={{ ml: 1 }}>Website</Typography>
+                        </IconButton>
+                        <Typography variant="h6" fontWeight="bold" color="primary.main">
+                          Scopus Records
+                        </Typography>
+                      </Stack>
+
+                      <Stack spacing={0.5} sx={{ width: '100%' }}>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2022):</strong> 929
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Number of documents:</strong> 1133
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>h-index:</strong> 101
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Citations:</strong> 35228
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Scopus ID:</strong> 55534323600
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Paper>
+                </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                   <Paper elevation={6} sx={{ p: 3, borderRadius: 3, backgroundColor: '#f9f9f9' }}>
                     <Stack spacing={2} alignItems="center">
@@ -540,7 +586,7 @@ const MainPage = () => {
                           <BarChartIcon sx={{ mr: 1 }} /> <strong>h-index:</strong> 198
                         </Typography>
                         <Typography variant="body2">
-                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Citations:</strong> 181,205
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Citations:</strong> 181205
                         </Typography>
                         <Typography variant="body2">
                           <BarChartIcon sx={{ mr: 1 }} /> <strong>Scopus ID:</strong> 35482471900
