@@ -42,7 +42,7 @@ const WhatIs = () => {
                 Mentioned but not Presented Data in Articles
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    It is necessary to refer to the relevant article and data was obtained within the scope of the study in that journal, a citation to the paper published in that journal must be made by other researchers.
+                    It is necessary to refer to the relevant article and the raw data library within the scope of the study in that journal, a citation to the paper published in that journal must be made by other researchers.
 
                     If a journal publishes the relevant raw data, model files, etc., on its own page, it is forbidden to share them on the RDL platform.
                 </Typography>
