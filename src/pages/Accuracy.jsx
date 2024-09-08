@@ -55,10 +55,10 @@ const Accuracy = () => {
                         <Typography variant='h6'>
                             If the necessary correction cannot be provided within 7 business days, the researcher who purchased the data will be contacted to proceed with the refund.
                         </Typography>
-                        <Typography textAlign="end" variant='h6'>
-                            <Link href="info@rawdatalibrary.net">
+                        <Typography textAlign="end" variant="h6">
+                            <a href="mailto:info@rawdatalibrary.net" style={{color: 'inherit' }} target="_blank" rel="noopener noreferrer">
                                 Contact with us
-                            </Link>
+                            </a>
                         </Typography>
 
 
