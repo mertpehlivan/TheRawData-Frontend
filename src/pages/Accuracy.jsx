@@ -14,10 +14,12 @@ const Accuracy = () => {
 
 
                         <Stack >
-                            <Typography variant='h4'>Accuracy of Purchased Data</Typography>
-                            <Typography>In addition to being an academic platform, RDL company protects the rights of researchers
+                            <Typography variant='h4' color="primary.main">Accuracy of Purchased Data</Typography>
+                            <Typography variant='h6'>
+                                In addition to being an academic platform, RDL company protects the rights of researchers
                                 for sold and purchased raw data. In this regard, if there is a contradiction in the purchased raw
-                                data:</Typography>
+                                data:
+                            </Typography>
                         </Stack>
                         <Typography textAlign="center" variant='h5'>Mismatch</Typography>
                         <Stack direction="row" justifyContent="space-evenly" >
@@ -43,19 +45,19 @@ const Accuracy = () => {
                         <Stack>
 
                         </Stack>
-                        <Typography>
+                        <Typography variant='h6'>
                             If there is a contradiction between the uploaded Raw Data and the purchased data file, please contact with us.
 
                         </Typography>
-                        <Typography>
+                        <Typography variant='h6'>
                             The relevant contradiction is examined within 72 hours by expert academicians who advise the Raw Data Library company. In case of inconsistency, correction or recommendation is requested from the data owner.
                         </Typography>
-                        <Typography>
+                        <Typography variant='h6'>
                             If the necessary correction cannot be provided within 7 business days, the researcher who purchased the data will be contacted to proceed with the refund.
                         </Typography>
-                        <Typography>
-                            Contact with <Link>
-                                us
+                        <Typography textAlign="end" variant='h6'>
+                            <Link href="info@rawdatalibrary.net">
+                                Contact with us
                             </Link>
                         </Typography>
 
