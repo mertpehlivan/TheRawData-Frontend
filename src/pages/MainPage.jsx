@@ -34,6 +34,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import CharlesImage from '../assets/charles.jpg'
 import HamidImage from '../assets/hamid.jpg'
+import JiHuanImage from '../assets/jihuan.jpg'
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 
@@ -532,7 +533,7 @@ const MainPage = () => {
 
                       <Stack spacing={0.5} sx={{ width: '100%' }}>
                         <Typography variant="body2">
-                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2022):</strong> 929
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2023):</strong> 6133
                         </Typography>
                         <Typography variant="body2">
                           <BarChartIcon sx={{ mr: 1 }} /> <strong>Number of documents:</strong> 1133
@@ -577,7 +578,7 @@ const MainPage = () => {
 
                       <Stack spacing={0.5} sx={{ width: '100%' }}>
                         <Typography variant="body2">
-                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2022):</strong> 45
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2023):</strong> 45
                         </Typography>
                         <Typography variant="body2">
                           <BarChartIcon sx={{ mr: 1 }} /> <strong>Number of documents:</strong> 1300
@@ -595,7 +596,51 @@ const MainPage = () => {
                     </Stack>
                   </Paper>
                 </Grid>
-                <Grid item xs={4}></Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Paper elevation={6} sx={{ p: 3, borderRadius: 3, backgroundColor: '#f9f9f9' }}>
+                    <Stack spacing={2} alignItems="center">
+                      <Avatar
+                        sx={{ width: 110, height: 110, boxShadow: 3 }}
+                        src={JiHuanImage}
+                        alt="Prof. Dr. Ji-Huan He"
+                      />
+                      <Typography variant="h5" fontWeight="bold" align="center">
+                        Prof. Dr. Ji-Huan He
+                      </Typography>
+                      <Typography color="text.secondary" variant="body2" align="center">
+                      National Engineering Laboratory for Modern Silk, College of Textile and Clothing Engineering, Soochow University-CHN
+                      </Typography>
+
+                      <Stack spacing={1} alignItems="center" sx={{ width: '100%' }}>
+                        <IconButton href="https://research.com/scientists-rankings/mathematics/cn" target="_blank" color="primary">
+                          <LanguageIcon />
+                          <Typography variant="body2" sx={{ ml: 1 }}>Website</Typography>
+                        </IconButton>
+                        <Typography variant="h6" fontWeight="bold" color="primary.main">
+                          Scopus Records
+                        </Typography>
+                      </Stack>
+
+                      <Stack spacing={0.5} sx={{ width: '100%' }}>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Rank (2023):</strong> 145
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Number of documents:</strong> 675
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>h-index:</strong> 102
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Citations:</strong> 49916
+                        </Typography>
+                        <Typography variant="body2">
+                          <BarChartIcon sx={{ mr: 1 }} /> <strong>Scopus ID:</strong> 55817862100
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Paper>
+                </Grid>
               </Grid>
             </Stack>
           </Paper>
